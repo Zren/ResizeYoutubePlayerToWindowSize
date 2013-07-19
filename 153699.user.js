@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.15
+// @version         1.16
 // @include         http*://*.youtube.com/watch?*
 // @include         http*://youtube.com/watch?*
 // ==/UserScript==
@@ -65,7 +65,6 @@
     //--- jQuery
     
     // Based on jQuery
-    // Modified to pass a DOM element as a parameter.
     // https://github.com/jquery/jquery/blob/master/src/manipulation.js
     var core_rnotwhite = /\S+/g;
     var rclass = /[\t\r\n\f]/g;
@@ -320,10 +319,10 @@
             'position': 'initial'
         });
         
-        window.onresize = updateFixedHeader;
-        window.onscroll = updateFixedHeader;
+        window.addEventListener('resize', updateFixedHeader, false);
+        window.addEventListener('scroll', updateFixedHeader, false);
         
-       	updateFixedHeader();
+        updateFixedHeader();
         
         return 1;
     }
