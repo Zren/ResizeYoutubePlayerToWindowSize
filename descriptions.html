@@ -1,0 +1,143 @@
+<h3>Suggestions</h3>
+<ul>
+  <li>Use <a href="http://userscripts.org/scripts/show/65477">Yays!</a> or <a href="http://userscripts.org/scripts/show/114002">Youtube Center</a> to select a video resolution if you want a constant resolution.</li>
+  <li>Auto-Hide the Progressbar & Controlbar with <a href="http://userscripts.org/scripts/show/114002">Youtube Center</a>.</li>
+  <li>If using <a href="http://userscripts.org/scripts/show/114002">Youtube Center</a>:
+    <ul>
+      <li>Make sure the <b>Resize</b> tab has <b>Default</b> selected.</li>
+      <li>Uncheck <b>Scroll to Video</b>. YT Center will scroll to the wrong location.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Screenshots</h3>
+<p>
+  <b>After loading the video webpage you will see:</b>
+</p>
+<p><img src="http://i.imgur.com/ja8Kx.jpg" /></p>
+<p>
+  <b>It appears above the rest of the site, so you can scroll down for the description, related links, etc.</b>
+</p>
+<p><img src="http://i.imgur.com/JMZP5.jpg" /></p>
+<p>
+  <b>An example of playing a video in a playlist.</b><br>
+  Note that in this screenshot the video's control bar was temporarily hidden using <a href="http://userscripts.org/scripts/show/114002">Youtube Center</a>.
+</p>
+<p><img src="http://i.imgur.com/jm2eye3.png" /></p>
+
+
+<h3>Changelog</h3>
+
+<p>
+  <h4>1.14 - July 16, 2013</h4>
+  <ul>
+    <li>Minor refactor on the last update and removed a debugging <code>console.log()</code>.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.13 - July 16, 2013</h4>
+  <ul>
+    <li>Use absolute positioning on the fixed header until the user has scrolled past the video completely. It will add the class <code>ytwp-viewing-video</code> to the body element when doing so.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.12 - July 15, 2013</h4>
+  <ul>
+    <li>Remove some whitespace from some large areas of whitespace caused by branded pages (<a href="http://i.imgur.com/Re06imh.jpg">Example</a>).</li>
+    <li>Resize the playlist tray to the same width as the sidebar.</li>
+    <li>Inject the completed stylesheet instead of updating as the script runs.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.11 - May 7, 2013</h4>
+  <ul>
+    <li>Fix edge case missed in the last version. There was another rule that affected the padding-left when the guide was collapsed and under the small page width media query.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.10 - May 7, 2013</h4>
+  <ul>
+    <li>Fix padding on the playlist bar when using 'Center Page' in YT Center.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.9 - May 3, 2013</h4>
+  <ul>
+    <li>Removed <code>padding</code> and <code>margin-top</code> override on <code>#player</code>.</li>
+    <li>Adjusted selectors for the sidebar due to the shifting of element/classes.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.8 - Apr 2, 2013</h4>
+  <ul>
+    <li>Change all occurance of <code>#playlist-main-container</code> to <code>#playlist</code>.</li>
+    <li>Use <code>!important</code> when settings <code>margin-top</code> on the sidebar due to it being set at element level (only on non-playlist pages).</li>
+    <li>Fix styling margins on the sidebar on pages with the playlist bar.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.7 - Mar 20, 2013</h4>
+  <ul>
+    <li>Updated for Youtube's new layout. <code>#watch7-video-container</code> became <code>#player</code>, <code>#watch7-video</code> became <code>#player-api</code>.</li>
+    <li>The fixed Feedback button code was removed (no longer there).</li>
+    <li>Raised the <code>z-index</code> of the <code>#watch7-creator-bar</code> due to the <code>#guide</code> overlaying it and making the buttons unclickable. This is most likely a side effect of the last patch because the <code>#watch7-creator-bar</code> was a child of <code>#watch7-video-container</code> and therafor was no longer moved with the video (speculation). The creator bar currently looks <a href="http://i.imgur.com/rMqaVpy.png">like so</a>.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.6 - Feb 28, 2013</h4>
+  <ul>
+    <li>Script is now only run on the /watch page.</li>
+    <li>Removed whitespace margin leftover from moving the video.</li>
+    <li>The script now moves the <code>#watch7-video</code> instead of the <code>#watch7-video-container</code> element due to Youtube's new update which will move the <code>#watch7-playlist-container</code> element above the <code>#watch7-video-container</code> element. An example of this new bug can be seen <a href="http://i.imgur.com/pqyuduU.png">here</a>.</li>
+    <li>Fixed typo in local variable name.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.5 - Feb 5, 2013</h4>
+  <ul>
+    <li>Refactored code to inject overriding CSS instead of applying styling to the elements themselves.</li>
+    <li>Deleted the Feedback element altogether.</li>
+    <li>Fixed compatibility with YT Center. (<a href="http://userscripts.org/topics/122305?page=1#posts-480909">Forum Post</a>)</li>
+    <li>Fixed styling of the Video Manager bar when browsing your own videos. (<a href="http://userscripts.org/topics/122305?page=1#posts-481046">Forum Post</a>) (<a href="http://i569.photobucket.com/albums/ss134/tom053/window-player-own-video-bug.jpg">Example</a>)</li>
+    <li>Added css class to the <code>body</code> tag so people can style around this effects of this script. Use <code>body.ytwp-window-player</code> with your selector(s).</li>
+    <li>Overwrote the smooth resizing of the video player.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.4 - Jan 6, 2013</h4>
+  <ul>
+    <li>Fixed the video getting resized when opening the guide (<a href="http://i.imgur.com/V60lu.png">Example</a>).</li>
+    <li>Moved the fixed Feedback element to the bottom of the page (<a href="http://i.imgur.com/z5pxM.png">Example</a>).</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.3 - Dec 27, 2012</h4>
+  <ul>
+    <li>Fix styling on pages with a playlist bar by:
+      <ul>
+        <li>Moving down the related videos with the small video player</li>
+        <li>Fixing the width of the playlist bar and un-hiding the toggle playlist button in large video mode.</li>
+      </ul>
+    </li>
+    <li>Update script metadata.</li>
+  </ul>
+</p>
+
+<p>
+  <h4>1.2</h4>
+  <ul>
+    <li>Fixed styling to work in small video mode.</li>
+    <li>Fixed styling to work in FireFox. Examples: <a href="http://i.imgur.com/HmR0z.png">[1]</a> | <a href="http://i.imgur.com/LrQR6.png">[2]</a>. <i>Note that the feedback button was moved in later versions.</i></li>
+  </ul>
+</p>
