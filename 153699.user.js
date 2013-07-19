@@ -65,6 +65,7 @@
     //--- jQuery
     
     // Based on jQuery
+    // Modified to pass a DOM element as a parameter.
     // https://github.com/jquery/jquery/blob/master/src/manipulation.js
     var core_rnotwhite = /\S+/g;
     var rclass = /[\t\r\n\f]/g;
