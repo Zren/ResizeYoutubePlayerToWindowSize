@@ -319,8 +319,8 @@
             'position': 'initial'
         });
         
-        window.addEventListener('resize', updateFixedHeader, false);
-        window.addEventListener('scroll', updateFixedHeader, false);
+        unsafeWindow.addEventListener('scroll', updateFixedHeader, false);
+        unsafeWindow.addEventListener('resize', updateFixedHeader, false);
         
         updateFixedHeader();
         
