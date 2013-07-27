@@ -29,6 +29,20 @@
 <h3>Changelog</h3>
 
 <p>
+  <h4>1.17 - July 26, 2013</h4>
+  Youtube's latest update now loads new pages through ajax (and also when you click a Youtube link in Google).
+  <ul>
+    <li>Temporarily move the main selector used to identify the script <code>body.ytwp-window-player</code> to <code>html.ytwp-window-player body</code>. Navigating to a new page through ajax will clear all classes attached to the body element.</li>
+  </ul>
+
+  Until I've managed to hook into Youtube's new SPF/Ajax technique, the following bugs will be prevalent.
+  <ul>
+    <li>Visiting the homepage, then clicking a video won't cause the script to run.</li>
+    <li>Visiting the homepage (or any other url) will still show the last video above the page.</li>
+  </ul>
+</p>
+
+<p>
   <h4>1.16 - July 24, 2013</h4>
   <ul>
     <li>Use unsafeWindow.addEventListener(...) instead of window.onresize = function(){...}. window.addEventListener was broken in the recent version of Tampermonkey, but should work now.</li>

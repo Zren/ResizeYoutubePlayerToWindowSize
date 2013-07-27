@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.16
+// @version         1.17
 // @include         http*://*.youtube.com/watch?*
 // @include         http*://youtube.com/watch?*
 // ==/UserScript==
@@ -56,7 +56,8 @@
     var injectedStyleId = scriptShortName + '-style'; // ytwp-style
     var scriptBodyClassId = scriptShortName + '-window-player'; // .ytwp-window-player
     var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
-    var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
+    //var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
+    var scriptBodyClassSelector = 'html.' + scriptBodyClassId + ' body'; // html.ytwp-window-player body
     
     var scriptStylesheet = '';
     
@@ -285,7 +286,8 @@
     
     function addBodyClass() {
         // Insert CSS Into the body so people can style around the effects of this script.
-        jQuery.addClass(document.body, scriptBodyClassId);
+        //jQuery.addClass(document.body, scriptBodyClassId);
+        jQuery.addClass(document.documentElement, scriptBodyClassId);
         
         return 1;
     }
