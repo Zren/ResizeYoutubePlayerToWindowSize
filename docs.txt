@@ -1,0 +1,33 @@
+/*
+** Youtube Layout lookup
+**
+
+[? - 20 March 2013]
+#watch7-video-container (#watch7-playlist-container is injected above this element)
+  #watch7-video
+    #watch-player ?
+      embed#movie_player ?
+      
+[20 March 2013]
+  #watch7-video-container --renamed--> #watch7-container (renamed back then?)
+
+#player (#watch7-playlist-container is injected above this element)
+  #player-api
+    embed#movie_player
+  #watch7-creator-bar
+
+[2 April 2013]
+  #watch7-playlist-container --renamed--> #playlist
+
+[3 May 2013]
+  .watch-playlist-collapsed and .watch-medium now attach to #player
+
+#watch7-container .watch-playlist
+  #player .watch-playlist-collapsed .watch-medium (moved)
+    #playlist (Moved to inside #player)
+      #watch7-playlist-scrollfloater
+        #watch7-playlist-bar
+      #watch7-playlist-data
+        #watch7-playlist-bar
+#watch7-main-container
+  ...
