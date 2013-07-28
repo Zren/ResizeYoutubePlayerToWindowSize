@@ -7,46 +7,12 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.17
-// @include         http*://*.youtube.com/watch?*
-// @include         http*://youtube.com/watch?*
+// @version         1.18
+// @include         http*://*.youtube.com/*
+// @include         http*://youtube.com/*
 // ==/UserScript==
 
-/*
-** Youtube Layout lookup
-**
-
-[? - 20 March 2013]
-#watch7-video-container (#watch7-playlist-container is injected above this element)
-  #watch7-video
-    #watch-player ?
-      embed#movie_player ?
-      
-[20 March 2013]
-  #watch7-video-container --renamed--> #watch7-container (renamed back then?)
-
-#player (#watch7-playlist-container is injected above this element)
-  #player-api
-    embed#movie_player
-  #watch7-creator-bar
-
-[2 April 2013]
-  #watch7-playlist-container --renamed--> #playlist
-
-[3 May 2013]
-  .watch-playlist-collapsed and .watch-medium now attach to #player
-
-#watch7-container .watch-playlist
-  #player .watch-playlist-collapsed .watch-medium (moved)
-    #playlist (Moved to inside #player)
-      #watch7-playlist-scrollfloater
-        #watch7-playlist-bar
-      #watch7-playlist-data
-        #watch7-playlist-bar
-#watch7-main-container
-  ...
-    
-*/
+// https://github.com/Zren/ResizeYoutubePlayerToWindowSize
 
 (function () {
     "use strict";
@@ -56,8 +22,10 @@
     var injectedStyleId = scriptShortName + '-style'; // ytwp-style
     var scriptBodyClassId = scriptShortName + '-window-player'; // .ytwp-window-player
     var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
-    //var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
-    var scriptBodyClassSelector = 'html.' + scriptBodyClassId + ' body'; // html.ytwp-window-player body
+    var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
+    //var scriptBodyClassSelector = 'html.' + scriptBodyClassId + ' body'; // html.ytwp-window-player body
+
+    var videoContainerId = "player-api";
     
     var scriptStylesheet = '';
     
@@ -198,7 +166,7 @@
     
     function moveVideoContainer() {
         //--- Video Container
-        var videoContainer = document.getElementById("player-api");
+        var videoContainer = document.getElementById(videoContainerId);
         
         // Make sure YT hasn't changed or on a page without a video player.
         if (!videoContainer) return 0;
@@ -286,8 +254,8 @@
     
     function addBodyClass() {
         // Insert CSS Into the body so people can style around the effects of this script.
-        //jQuery.addClass(document.body, scriptBodyClassId);
-        jQuery.addClass(document.documentElement, scriptBodyClassId);
+        jQuery.addClass(document.body, scriptBodyClassId);
+        //jQuery.addClass(document.documentElement, scriptBodyClassId);
         
         return 1;
     }
@@ -328,8 +296,22 @@
         
         return 1;
     }
-    
-    function main() {
+
+    function onNavigate() {
+        // Unload
+        
+        // Delete the Video player (as it's not where it normally is).
+        var videoContainer = document.getElementById(videoContainerId);
+        if (videoContainer)
+            videoContainer.remove();
+        
+        // Remove our stylesheet.
+        var styleElement = document.getElementById(injectedStyleId);
+        if (styleElement)
+            styleElement.remove();
+    }
+
+    function onVideoPage() {
         moveVideoContainer()
             && resizeVideoPlayer()
             && rePositionFixedHeader()
@@ -337,7 +319,32 @@
             && injectStyle(scriptStylesheet) // Apply created stylesheet.
             ;
     }
+
+    function registerYoutubeListeners() {
+        yt.pubsub.instance_.subscribe("navigate", function(){
+            window.location.href; // Current URL. pushState hasn't yet been called.
+            
+            onNavigate();
+
+            // @return DoAjaxNavigation, A false value will prevent SPF and do a normal page navigation.
+            return true;
+        });
+
+        yt.pubsub.instance_.subscribe("player-ready", function(player){
+            window.location.href; // Should be a video URL
+            
+            onVideoPage();
+
+            // @return ?, Return true just in case.
+            return true;
+        });
+    }
+    
+    function main() {
+        registerYoutubeListeners();
+        onVideoPage();
+    }
     
     main();
-    
+
 })();
