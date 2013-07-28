@@ -23,8 +23,7 @@
     var scriptBodyClassId = scriptShortName + '-window-player'; // .ytwp-window-player
     var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
-    //var scriptBodyClassSelector = 'html.' + scriptBodyClassId + ' body'; // html.ytwp-window-player body
-
+    
     var videoContainerId = "player-api";
     
     var scriptStylesheet = '';
@@ -255,7 +254,6 @@
     function addBodyClass() {
         // Insert CSS Into the body so people can style around the effects of this script.
         jQuery.addClass(document.body, scriptBodyClassId);
-        //jQuery.addClass(document.documentElement, scriptBodyClassId);
         
         return 1;
     }
