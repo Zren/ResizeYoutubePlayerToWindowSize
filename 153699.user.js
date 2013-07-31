@@ -228,6 +228,7 @@
         appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-left.watch-content', 'width', '640px !important');
 
         //--- Playlist Bar: Tray
+        appendStyle(scriptBodyClassSelector + ' #playlist-tray', 'height', '0');
         appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
             "top": "0 !important", // Don't overlap video.
 
