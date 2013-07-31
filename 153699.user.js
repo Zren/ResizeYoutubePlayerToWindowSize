@@ -97,21 +97,10 @@
     };
     
     //--- Utils
-    function isStringType(obj) {
-        return typeof obj === 'string';
-    }
-    
-    function isArrayType(obj) {
-        return obj instanceof Array;
-    }
-    
-    function isObjectType(obj) {
-        return typeof obj === 'object';
-    }
-    
-    function isUndefined(obj) {
-        return typeof obj === 'undefined';
-    }
+    function isStringType(obj) { return typeof obj === 'string'; }
+    function isArrayType(obj) { return obj instanceof Array; }
+    function isObjectType(obj) { return typeof obj === 'object'; }
+    function isUndefined(obj) { return typeof obj === 'undefined'; }
     
     function buildCSS(selector, styles) {
         var s = "";
