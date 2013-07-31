@@ -257,7 +257,7 @@
     function onScroll() {
         var viewportHeight = document.documentElement.clientHeight;
         
-        if (window.scrollY <= viewportHeight) {
+        if (unsafeWindow.scrollY <= viewportHeight) {
             jQuery.addClass(document.body, viewingVideoClassId);
         } else {
             jQuery.removeClass(document.body, viewingVideoClassId);
@@ -325,8 +325,8 @@
     }
 
     function registerYoutubeListeners() {
-        yt.pubsub.instance_.subscribe("navigate", function(){
-            window.location.href; // Current URL. pushState hasn't yet been called.
+        unsafeWindow.yt.pubsub.instance_.subscribe("navigate", function(){
+            unsafeWindow.location.href; // Current URL. pushState hasn't yet been called.
             
             onNavigate();
 
@@ -334,8 +334,8 @@
             return true;
         });
 
-        yt.pubsub.instance_.subscribe("player-added", function(player){
-            window.location.href; // Should be a video URL
+        unsafeWindow.yt.pubsub.instance_.subscribe("player-added", function(player){
+            unsafeWindow.location.href; // Should be a video URL
             
             onVideoPage();
 
