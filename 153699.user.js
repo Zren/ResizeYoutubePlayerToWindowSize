@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.18
+// @version         1.19
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -218,32 +218,27 @@
         
         
         //--- Video Manager (When viewing own videos)
-        appendStyle('#body-container', 'clear', 'both'); // FF needs this
-        appendStyle('#watch7-creator-bar', {
-            'position': 'relative', // Needed in order to use z-index
-            'z-index': '2', // #guide.zIndex + 1
-        });
+        appendStyle(scriptBodyClassSelector + ' #watch7-creator-bar', 'width', '100% !important');
         
         //--- Playlist Bar
         // Set the playlist bar width when large to the same as when small (so it expands over the sidebar).
-        //appendStyle(scriptBodyClassSelector + ' #watch7-playlist-data .watch7-playlist-bar', 'width', '945px !important');
-        //appendStyle(scriptBodyClassSelector + ' #watch7-playlist-bar-toggle-button', 'display', 'inline');
-        
         appendStyle(scriptBodyClassSelector + ' #watch7-playlist-data .watch7-playlist-bar', 'width', 'auto !important');
         appendStyle(scriptBodyClassSelector + ' #watch7-playlist-data', 'width', 'auto !important');
         appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-right.watch-sidebar', 'width', 'auto !important');
         appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-left.watch-content', 'width', '640px !important');
-        
-        //--- Playlist Bar: Youtube Center Overrides (Temporary)
-        // Fix padding on the playlist bar when using 'Center Page'.
-        appendStyle(scriptBodyClassSelector + '.ytcenter-site-watch.ytcenter-site-center .watch7-playlist', 'padding-left', '0');
-        appendStyle(scriptBodyClassSelector + '.ytcenter-site-watch.ytcenter-site-center.guide-collapsed .watch7-playlist', 'padding-left', '0 !important');
+
+        //--- Playlist Bar: Tray
+        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
+            "top": "0 !important", // Don't overlap video.
+
+            // From the small size
+            "width": "363px !important",
+            "left": "640px !important"
+        });
+        appendStyle(scriptBodyClassSelector + ' #watch7-container:not(.watch-wide) #watch7-playlist-tray-container', 'height', '360px !important');
+        appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-wide #watch7-playlist-tray-container', 'height', '453px !important');
         
         //--- Playlist Bar: Sidebar
-        // Override sidebar position at element level. It changes according to the video player's size.
-        //#watch7-playlist-tray-container { height: 363px; }
-        //#watch7-playlist-tray { border-bottom: 27px solid #1B1B1B; }
-        // Needs to be !important as it needs to override when on a non-playlist page (which requires !important).
         appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-playlist #player.watch-playlist-collapsed+#watch7-main-container #watch7-sidebar', 'margin-top', '0px !important');
         appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-playlist #player:not(.watch-playlist-collapsed)+#watch7-main-container #watch7-sidebar', 'margin-top', '390px !important');
         appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-playlist #player.watch-medium:not(.watch-playlist-collapsed)+#watch7-main-container #watch7-sidebar', 'margin-top', '480px !important');
@@ -258,7 +253,7 @@
         return 1;
     }
     
-    function updateFixedHeader() {
+    function onScroll() {
         var viewportHeight = document.documentElement.clientHeight;
         
         if (window.scrollY <= viewportHeight) {
@@ -268,7 +263,8 @@
         }
     }
     
-    function rePositionFixedHeader() {
+    function scrollTriggered() {
+        //--- Absolutely position the fixed header.
         // Masthead
         appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
             'position': 'absolute',
@@ -286,11 +282,17 @@
             'margin': '0',
             'position': 'initial'
         });
+
+        //---
+        // Hide Scrollbars
+        appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId, 'overflow-x', 'hidden');
         
-        unsafeWindow.addEventListener('scroll', updateFixedHeader, false);
-        unsafeWindow.addEventListener('resize', updateFixedHeader, false);
+
+        // Register listener & Call it now.
+        unsafeWindow.addEventListener('scroll', onScroll, false);
+        unsafeWindow.addEventListener('resize', onScroll, false);
         
-        updateFixedHeader();
+        onScroll();
         
         return 1;
     }
@@ -307,14 +309,17 @@
         var styleElement = document.getElementById(injectedStyleId);
         if (styleElement)
             styleElement.remove();
+
+        jQuery.removeClass(document.body, scriptBodyClassId);
     }
 
     function onVideoPage() {
-        moveVideoContainer()
+        !document.body.classList.contains(scriptBodyClassId) // Test if the script has already been run.
             && resizeVideoPlayer()
-            && rePositionFixedHeader()
-            && addBodyClass() // Only add class if found & moved the player.
+            && scrollTriggered()
             && injectStyle(scriptStylesheet) // Apply created stylesheet.
+            && moveVideoContainer()
+            && addBodyClass() // Only add class if found & moved the player.
             ;
     }
 
@@ -328,7 +333,7 @@
             return true;
         });
 
-        yt.pubsub.instance_.subscribe("player-ready", function(player){
+        yt.pubsub.instance_.subscribe("player-added", function(player){
             window.location.href; // Should be a video URL
             
             onVideoPage();
