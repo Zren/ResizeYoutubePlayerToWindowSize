@@ -334,7 +334,11 @@
     }
     
     function main() {
-        registerYoutubeListeners();
+        try {
+            registerYoutubeListeners();
+        } catch(e) {
+            console.error("[Resize YT Player]", "Could not hook yt.pubsub");
+        }
         onVideoPage();
     }
     
