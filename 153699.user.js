@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.21
+// @version         1.22
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -176,6 +176,12 @@
         
         //
         var d = buildVenderPropertyDict(transitionProperties, 'width 0s linear, left 0s linear');
+
+        // Bugfix for Firefox
+        // Parts of the header (search box) are hidden under the player.
+        // Firefox doesn't seem to be using the fixed header+guide yet.
+        d['float'] = 'initial';
+
         appendStyle(scriptBodyClassSelector + ' #player-api', d);
         
         // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
