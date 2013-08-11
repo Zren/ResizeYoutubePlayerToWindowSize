@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.22
+// @version         1.23
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -172,6 +172,10 @@
         //
         var d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
         
+        // Youtube Center resizes #player at element level.
+        d['width'] = '0 !important';
+        d['height'] = '0 !important';
+
         appendStyle(scriptBodyClassSelector + ' #player', d);
         
         //
