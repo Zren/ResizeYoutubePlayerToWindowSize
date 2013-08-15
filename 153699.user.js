@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.23
+// @version         1.24
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -24,7 +24,7 @@
     var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
     
-    var videoContainerId = "player-api";
+    var videoContainerId = "player-api-legacy";
     
     var scriptStylesheet = '';
     
@@ -186,12 +186,12 @@
         // Firefox doesn't seem to be using the fixed header+guide yet.
         d['float'] = 'initial';
 
-        appendStyle(scriptBodyClassSelector + ' #player-api', d);
+        appendStyle(scriptBodyClassSelector + ' #' + videoContainerId, d);
         
         // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
         // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
         appendStyle(
-            scriptBodyClassSelector + ' #player-api, ' + scriptBodyClassSelector + ' #movie_player',
+            scriptBodyClassSelector + ' #' + videoContainerId + ', ' + scriptBodyClassSelector + ' #movie_player',
             {
                 'width': '100% !important',
                 'height': '100% !important'
