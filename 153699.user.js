@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.24
+// @version         1.25
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -22,6 +22,7 @@
     var injectedStyleId = scriptShortName + '-style'; // ytwp-style
     var scriptBodyClassId = scriptShortName + '-window-player'; // .ytwp-window-player
     var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
+    var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
     
     var videoContainerId = "player-api-legacy";
@@ -166,6 +167,22 @@
         return 1;
     }
     
+    function movePlaylist() {
+        // Move the bar to the top of the main container.
+        var mainContainer = document.getElementById('watch7-main-container');
+        var bar = document.getElementById('playlist-legacy');
+        if (mainContainer && bar)
+            mainContainer.insertBefore(bar, mainContainer.firstChild);
+        
+        // Move the tray to inside the sidebar
+        var tray = document.getElementById('watch7-playlist-tray-container');
+        var sidebar = document.getElementById('watch7-sidebar');
+        if (tray && sidebar)
+            sidebar.insertBefore(tray, sidebar.firstChild);
+        
+        return 1;
+    }
+    
     function resizeVideoPlayer() {
         //--- Video Player
         
@@ -203,45 +220,25 @@
         
         // Remove the transition delay as you can see it moving on page load.
         var d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
-        
-        // Override sidebar position. It changes according to the video player's size.
-        // Small video player state has: margin-top: -390px; which overlaps the video.
-        d['margin-top'] = '15px !important'; // Large video player has 15px padding-top.
+        d['margin-top'] = '0 !important';
         appendStyle(scriptBodyClassSelector + ' #watch7-sidebar', d);
         
         //--- Fix Other Possible Style Issues
 
         //--- Whitespace Leftover From Moving The Video
         appendStyle(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
-        appendStyle(scriptBodyClassSelector + ' .watch-branded-banner #player-branded-banner', 'height', '0');
-        
+        appendStyle(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
+        appendStyle(scriptBodyClassSelector + ' #player-legacy', {
+            'height': '0',
+            'margin-top': '0',
+            'padding-top': '0'
+        });
         
         //--- Video Manager (When viewing own videos)
         appendStyle(scriptBodyClassSelector + ' #watch7-creator-bar', 'width', '100% !important');
         
         //--- Playlist Bar
-        // Set the playlist bar width when large to the same as when small (so it expands over the sidebar).
-        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-data .watch7-playlist-bar', 'width', 'auto !important');
-        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-data', 'width', 'auto !important');
-        appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-right.watch-sidebar', 'width', 'auto !important');
-        appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-left.watch-content', 'width', '640px !important');
-
-        //--- Playlist Bar: Tray
-        appendStyle(scriptBodyClassSelector + ' #playlist-tray', 'height', '0');
-        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
-            "top": "0 !important", // Don't overlap video.
-
-            // From the small size
-            "width": "363px !important",
-            "left": "640px !important"
-        });
-        appendStyle(scriptBodyClassSelector + ' #watch7-container:not(.watch-wide) #watch7-playlist-tray-container', 'height', '360px !important');
-        appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-wide #watch7-playlist-tray-container', 'height', '453px !important');
-        
-        //--- Playlist Bar: Sidebar
-        appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-playlist #player.watch-playlist-collapsed+#watch7-main-container #watch7-sidebar', 'margin-top', '0px !important');
-        appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-playlist #player:not(.watch-playlist-collapsed)+#watch7-main-container #watch7-sidebar', 'margin-top', '390px !important');
-        appendStyle(scriptBodyClassSelector + ' #watch7-container.watch-playlist #player.watch-medium:not(.watch-playlist-collapsed)+#watch7-main-container #watch7-sidebar', 'margin-top', '480px !important');
+        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
         
         return 1;
     }
@@ -256,6 +253,14 @@
     function onScroll() {
         var viewportHeight = document.documentElement.clientHeight;
         
+        // topOfPageClassId
+        if (unsafeWindow.scrollY == 0) {
+            jQuery.addClass(document.body, topOfPageClassId);
+        } else {
+            jQuery.removeClass(document.body, topOfPageClassId);
+        }
+
+        // viewingVideoClassId
         if (unsafeWindow.scrollY <= viewportHeight) {
             jQuery.addClass(document.body, viewingVideoClassId);
         } else {
@@ -285,7 +290,7 @@
 
         //---
         // Hide Scrollbars
-        appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId, 'overflow-x', 'hidden');
+        appendStyle(scriptBodyClassSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
         
 
         // Register listener & Call it now.
@@ -310,7 +315,7 @@
         if (styleElement)
             styleElement.remove();
 
-        jQuery.removeClass(document.body, scriptBodyClassId);
+        //jQuery.removeClass(document.body, scriptBodyClassId);
     }
 
     function onVideoPage() {
@@ -318,6 +323,7 @@
             && resizeVideoPlayer()
             && scrollTriggered()
             && injectStyle(scriptStylesheet) // Apply created stylesheet.
+            && movePlaylist()
             && moveVideoContainer()
             && addBodyClass() // Only add class if found & moved the player.
             ;
