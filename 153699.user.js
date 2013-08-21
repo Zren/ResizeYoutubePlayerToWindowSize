@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.25
+// @version         1.26
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -25,7 +25,7 @@
     var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
     
-    var videoContainerId = "player-api-legacy";
+    var videoContainerId = "player-api";
     
     var scriptStylesheet = '';
     
@@ -103,6 +103,8 @@
     function isObjectType(obj) { return typeof obj === 'object'; }
     function isUndefined(obj) { return typeof obj === 'undefined'; }
     
+    function log() { console.log.apply(console, ['[' + scriptShortName + '] '].concat(Array.prototype.slice.call(arguments))); return 1; };
+    
     function buildCSS(selector, styles) {
         var s = "";
         for (var key in styles) {
@@ -158,29 +160,55 @@
         var videoContainer = document.getElementById(videoContainerId);
         
         // Make sure YT hasn't changed or on a page without a video player.
-        if (!videoContainer) return 0;
+        if (!videoContainer) {
+            log('Could not find video container (#' + videoContainerId + '). Exiting.');
+            return 0;
+        }
         
         // Move the video to the top of page.
         var body = document.body;
         body.insertBefore(videoContainer, body.firstChild);
-
+        
+        log('Moved #' + videoContainerId);
         return 1;
     }
     
     function movePlaylist() {
         // Move the bar to the top of the main container.
         var mainContainer = document.getElementById('watch7-main-container');
-        var bar = document.getElementById('playlist-legacy');
-        if (mainContainer && bar)
+        var bar = document.getElementById('playlist');
+        if (mainContainer && bar) {
             mainContainer.insertBefore(bar, mainContainer.firstChild);
+            log('Moved #playlist');
+        }
         
         // Move the tray to inside the sidebar
         var tray = document.getElementById('watch7-playlist-tray-container');
         var sidebar = document.getElementById('watch7-sidebar');
-        if (tray && sidebar)
+        if (tray && sidebar) {
             sidebar.insertBefore(tray, sidebar.firstChild);
+            log('Moved #watch7-playlist-tray-container');
+        }
         
         return 1;
+    }
+
+    function moveCreatorBar() {
+        //--- Video Manager (When viewing own videos)
+        var creatorBar = document.getElementById('watch7-creator-bar');
+        var content = document.getElementById('watch7-content');
+        if (creatorBar && content) {
+            content.insertBefore(creatorBar, content.firstChild);
+            log('Moved #watch7-creator-bar');
+        }
+
+        return 1;
+    }
+
+    function moveElements() {
+        return moveCreatorBar()
+            && movePlaylist()
+            && moveVideoContainer();
     }
     
     function resizeVideoPlayer() {
@@ -228,14 +256,6 @@
         //--- Whitespace Leftover From Moving The Video
         appendStyle(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
         appendStyle(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
-        appendStyle(scriptBodyClassSelector + ' #player-legacy', {
-            'height': '0',
-            'margin-top': '0',
-            'padding-top': '0'
-        });
-        
-        //--- Video Manager (When viewing own videos)
-        appendStyle(scriptBodyClassSelector + ' #watch7-creator-bar', 'width', '100% !important');
         
         //--- Playlist Bar
         appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
@@ -247,6 +267,7 @@
         // Insert CSS Into the body so people can style around the effects of this script.
         jQuery.addClass(document.body, scriptBodyClassId);
         
+        log('Added ' + scriptBodyClassSelector);
         return 1;
     }
     
@@ -299,6 +320,7 @@
         
         onScroll();
         
+        log('Registered scroll listeners');
         return 1;
     }
 
@@ -318,13 +340,19 @@
         //jQuery.removeClass(document.body, scriptBodyClassId);
     }
 
+    function checkForVideo() {
+        return unsafeWindow.location.href.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
+    }
+    
     function onVideoPage() {
         !document.body.classList.contains(scriptBodyClassId) // Test if the script has already been run.
+            && checkForVideo()
+            && log('Found video page. Running script.')
             && resizeVideoPlayer()
             && scrollTriggered()
             && injectStyle(scriptStylesheet) // Apply created stylesheet.
-            && movePlaylist()
-            && moveVideoContainer()
+            && log('Injected Stylesheet')
+            && moveElements()
             && addBodyClass() // Only add class if found & moved the player.
             ;
     }
@@ -347,6 +375,8 @@
             // @return ?, Return true just in case.
             return true;
         });
+        
+        log('Registered yt.pubsub listeners');
     }
     
     function main() {
