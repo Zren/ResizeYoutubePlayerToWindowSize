@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.26
+// @version         1.27
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -252,7 +252,7 @@
 
         // Resize #player-unavailable, #player-api
         // Using min/max width/height will keep 
-        appendStyle(scriptBodyClassSelector + ' #lpayer .player-width', 'width', '100% !important');
+        appendStyle(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
         appendStyle(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
         
             
