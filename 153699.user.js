@@ -25,7 +25,7 @@
     var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
     
-    var videoContainerId = "player-api";
+    var videoContainerId = "player";
     
     var scriptStylesheet = '';
     
@@ -115,6 +115,8 @@
     
     
     function appendStyle(selector, k, v) {
+        if (isArrayType(selector))
+            selector = selector.join(', ');
         var newStyle;
         if (!isUndefined(k) && !isUndefined(v) && isStringType(k)) { // v can be any type (as we stringify it).
             // appendStyle('#blarg', 'display', 'none');
@@ -216,11 +218,8 @@
         
         //
         var d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
-        
-        // Youtube Center resizes #player at element level.
-        d['width'] = '0 !important';
-        d['height'] = '0 !important';
-
+        d['padding'] = '0 !important';
+        d['margin'] = '0 !important';
         appendStyle(scriptBodyClassSelector + ' #player', d);
         
         //
@@ -231,17 +230,30 @@
         // Firefox doesn't seem to be using the fixed header+guide yet.
         d['float'] = 'initial';
 
-        appendStyle(scriptBodyClassSelector + ' #' + videoContainerId, d);
+        appendStyle(scriptBodyClassSelector + ' #player-api', d);
         
         // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
         // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
+        // Also, Youtube Center resizes #player at element level.
         appendStyle(
-            scriptBodyClassSelector + ' #' + videoContainerId + ', ' + scriptBodyClassSelector + ' #movie_player',
+            [
+                scriptBodyClassSelector + ' #player',
+                scriptBodyClassSelector + ' #movie_player'
+            ],
             {
                 'width': '100% !important',
-                'height': '100% !important'
+                'height': '100% !important',
+                'min-width': '100% !important',
+                'max-width': '100% !important',
+                'min-height': '100% !important',
+                'max-height': '100% !important'
             }
         );
+
+        // Resize #player-unavailable, #player-api
+        // Using min/max width/height will keep 
+        appendStyle(scriptBodyClassSelector + ' #lpayer .player-width', 'width', '100% !important');
+        appendStyle(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
         
             
         //--- Sidebar
