@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.27
+// @version         1.28
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -262,6 +262,8 @@
         var d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
         d['margin-top'] = '0 !important';
         appendStyle(scriptBodyClassSelector + ' #watch7-sidebar', d);
+
+        appendStyle(scriptBodyClassSelector + '.cardified-page #watch7-sidebar-contents', 'padding-top', '0');
         
         //--- Fix Other Possible Style Issues
 
@@ -270,8 +272,26 @@
         appendStyle(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
         
         //--- Playlist Bar
-        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
+        //appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
+        appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-left', 'width', '640px !important'); // Same width as .watch-content
+        appendStyle([
+            scriptBodyClassSelector + ' .playlist',
+            scriptBodyClassSelector + ' .playlist .watch7-playlist-bar',
+        ], 'max-width', '1040px'); // Same width as .watch-content (640px) + .watch-sidebar (300-400px).
+        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
+            "margin-top": "-15px",
+            "height": "287px !important" // 65 (playlist tile) * 4 + 27 (trim on bottom)
+        });
+        appendStyle(scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', 'padding-top', '15px');
         
+        // YT Center
+        appendStyle(scriptBodyClassSelector + ' #player', 'margin-bottom', '0 !important');
+        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
+            'left': 'initial !important',
+            'width': 'initial !important'
+        });
+        appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-right', 'width', '363px !important');
+
         return 1;
     }
     
@@ -306,14 +326,14 @@
         // Masthead
         appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
             'position': 'absolute',
-            'top': '100%'
+            'top': '100% !important'
         });
         
         // Guide
         appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #appbar-guide-menu', {
             'display': 'initial',
             'position': 'absolute',
-            'top': '0'
+            'top': '-28px !important'
         });
         appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #page.watch #guide', {
             'display': 'initial',
@@ -336,6 +356,24 @@
         return 1;
     }
 
+
+    // Not in use
+    // Looking for a way to call this after YT Center is loaded.
+    function ytCenterEdits() {
+        log('Checking YT Center');
+        try {
+            // Turn off Resizing of the player. Will not effect the current page, but all following ones.
+            if (ytcenter.settings.getOption("resizeEnable")) { // if it is on
+                log('YT Center found with resizing of the player enabled. Turning off. Will take effect on next page load.');
+                ytcenter.settings.setOption("resizeEnable", false); // turn it off.                
+            }
+        } catch (e) {
+            // Fall through.
+            // Either YT Center is not installed, or it has updated.
+
+        }
+    }
+
     function onNavigate() {
         // Unload
         
@@ -349,6 +387,8 @@
         if (styleElement)
             styleElement.remove();
 
+        // Youtube does a better cleanup of our main class in the body element.
+        // Removing it here will cause a quick flicker as the ui resets before loading the next page.
         //jQuery.removeClass(document.body, scriptBodyClassId);
     }
 
