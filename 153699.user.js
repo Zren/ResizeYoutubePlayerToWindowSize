@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.28
+// @version         1.29
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -282,7 +282,10 @@
             "margin-top": "-15px",
             "height": "287px !important" // 65 (playlist tile) * 4 + 27 (trim on bottom)
         });
-        appendStyle(scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', 'padding-top', '15px');
+        appendStyle([
+            scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', // Pre Oct 26
+            scriptBodyClassSelector + '.cardified-page #watch-appbar-playlist + #watch7-sidebar-contents', // Post Oct 26
+        ], 'padding-top', '15px');
         
         // YT Center
         appendStyle(scriptBodyClassSelector + ' #player', 'margin-bottom', '0 !important');
