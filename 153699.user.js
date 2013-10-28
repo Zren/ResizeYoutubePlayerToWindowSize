@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.29
+// @version         1.30
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -26,6 +26,7 @@
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
     
     var videoContainerId = "player";
+    var videoContainerPlacemarkerId = scriptShortName + '-placemarker'; // ytwp-placemarker
     
     var scriptStylesheet = '';
     
@@ -167,12 +168,30 @@
             return 0;
         }
         
+        // Create placemarker element to keep track of where the player was.
+        var placemarker = document.createElement('div');
+        placemarker.setAttribute('id', videoContainerPlacemarkerId);
+        videoContainer.parentNode.insertBefore(placemarker, videoContainer);
+        log('Added placemarker');
+        
         // Move the video to the top of page.
         var body = document.body;
         body.insertBefore(videoContainer, body.firstChild);
         
         log('Moved #' + videoContainerId);
         return 1;
+    }
+    
+    function resetVideoContainer() {
+        // Move video back to default location.
+        var videoContainer = document.getElementById(videoContainerId);
+        var placemarker = document.getElementById(videoContainerPlacemarkerId);
+        placemarker.parentNode.insertBefore(videoContainer, placemarker);
+        log('Moved player back to the placemarker.');
+        
+        placemarker.remove();
+        log('Removed placemarker');
+        
     }
     
     function movePlaylist() {
@@ -211,6 +230,10 @@
         return moveCreatorBar()
             && movePlaylist()
             && moveVideoContainer();
+    }
+    
+    function resetElements() {
+        return resetVideoContainer();
     }
     
     function resizeVideoPlayer() {
@@ -380,10 +403,7 @@
     function onNavigate() {
         // Unload
         
-        // Delete the Video player (as it's not where it normally is).
-        var videoContainer = document.getElementById(videoContainerId);
-        if (videoContainer)
-            videoContainer.remove();
+        resetElements();
         
         // Remove our stylesheet.
         var styleElement = document.getElementById(injectedStyleId);
@@ -413,22 +433,30 @@
     }
 
     function registerYoutubeListeners() {
-        unsafeWindow.yt.pubsub.instance_.subscribe("navigate", function(){
-            unsafeWindow.location.href; // Current URL. pushState hasn't yet been called.
+        // Debugging Youtubes Events
+        /*
+        var yt_pubsub_publish = yt.pubsub.instance_.publish;
+        yt.pubsub.instance_.publish = function(){
+            log(arguments);
+            yt_pubsub_publish.apply(this, arguments);
+        };
+        */
+        
+        //
+        unsafeWindow.yt.pubsub.instance_.subscribe("dispose-watch", function(){
+            //log(unsafeWindow.location.href); // Next url.
             
             onNavigate();
 
-            // @return DoAjaxNavigation, A false value will prevent SPF and do a normal page navigation.
-            return true;
+            // @return ?
         });
 
-        unsafeWindow.yt.pubsub.instance_.subscribe("player-added", function(player){
-            unsafeWindow.location.href; // Should be a video URL
+        unsafeWindow.yt.pubsub.instance_.subscribe("init-watch", function(){
+            //log(unsafeWindow.location.href); // Current video url.
             
             onVideoPage();
 
-            // @return ?, Return true just in case.
-            return true;
+            // @return ?
         });
         
         log('Registered yt.pubsub listeners');
