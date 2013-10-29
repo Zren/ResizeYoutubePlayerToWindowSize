@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.30
+// @version         1.31
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // ==/UserScript==
@@ -431,6 +431,17 @@
             && addBodyClass() // Only add class if found & moved the player.
             ;
     }
+    
+    function ytCenterFix() {
+        // Automatically set YT Center settings.
+        try {
+            ytcenter.settings.setOption('enableResize', false);
+            ytcenter.settings.setOption('scrollToPlayer', false);
+            log('Changed a few YT Center settings to work with this script.');
+        } catch (e) {
+            // YT Center probably updated or isn't installed
+        }
+    }
 
     function registerYoutubeListeners() {
         // Debugging Youtubes Events
@@ -458,6 +469,16 @@
 
             // @return ?
         });
+        
+        unsafeWindow.yt.pubsub.instance_.subscribe("player-added", function(player){
+            //log(unsafeWindow.location.href); // Should be a video URL
+            
+            ytCenterFix();
+            
+            // @return ?
+        });
+        
+        
         
         log('Registered yt.pubsub listeners');
     }
