@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.33
+// @version         1.34
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -336,6 +336,7 @@
         onWatchInit: function() {
             ytwp.log('onWatchInit');
             ytwp.event.moveVideoContainer();
+            ytwp.event.movePlaylist();
             ytwp.event.addBodyClass();
             ytwp.pageReady = true;
         },
@@ -392,6 +393,25 @@
             var videoContainer = document.getElementById(videoContainerId);
             if (videoContainer)
                 videoContainer.parentNode.removeChild(videoContainer);
+        },
+        movePlaylist: function() {
+            // --- Old Playlist bar (still in firefox).
+
+            // Move the bar to the top of the main container.
+            var mainContainer = document.getElementById('watch7-main-container');
+            var bar = document.getElementById('playlist');
+            if (mainContainer && bar) {
+                mainContainer.insertBefore(bar, mainContainer.firstChild);
+                ytwp.log('Moved #playlist');
+            }
+            
+            // Move the tray to inside the sidebar
+            var tray = document.getElementById('watch7-playlist-tray-container');
+            var sidebar = document.getElementById('watch7-sidebar');
+            if (tray && sidebar) {
+                sidebar.insertBefore(tray, sidebar.firstChild);
+                ytwp.log('Moved #watch7-playlist-tray-container');
+            }
         },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.
