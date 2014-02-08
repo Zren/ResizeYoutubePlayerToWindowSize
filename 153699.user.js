@@ -7,33 +7,35 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.31
+// @version         1.32
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
+// @include         http*://*.youtu.be/*
+// @include         http*://youtu.be/*
 // ==/UserScript==
 
-// https://github.com/Zren/ResizeYoutubePlayerToWindowSize
+// Github:
+//      https://github.com/Zren/ResizeYoutubePlayerToWindowSize
 
-(function () {
+(function (window) {
     "use strict";
 
-    //--- Constants
-    var scriptShortName = 'ytwp'; // YT Window Player
-    var injectedStyleId = scriptShortName + '-style'; // ytwp-style
-    var scriptBodyClassId = scriptShortName + '-window-player'; // .ytwp-window-player
-    var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
-    var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
-    var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
-    
-    var videoContainerId = "player";
-    var videoContainerPlacemarkerId = scriptShortName + '-placemarker'; // ytwp-placemarker
-    
-    var scriptStylesheet = '';
-    
-    var transitionProperties = ["transition", "-ms-transition", "-moz-transition", "-webkit-transition", "-o-transition"];
-    
+    //--- Imported Globals
+    var yt = window.yt;
+
+    //--- Utils
+    function isStringType(obj) { return typeof obj === 'string'; }
+    function isArrayType(obj) { return obj instanceof Array; }
+    function isObjectType(obj) { return typeof obj === 'object'; }
+    function isUndefined(obj) { return typeof obj === 'undefined'; }
+    function buildVenderPropertyDict(propertyNames, value) {
+        var d = {};
+        for (var i in propertyNames)
+            d[propertyNames[i]] = value;
+        return d;
+    }
+
     //--- jQuery
-    
     // Based on jQuery
     // https://github.com/jquery/jquery/blob/master/src/manipulation.js
     var core_rnotwhite = /\S+/g;
@@ -41,11 +43,9 @@
     var rtrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
     
     var jQuery = {
-    
         trim: function( text ) {
             return (text || "").replace( rtrim, "" );
         },
-    
         addClass: function( elem, value ) {
             var classes, cur, clazz, j,
                 proceed = typeof value === "string" && value;
@@ -70,7 +70,6 @@
                 }
             }
         },
-    
         removeClass: function( elem, value ) {
             var classes, elem, cur, clazz, j,
                 proceed = arguments.length === 0 || typeof value === "string" && value;
@@ -97,46 +96,44 @@
             }
         }
     };
+
     
-    //--- Utils
-    function isStringType(obj) { return typeof obj === 'string'; }
-    function isArrayType(obj) { return obj instanceof Array; }
-    function isObjectType(obj) { return typeof obj === 'object'; }
-    function isUndefined(obj) { return typeof obj === 'undefined'; }
-    
-    function log() { console.log.apply(console, ['[' + scriptShortName + '] '].concat(Array.prototype.slice.call(arguments))); return 1; };
-    
-    function buildCSS(selector, styles) {
+    //--- Stylesheet
+    var JSStyleSheet = function(id) {
+        this.id = id;
+        this.stylesheet = '';
+    }
+
+    JSStyleSheet.prototype.buildRule = function(selector, styles) {
         var s = "";
         for (var key in styles) {
             s += "\t" + key + ": " + styles[key] + ";\n";
         }
         return selector + " {\n" + s + "}\n";
-    }
-    
-    
-    function appendStyle(selector, k, v) {
+    };
+
+    JSStyleSheet.prototype.appendRule = function(selector, k, v) {
         if (isArrayType(selector))
-            selector = selector.join(', ');
+            selector = selector.join(',\n');
         var newStyle;
         if (!isUndefined(k) && !isUndefined(v) && isStringType(k)) { // v can be any type (as we stringify it).
-            // appendStyle('#blarg', 'display', 'none');
+            // appendRule('#blarg', 'display', 'none');
             var d = {};
             d[k] = v;
-            newStyle = buildCSS(selector, d);
+            newStyle = this.buildRule(selector, d);
         } else if (!isUndefined(k) && isUndefined(v) && isObjectType(k)) {
-            // appendStyle('#blarg', {'display': 'none'});
-            newStyle = buildCSS(selector, k);
+            // appendRule('#blarg', {'display': 'none'});
+            newStyle = this.buildRule(selector, k);
         } else {
             // Invalid Arguments
-            console.log('Illegal arguments', selector, k, v);
+            console.log('Illegal arguments', arguments);
             return;
         }
         
-        scriptStylesheet += newStyle;
+        this.stylesheet += newStyle;
     }
-    
-    function injectStyle(style) {
+
+    JSStyleSheet.injectIntoHeader = function(injectedStyleId, stylesheet) {
         var styleElement = document.getElementById(injectedStyleId);
         if (!styleElement) {
             styleElement = document.createElement('style');
@@ -144,354 +141,311 @@
             styleElement.id = injectedStyleId;
             document.getElementsByTagName('head')[0].appendChild(styleElement);
         }
-        styleElement.appendChild(document.createTextNode(style));
-        
-        return 1;
+        styleElement.appendChild(document.createTextNode(stylesheet));
     }
-    
-    function buildVenderPropertyDict(propertyNames, value) {
-        var d = {};
-        for (var i in propertyNames)
-            d[propertyNames[i]] = value;
-        return d;
+
+    JSStyleSheet.prototype.injectIntoHeader = function(injectedStyleId, stylesheet) {
+        JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
     }
+
+    //--- Constants
+    var scriptShortName = 'ytwp'; // YT Window Player
+    var scriptStyleId = scriptShortName + '-style'; // ytwp-style
+    var scriptBodyClassId = scriptShortName + '-window-player'; // .ytwp-window-player
+    var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
+    var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
+    var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
     
-    //--- 
+    var videoContainerId = 'player';
+    var videoContainerPlacemarkerId = scriptShortName + '-placemarker'; // ytwp-placemarker
     
-    function moveVideoContainer() {
-        //--- Video Container
-        var videoContainer = document.getElementById(videoContainerId);
-        
-        // Make sure YT hasn't changed or on a page without a video player.
-        if (!videoContainer) {
-            log('Could not find video container (#' + videoContainerId + '). Exiting.');
-            return 0;
+    var transitionProperties = ["transition", "-ms-transition", "-moz-transition", "-webkit-transition", "-o-transition"];
+    
+    //--- YTWP
+    var ytwp = window.ytwp = {
+        scriptShortName: scriptShortName, // YT Window Player
+        log_: function(logger, args) { logger.apply(console, ['[' + this.scriptShortName + '] '].concat(Array.prototype.slice.call(args))); return 1; },
+        log: function() { return this.log_(console.log, arguments); },
+        error: function() { return this.log_(console.error, arguments); },
+
+        initialized: false,
+        pageReady: false,
+    };
+
+    ytwp.util = {
+        isWatchUrl: function (url) {
+            if (!url)
+                url = window.location.href;
+            return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
         }
-        
-        // Create placemarker element to keep track of where the player was.
-        var placemarker = document.createElement('div');
-        placemarker.setAttribute('id', videoContainerPlacemarkerId);
-        videoContainer.parentNode.insertBefore(placemarker, videoContainer);
-        log('Added placemarker');
-        
-        // Move the video to the top of page.
-        var body = document.body;
-        body.insertBefore(videoContainer, body.firstChild);
-        
-        log('Moved #' + videoContainerId);
-        return 1;
-    }
-    
-    function resetVideoContainer() {
-        // Move video back to default location.
-        var videoContainer = document.getElementById(videoContainerId);
-        var placemarker = document.getElementById(videoContainerPlacemarkerId);
-        placemarker.parentNode.insertBefore(videoContainer, placemarker);
-        log('Moved player back to the placemarker.');
-        
-        placemarker.remove();
-        log('Removed placemarker');
-        
-    }
-    
-    function movePlaylist() {
-        // Move the bar to the top of the main container.
-        var mainContainer = document.getElementById('watch7-main-container');
-        var bar = document.getElementById('playlist');
-        if (mainContainer && bar) {
-            mainContainer.insertBefore(bar, mainContainer.firstChild);
-            log('Moved #playlist');
-        }
-        
-        // Move the tray to inside the sidebar
-        var tray = document.getElementById('watch7-playlist-tray-container');
-        var sidebar = document.getElementById('watch7-sidebar');
-        if (tray && sidebar) {
-            sidebar.insertBefore(tray, sidebar.firstChild);
-            log('Moved #watch7-playlist-tray-container');
-        }
-        
-        return 1;
-    }
+    };
 
-    function moveCreatorBar() {
-        //--- Video Manager (When viewing own videos)
-        var creatorBar = document.getElementById('watch7-creator-bar');
-        var content = document.getElementById('watch7-content');
-        if (creatorBar && content) {
-            content.insertBefore(creatorBar, content.firstChild);
-            log('Moved #watch7-creator-bar');
-        }
-
-        return 1;
-    }
-
-    function moveElements() {
-        return moveCreatorBar()
-            && movePlaylist()
-            && moveVideoContainer();
-    }
-    
-    function resetElements() {
-        return resetVideoContainer();
-    }
-    
-    function resizeVideoPlayer() {
-        //--- Video Player
+    ytwp.event = {
+        init: function() {
+            ytwp.log('init');
+            if (ytwp.initialized)
+                return;
+            ytwp.event.initStyle();
+            ytwp.event.initScroller();
+            ytwp.initialized = true;
+            ytwp.pageReady = false;
+        },
+        initScroller: function() {
+            // Register listener & Call it now.
+            unsafeWindow.addEventListener('scroll', ytwp.event.onScroll, false);
+            unsafeWindow.addEventListener('resize', ytwp.event.onScroll, false);
+            ytwp.event.onScroll();
+        },
+        onScroll: function() {
+            var viewportHeight = document.documentElement.clientHeight;
         
-        //
-        var d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
-        d['padding'] = '0 !important';
-        d['margin'] = '0 !important';
-        appendStyle(scriptBodyClassSelector + ' #player', d);
-        
-        //
-        var d = buildVenderPropertyDict(transitionProperties, 'width 0s linear, left 0s linear');
+            // topOfPageClassId
+            if (unsafeWindow.scrollY == 0) {
+                jQuery.addClass(document.body, topOfPageClassId);
+            } else {
+                jQuery.removeClass(document.body, topOfPageClassId);
+            }
 
-        // Bugfix for Firefox
-        // Parts of the header (search box) are hidden under the player.
-        // Firefox doesn't seem to be using the fixed header+guide yet.
-        d['float'] = 'initial';
-
-        appendStyle(scriptBodyClassSelector + ' #player-api', d);
+            // viewingVideoClassId
+            if (unsafeWindow.scrollY <= viewportHeight) {
+                jQuery.addClass(document.body, viewingVideoClassId);
+            } else {
+                jQuery.removeClass(document.body, viewingVideoClassId);
+            }
+        },
+        initStyle: function() {
+            ytwp.log('initStyle');
+            ytwp.style = new JSStyleSheet(scriptStyleId);
+            ytwp.event.buildStylesheet();
+            ytwp.style.injectIntoHeader();
+        },
+        buildStylesheet: function() {
+            ytwp.log('buildStylesheet');
+            //--- Video Player
         
-        // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
-        // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
-        // Also, Youtube Center resizes #player at element level.
-        appendStyle(
-            [
+            //
+            var d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
+            d['padding'] = '0 !important';
+            d['margin'] = '0 !important';
+            ytwp.style.appendRule([
                 scriptBodyClassSelector + ' #player',
-                scriptBodyClassSelector + ' #movie_player'
-            ],
-            {
-                'width': '100% !important',
-                'height': '100% !important',
-                'min-width': '100% !important',
-                'max-width': '100% !important',
-                'min-height': '100% !important',
-                'max-height': '100% !important'
-            }
-        );
+                scriptBodyClassSelector + '.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player',
+                scriptBodyClassSelector + '.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player',
+                scriptBodyClassSelector + '.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy',
+                scriptBodyClassSelector + '.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container',
+            ], d);
+            //
+            var d = buildVenderPropertyDict(transitionProperties, 'width 0s linear, left 0s linear');
 
-        // Resize #player-unavailable, #player-api
-        // Using min/max width/height will keep 
-        appendStyle(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
-        appendStyle(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
-        
+            // Bugfix for Firefox
+            // Parts of the header (search box) are hidden under the player.
+            // Firefox doesn't seem to be using the fixed header+guide yet.
+            d['float'] = 'initial';
+
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player-api', d);
+
+            // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
+            // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
+            // Also, Youtube Center resizes #player at element level.
+            ytwp.style.appendRule(
+                [
+                    scriptBodyClassSelector + ' #player',
+                    scriptBodyClassSelector + ' #movie_player'
+                ],
+                {
+                    'width': '100% !important',
+                    'height': '100% !important',
+                    'min-width': '100% !important',
+                    'max-width': '100% !important',
+                    'min-height': '100% !important',
+                    'max-height': '100% !important'
+                }
+            );
+
+            // Resize #player-unavailable, #player-api
+            // Using min/max width/height will keep 
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
             
-        //--- Sidebar
-        
-        // Remove the transition delay as you can see it moving on page load.
-        var d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
-        d['margin-top'] = '0 !important';
-        appendStyle(scriptBodyClassSelector + ' #watch7-sidebar', d);
+                
+            //--- Sidebar
+            
+            // Remove the transition delay as you can see it moving on page load.
+            var d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
+            d['margin-top'] = '0 !important';
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-sidebar', d);
 
-        appendStyle(scriptBodyClassSelector + '.cardified-page #watch7-sidebar-contents', 'padding-top', '0');
-        
-        //--- Fix Other Possible Style Issues
+            ytwp.style.appendRule(scriptBodyClassSelector + '.cardified-page #watch7-sidebar-contents', 'padding-top', '0');
+            
+            //--- Absolutely position the fixed header.
+            // Masthead
+            ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
+                'position': 'absolute',
+                'top': '100% !important'
+            });
+            
+            // Guide
+            // When watching the video, we need to line it up with the masthead.
+            ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #appbar-guide-menu', {
+                'display': 'initial',
+                'position': 'absolute',
+                'top': '-50px !important' // Masthead height
+            });
+            ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #page.watch #guide', {
+                'display': 'initial',
+                'margin': '0',
+                'position': 'initial'
+            });
 
-        //--- Whitespace Leftover From Moving The Video
-        appendStyle(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
-        appendStyle(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
-        
-        //--- Playlist Bar
-        //appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
-        appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-left', 'width', '640px !important'); // Same width as .watch-content
-        appendStyle([
-            scriptBodyClassSelector + ' .playlist',
-            scriptBodyClassSelector + ' .playlist .watch7-playlist-bar',
-        ], 'max-width', '1040px'); // Same width as .watch-content (640px) + .watch-sidebar (300-400px).
-        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
-            "margin-top": "-15px",
-            "height": "287px !important" // 65 (playlist tile) * 4 + 27 (trim on bottom)
-        });
-        appendStyle([
-            scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', // Pre Oct 26
-            scriptBodyClassSelector + '.cardified-page #watch-appbar-playlist + #watch7-sidebar-contents', // Post Oct 26
-        ], 'padding-top', '15px');
-        
-        // YT Center
-        appendStyle(scriptBodyClassSelector + ' #player', 'margin-bottom', '0 !important');
-        appendStyle(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
-            'left': 'initial !important',
-            'width': 'initial !important'
-        });
-        appendStyle(scriptBodyClassSelector + ' .watch7-playlist-bar-right', 'width', '363px !important');
+            //---
+            // Hide Scrollbars
+            ytwp.style.appendRule(scriptBodyClassSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
+            
 
-        return 1;
-    }
-    
-    function addBodyClass() {
-        // Insert CSS Into the body so people can style around the effects of this script.
-        jQuery.addClass(document.body, scriptBodyClassId);
-        
-        log('Added ' + scriptBodyClassSelector);
-        return 1;
-    }
-    
-    function onScroll() {
-        var viewportHeight = document.documentElement.clientHeight;
-        
-        // topOfPageClassId
-        if (unsafeWindow.scrollY == 0) {
-            jQuery.addClass(document.body, topOfPageClassId);
-        } else {
-            jQuery.removeClass(document.body, topOfPageClassId);
-        }
+            //--- Fix Other Possible Style Issues
 
-        // viewingVideoClassId
-        if (unsafeWindow.scrollY <= viewportHeight) {
-            jQuery.addClass(document.body, viewingVideoClassId);
-        } else {
-            jQuery.removeClass(document.body, viewingVideoClassId);
-        }
-    }
-    
-    function scrollTriggered() {
-        //--- Absolutely position the fixed header.
-        // Masthead
-        appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
-            'position': 'absolute',
-            'top': '100% !important'
-        });
-        
-        // Guide
-        appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #appbar-guide-menu', {
-            'display': 'initial',
-            'position': 'absolute',
-            'top': '-28px !important'
-        });
-        appendStyle(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #page.watch #guide', {
-            'display': 'initial',
-            'margin': '0',
-            'position': 'initial'
-        });
-
-        //---
-        // Hide Scrollbars
-        appendStyle(scriptBodyClassSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
-        
-
-        // Register listener & Call it now.
-        unsafeWindow.addEventListener('scroll', onScroll, false);
-        unsafeWindow.addEventListener('resize', onScroll, false);
-        
-        onScroll();
-        
-        log('Registered scroll listeners');
-        return 1;
-    }
-
-
-    // Not in use
-    // Looking for a way to call this after YT Center is loaded.
-    function ytCenterEdits() {
-        log('Checking YT Center');
-        try {
-            // Turn off Resizing of the player. Will not effect the current page, but all following ones.
-            if (ytcenter.settings.getOption("resizeEnable")) { // if it is on
-                log('YT Center found with resizing of the player enabled. Turning off. Will take effect on next page load.');
-                ytcenter.settings.setOption("resizeEnable", false); // turn it off.                
+            //--- Whitespace Leftover From Moving The Video
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
+            
+            //--- Playlist Bar
+            //ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .watch7-playlist-bar-left', 'width', '640px !important'); // Same width as .watch-content
+            ytwp.style.appendRule([
+                scriptBodyClassSelector + ' .playlist',
+                scriptBodyClassSelector + ' .playlist .watch7-playlist-bar',
+            ], 'max-width', '1040px'); // Same width as .watch-content (640px) + .watch-sidebar (300-400px).
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
+                "margin-top": "-15px",
+                "height": "287px !important", // 65 (playlist tile) * 4 + 27 (trim on bottom)
+                "margin-bottom": "15px"
+            });
+            ytwp.style.appendRule([
+                scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', // Pre Oct 26
+                scriptBodyClassSelector + '.cardified-page #watch-appbar-playlist + #watch7-sidebar-contents', // Post Oct 26
+            ], 'padding-top', '15px');
+            
+            // YT Center
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player', 'margin-bottom', '0 !important');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
+                'left': 'initial !important',
+                'width': 'initial !important'
+            });
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .watch7-playlist-bar-right', 'width', '363px !important');
+        },
+        onWatchInit: function() {
+            ytwp.log('onWatchInit');
+            ytwp.event.moveVideoContainer();
+            ytwp.event.addBodyClass();
+            ytwp.pageReady = true;
+        },
+        onWatchDispose: function() {
+            ytwp.log('onWatchDispose');
+            ytwp.initialized = false;
+            ytwp.pageReady = false;
+            if (ytwp.util.isWatchUrl()) {
+                ytwp.event.onWatchDisposeToWatch();
+            } else {
+                ytwp.event.onWatchDisposeToElsewhere();
             }
-        } catch (e) {
-            // Fall through.
-            // Either YT Center is not installed, or it has updated.
+        },
+        onWatchDisposeToWatch: function() {
+            ytwp.log('onWatchDisposeToWatch');
+            
+        },
+        onWatchDisposeToElsewhere: function() {
+            ytwp.log('onWatchDisposeToElsewhere');
+            // Delete the Video player (as it's not where it normally is).
+            // var videoContainer = document.getElementById(videoContainerId);
+            // if (videoContainer)
+            //     videoContainer.remove();
+        },
+        moveVideoContainer: function() {
+            ytwp.log('moveVideoContainer');
+            var videoContainer = document.getElementById(videoContainerId);
+            var body = document.body;
+            body.insertBefore(videoContainer, body.firstChild);
+
+            // Moving the player seems to pause the video for some reason.
+            ytwp.log('playVideo');
+            try {
+                document.getElementById('movie_player').playVideo();
+            } catch(e) {
+                // Videos in a playlist will cause this error, but will play fine.
+                //ytwp.error('Error calling playVideo(). Might not autoplay video.');
+            }
+        },
+        removeVideoContainer: function() {
+            ytwp.log('removeVideoContainer');
+            var videoContainer = document.getElementById(videoContainerId);
+            if (videoContainer)
+                videoContainer.parentNode.removeChild(videoContainer);
+        },
+        addBodyClass: function() {
+            // Insert CSS Into the body so people can style around the effects of this script.
+            jQuery.addClass(document.body, scriptBodyClassId);
+            ytwp.log('Applied ' + scriptBodyClassSelector);
+        }
+    };
+    
+
+    ytwp.pubsubListeners = {
+        'init': function() {
+            ytwp.event.init();
+        },
+        'init-watch': function() {
+            ytwp.event.onWatchInit();
+        },
+        'player-added': function() {
+        },
+        'dispose-watch': function() {
+            ytwp.event.onWatchDispose();
+        },
+        'dispose': function() {
 
         }
-    }
+    };
 
-    function onNavigate() {
-        // Unload
+    ytwp.initLogging = function() {
         
-        resetElements();
-        
-        // Remove our stylesheet.
-        var styleElement = document.getElementById(injectedStyleId);
-        if (styleElement)
-            styleElement.remove();
+    };
 
-        // Youtube does a better cleanup of our main class in the body element.
-        // Removing it here will cause a quick flicker as the ui resets before loading the next page.
-        //jQuery.removeClass(document.body, scriptBodyClassId);
-    }
+    ytwp.registerYoutubeListeners = function() {
+        // ytwp.registerYoutubePlayerApiListeners();
+        ytwp.registerYoutubePubSubListeners();
+    };
 
-    function checkForVideo() {
-        return unsafeWindow.location.href.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
-    }
-    
-    function onVideoPage() {
-        !document.body.classList.contains(scriptBodyClassId) // Test if the script has already been run.
-            && checkForVideo()
-            && log('Found video page. Running script.')
-            && resizeVideoPlayer()
-            && scrollTriggered()
-            && injectStyle(scriptStylesheet) // Apply created stylesheet.
-            && log('Injected Stylesheet')
-            && moveElements()
-            && addBodyClass() // Only add class if found & moved the player.
-            ;
-    }
-    
-    function ytCenterFix() {
-        // Automatically set YT Center settings.
-        try {
-            ytcenter.settings.setOption('enableResize', false);
-            ytcenter.settings.setOption('scrollToPlayer', false);
-            log('Changed a few YT Center settings to work with this script.');
-        } catch (e) {
-            // YT Center probably updated or isn't installed
-        }
-    }
+    ytwp.registerYoutubePlayerApiListeners = function() {
+        var onYouTubePlayerReady_old = onYouTubePlayerReady;
+        onYouTubePlayerReady = function() {
+            onYouTubePlayerReady_old.apply(this, arguments);
+        };
+    };
 
-    function registerYoutubeListeners() {
+    ytwp.registerYoutubePubSubListeners = function() {
         // Debugging Youtubes Events
-        /*
         var yt_pubsub_publish = yt.pubsub.instance_.publish;
         yt.pubsub.instance_.publish = function(){
-            log(arguments);
+            // ytwp.log(arguments);
+            ytwp.log('[pubsub]', arguments[0]);
             yt_pubsub_publish.apply(this, arguments);
         };
-        */
-        
-        //
-        unsafeWindow.yt.pubsub.instance_.subscribe("dispose-watch", function(){
-            //log(unsafeWindow.location.href); // Next url.
-            
-            onNavigate();
 
-            // @return ?
-        });
-
-        unsafeWindow.yt.pubsub.instance_.subscribe("init-watch", function(){
-            //log(unsafeWindow.location.href); // Current video url.
-            
-            onVideoPage();
-
-            // @return ?
-        });
-        
-        unsafeWindow.yt.pubsub.instance_.subscribe("player-added", function(player){
-            //log(unsafeWindow.location.href); // Should be a video URL
-            
-            ytCenterFix();
-            
-            // @return ?
-        });
-        
-        
-        
-        log('Registered yt.pubsub listeners');
-    }
-    
-    function main() {
-        try {
-            registerYoutubeListeners();
-        } catch(e) {
-            console.error("[Resize YT Player]", "Could not hook yt.pubsub");
+        // Subscribe
+        for (var eventName in ytwp.pubsubListeners) {
+            var eventListener = ytwp.pubsubListeners[eventName];
+            yt.pubsub.instance_.subscribe(eventName, eventListener);
         }
-        onVideoPage();
-    }
-    
-    main();
+    };
 
-})();
+    ytwp.main = function() {
+        ytwp.initLogging();
+        try {
+            ytwp.registerYoutubeListeners();
+        } catch(e) {
+            ytwp.error("Could not hook yt.pubsub");
+        }
+    };
+
+    ytwp.main();
+})(unsafeWindow);
