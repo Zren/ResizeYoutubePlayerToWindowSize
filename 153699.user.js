@@ -361,15 +361,27 @@
             //     videoContainer.remove();
         },
         moveVideoContainer: function() {
+            // https://developers.google.com/youtube/js_api_reference#getPlayerState
+            var PLAYING = 1;
+            var BUFFERING = 3;
+            var autoPlay = false;
+            try {
+                var playerState = document.getElementById('movie_player').getPlayerState();
+                autoPlay = playerState == PLAYING || playerState == BUFFERING;
+            } catch (e) {}
+
             ytwp.log('moveVideoContainer');
             var videoContainer = document.getElementById(videoContainerId);
             var body = document.body;
             body.insertBefore(videoContainer, body.firstChild);
 
             // Moving the player seems to pause the video for some reason.
-            ytwp.log('playVideo');
+            
             try {
-                document.getElementById('movie_player').playVideo();
+                if (autoPlay) {
+                    document.getElementById('movie_player').playVideo();
+                    ytwp.log('autoplaying');
+                }
             } catch(e) {
                 // Videos in a playlist will cause this error, but will play fine.
                 //ytwp.error('Error calling playVideo(). Might not autoplay video.');
