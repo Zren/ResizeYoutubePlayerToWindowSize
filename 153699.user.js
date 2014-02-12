@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            Resize YT To Window Size
+// @name            Resize YT To Window Size [Dev]
 // @description     Moves the video to the top of the website and resizes it to the screen size.
 // @author          Chris H (Zren / Shade)
 // @icon            http://youtube.com/favicon.ico
@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.34
+// @version         1.35
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -170,6 +170,7 @@
 
         initialized: false,
         pageReady: false,
+        watchPage: false,
     };
 
     ytwp.util = {
@@ -183,8 +184,11 @@
     ytwp.event = {
         init: function() {
             ytwp.log('init');
-            if (ytwp.initialized)
-                return;
+            if (ytwp.initialized) return;
+
+            ytwp.isWatchPage = ytwp.util.isWatchUrl();
+            if (!ytwp.isWatchPage) return;
+
             ytwp.event.initStyle();
             ytwp.event.initScroller();
             ytwp.initialized = true;
@@ -335,6 +339,9 @@
         },
         onWatchInit: function() {
             ytwp.log('onWatchInit');
+            if (!ytwp.initialized) return;
+            if (ytwp.pageReady) return;
+
             ytwp.event.moveVideoContainer();
             ytwp.event.movePlaylist();
             ytwp.event.addBodyClass();
@@ -342,13 +349,18 @@
         },
         onWatchDispose: function() {
             ytwp.log('onWatchDispose');
+            if (ytwp.isWatchPage) {
+                if (ytwp.util.isWatchUrl()) {
+                    ytwp.event.onWatchDisposeToWatch();
+                } else {
+                    ytwp.event.onWatchDisposeToElsewhere();
+                }
+            }
+        },
+        onDispose: function() {
             ytwp.initialized = false;
             ytwp.pageReady = false;
-            if (ytwp.util.isWatchUrl()) {
-                ytwp.event.onWatchDisposeToWatch();
-            } else {
-                ytwp.event.onWatchDisposeToElsewhere();
-            }
+            ytwp.isWatchPage = false;
         },
         onWatchDisposeToWatch: function() {
             ytwp.log('onWatchDisposeToWatch');
@@ -422,19 +434,34 @@
     
 
     ytwp.pubsubListeners = {
-        'init': function() {
+        'init': function() { // Not always called
             ytwp.event.init();
-        },
-        'init-watch': function() {
             ytwp.event.onWatchInit();
         },
-        'player-added': function() {
+        'init-watch': function() { // Not always called
+            ytwp.event.init();
+            ytwp.event.onWatchInit();
+        },
+        'player-added': function() { // Not always called
+            // Usually called after init-watch, however this is called before init when going from channel -> watch page.
+            // The init event is when the body element resets all it's classes.
+            ytwp.event.init();
+            ytwp.event.onWatchInit();
+        },
+        'appbar-guide-delay-load': function() {
+            // Listen to a later event that is always called in case the others are missed.
+            ytwp.event.init();
+            ytwp.event.onWatchInit();
+            
+            // Channel -> /watch
+            if (ytwp.util.isWatchUrl())
+                ytwp.event.addBodyClass();
         },
         'dispose-watch': function() {
             ytwp.event.onWatchDispose();
         },
         'dispose': function() {
-
+            ytwp.event.onDispose();
         }
     };
 
