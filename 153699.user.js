@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            Resize YT To Window Size [Dev]
+// @name            Resize YT To Window Size
 // @description     Moves the video to the top of the website and resizes it to the screen size.
 // @author          Chris H (Zren / Shade)
 // @icon            http://youtube.com/favicon.ico
