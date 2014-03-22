@@ -7,7 +7,7 @@
 // @downloadURL     http://userscripts.org/scripts/source/153699.user.js
 // @updateURL       http://userscripts.org/scripts/source/153699.meta.js
 // @namespace       http://xshade.ca
-// @version         1.35
+// @version         1.36
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -429,6 +429,20 @@
             // Insert CSS Into the body so people can style around the effects of this script.
             jQuery.addClass(document.body, scriptBodyClassId);
             ytwp.log('Applied ' + scriptBodyClassSelector);
+        },
+        html5PlayerSeekFix: function() {
+            var videoContainer = document.getElementById(videoContainerId);
+            if (videoContainer) {
+                var watchClasses = [
+                    'watch-small',
+                    'watch-medium',
+                    'watch-medium-540',
+                    'watch-large'
+                ];
+                for (var i = watchClasses.length - 1; i >= 0; i--) {
+                    jQuery.removeClass(videoContainer, watchClasses[i]);
+                };
+            }
         }
     };
     
@@ -447,6 +461,13 @@
             // The init event is when the body element resets all it's classes.
             ytwp.event.init();
             ytwp.event.onWatchInit();
+            ytwp.event.html5PlayerSeekFix();
+        },
+        'player-resize': function() {
+            ytwp.event.html5PlayerSeekFix();
+        },
+        'player-playback-start': function() {
+            ytwp.event.html5PlayerSeekFix();
         },
         'appbar-guide-delay-load': function() {
             // Listen to a later event that is always called in case the others are missed.
