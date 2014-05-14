@@ -3,9 +3,7 @@
 // @description     Moves the video to the top of the website and resizes it to the screen size.
 // @author          Chris H (Zren / Shade)
 // @icon            http://youtube.com/favicon.ico
-// @homepageURL     https://greasyfork.org/scripts/811-resize-yt-to-window-size
-// @downloadURL     https://greasyfork.org/scripts/811-resize-yt-to-window-size/code/Resize%20YT%20To%20Window%20Size.user.js
-// @updateURL       https://greasyfork.org/scripts/811-resize-yt-to-window-size/code/Resize%20YT%20To%20Window%20Size.meta.js
+// @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
 // @version         1.37
 // @include         http*://*.youtube.com/*
@@ -14,9 +12,10 @@
 // @include         http*://youtu.be/*
 // ==/UserScript==
 
-// Userscripts.org: http://userscripts.org:8080/scripts/show/153699
 // Github:          https://github.com/Zren/ResizeYoutubePlayerToWindowSize
 // GreasyFork:      https://greasyfork.org/scripts/811-resize-yt-to-window-size
+// OpenUserJS.org:  https://openuserjs.org/scripts/zren/httpxshade.ca/Resize_YT_To_Window_Size
+// Userscripts.org: http://userscripts.org:8080/scripts/show/153699
 
 (function (window) {
     "use strict";
