@@ -102,7 +102,7 @@
     var JSStyleSheet = function(id) {
         this.id = id;
         this.stylesheet = '';
-    }
+    };
 
     JSStyleSheet.prototype.buildRule = function(selector, styles) {
         var s = "";
@@ -131,7 +131,7 @@
         }
         
         this.stylesheet += newStyle;
-    }
+    };
 
     JSStyleSheet.injectIntoHeader = function(injectedStyleId, stylesheet) {
         var styleElement = document.getElementById(injectedStyleId);
@@ -142,11 +142,11 @@
             document.getElementsByTagName('head')[0].appendChild(styleElement);
         }
         styleElement.appendChild(document.createTextNode(stylesheet));
-    }
+    };
 
     JSStyleSheet.prototype.injectIntoHeader = function(injectedStyleId, stylesheet) {
         JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
-    }
+    };
 
     //--- Constants
     var scriptShortName = 'ytwp'; // YT Window Player
