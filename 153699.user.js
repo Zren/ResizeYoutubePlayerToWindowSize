@@ -71,7 +71,7 @@
             }
         },
         removeClass: function( elem, value ) {
-            var classes, elem, cur, clazz, j,
+            var classes, cur, clazz, j,
                 proceed = arguments.length === 0 || typeof value === "string" && value;
     
             if ( proceed ) {
@@ -228,7 +228,8 @@
             //--- Video Player
         
             //
-            var d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
+            var d;
+            d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
             d['padding'] = '0 !important';
             d['margin'] = '0 !important';
             ytwp.style.appendRule([
@@ -239,7 +240,7 @@
                 scriptBodyClassSelector + '.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container',
             ], d);
             //
-            var d = buildVenderPropertyDict(transitionProperties, 'width 0s linear, left 0s linear');
+            d = buildVenderPropertyDict(transitionProperties, 'width 0s linear, left 0s linear');
 
             // Bugfix for Firefox
             // Parts of the header (search box) are hidden under the player.
@@ -276,7 +277,7 @@
             //--- Sidebar
             
             // Remove the transition delay as you can see it moving on page load.
-            var d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
+            d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
             d['margin-top'] = '0 !important';
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-sidebar', d);
 
@@ -442,7 +443,7 @@
                 ];
                 for (var i = watchClasses.length - 1; i >= 0; i--) {
                     jQuery.removeClass(videoContainer, watchClasses[i]);
-                };
+                }
             }
         }
     };
