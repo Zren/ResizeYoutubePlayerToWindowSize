@@ -3,19 +3,20 @@
 // @description     Moves the video to the top of the website and resizes it to the screen size.
 // @author          Chris H (Zren / Shade)
 // @icon            http://youtube.com/favicon.ico
-// @homepageURL     http://userscripts.org/scripts/show/153699
-// @downloadURL     http://userscripts.org/scripts/source/153699.user.js
-// @updateURL       http://userscripts.org/scripts/source/153699.meta.js
+// @homepageURL     https://greasyfork.org/scripts/811-resize-yt-to-window-size
+// @downloadURL     https://greasyfork.org/scripts/811-resize-yt-to-window-size/code/Resize%20YT%20To%20Window%20Size.user.js
+// @updateURL       https://greasyfork.org/scripts/811-resize-yt-to-window-size/code/Resize%20YT%20To%20Window%20Size.meta.js
 // @namespace       http://xshade.ca
-// @version         1.36
+// @version         1.37
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
 // @include         http*://youtu.be/*
 // ==/UserScript==
 
-// Github:
-//      https://github.com/Zren/ResizeYoutubePlayerToWindowSize
+// Userscripts.org: http://userscripts.org:8080/scripts/show/153699
+// Github:          https://github.com/Zren/ResizeYoutubePlayerToWindowSize
+// GreasyFork:      https://greasyfork.org/scripts/811-resize-yt-to-window-size
 
 (function (window) {
     "use strict";
@@ -254,7 +255,8 @@
             ytwp.style.appendRule(
                 [
                     scriptBodyClassSelector + ' #player',
-                    scriptBodyClassSelector + ' #movie_player'
+                    scriptBodyClassSelector + ' #movie_player',
+                    scriptBodyClassSelector + ' #player-mole-container',
                 ],
                 {
                     'width': '100% !important',
