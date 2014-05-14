@@ -1,11 +1,11 @@
 # Suggestions
-* [Youtube Center](http://userscripts.org/scripts/show/114002) now has this feature with a few more options in their script. Check out **YT Center Settings > Player > Fullscreen Top Player**.
-* Use [Yays!](http://userscripts.org/scripts/show/65477) or [Youtube Center](http://userscripts.org/scripts/show/114002) to select a video resolution if you want a constant resolution.
-* Auto-Hide the Progressbar & Controlbar with [Youtube Center](http://userscripts.org/scripts/show/114002).
-* If using <a href="http://userscripts.org/scripts/show/114002">Youtube Center</a>:
-** Version 1.31+ should automatically set these settings for you.
-*** Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
-*** Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
+* [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki) now has this feature with a few more options in their script. Check out **YT Center Settings > Player > Fullscreen Top Player**.
+* Use [Yays!](http://userscripts.org/scripts/show/65477) or [Youtube Center]https://github.com/YePpHa/YouTubeCenter/wiki) to select a video resolution if you want a constant resolution.
+* Auto-Hide the Progressbar & Controlbar with [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki).
+* If using [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki):
+  *  Version 1.31+ should automatically set these settings for you.
+    *   Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
+    *   Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
 
 # Screenshots
 
