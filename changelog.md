@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 1.38 - June 17, 2014
+
+* Style `#watch7-sidebar {top: 0 !important; }` to fix the sidebar overlapping the player.
+* Fix the guide from being off position when viewing the video.
+
 <p>
   <h4>1.37 - May 13, 2014</h4>
   <ul>

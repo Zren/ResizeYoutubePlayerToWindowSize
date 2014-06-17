@@ -11,17 +11,17 @@
 
 **After loading the video webpage you will see:**
 
-![](http://i.imgur.com/ja8Kx.jpg)
+[![](http://i.imgur.com/ja8Kx.jpg)](http://i.imgur.com/ja8Kx.jpg)
 
 **It appears above the rest of the site, so you can scroll down for the description, related links, etc.**
 
-![](http://i.imgur.com/RiodhIb.jpg)
+[![](http://i.imgur.com/RiodhIb.jpg)](http://i.imgur.com/RiodhIb.jpg)
 
 # Changelog
 
-## 1.37 - May 13, 2014
+## 1.38 - June 17, 2014
 
-* Style the new `#player-mole-container` element. It had a height of 0, which was hiding the player.
-* Move to OpenUserJS and GreasyFork.
+* Style `#watch7-sidebar {top: 0 !important; }` to fix the sidebar overlapping the player.
+* Fix the guide from being off position when viewing the video.
 
 ... The complete changelog can be read [here](https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md).

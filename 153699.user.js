@@ -5,7 +5,7 @@
 // @icon            http://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.37
+// @version         1.38
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -279,6 +279,7 @@
             // Remove the transition delay as you can see it moving on page load.
             d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
             d['margin-top'] = '0 !important';
+            d['top'] = '0 !important';
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-sidebar', d);
 
             ytwp.style.appendRule(scriptBodyClassSelector + '.cardified-page #watch7-sidebar-contents', 'padding-top', '0');
@@ -295,7 +296,7 @@
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #appbar-guide-menu', {
                 'display': 'initial',
                 'position': 'absolute',
-                'top': '-50px !important' // Masthead height
+                'top': '100% !important' // Masthead height
             });
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #page.watch #guide', {
                 'display': 'initial',
