@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 1.39 - July 12, 2014
+
+* Remove debugging code that broke the script due to a raise in javascript execution security.
+
 ## 1.38 - June 17, 2014
 
 * Style `#watch7-sidebar {top: 0 !important; }` to fix the sidebar overlapping the player.

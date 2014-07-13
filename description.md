@@ -19,9 +19,8 @@
 
 # Changelog
 
-## 1.38 - June 17, 2014
+## 1.39 - July 12, 2014
 
-* Style `#watch7-sidebar {top: 0 !important; }` to fix the sidebar overlapping the player.
-* Fix the guide from being off position when viewing the video.
+* Remove debugging code that broke the script due to a raise in javascript execution security.
 
 ... The complete changelog can be read [here](https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md).

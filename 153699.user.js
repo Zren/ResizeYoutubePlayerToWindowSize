@@ -5,7 +5,7 @@
 // @icon            http://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.38
+// @version         1.39
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -507,12 +507,12 @@
 
     ytwp.registerYoutubePubSubListeners = function() {
         // Debugging Youtubes Events
-        var yt_pubsub_publish = yt.pubsub.instance_.publish;
-        yt.pubsub.instance_.publish = function(){
-            // ytwp.log(arguments);
-            ytwp.log('[pubsub]', arguments[0]);
-            yt_pubsub_publish.apply(this, arguments);
-        };
+        // var yt_pubsub_publish = yt.pubsub.instance_.publish;
+        // yt.pubsub.instance_.publish = function(){
+        //     // ytwp.log(arguments);
+        //     ytwp.log('[pubsub]', arguments[0]);
+        //     yt_pubsub_publish.apply(this, arguments);
+        // };
 
         // Subscribe
         for (var eventName in ytwp.pubsubListeners) {
