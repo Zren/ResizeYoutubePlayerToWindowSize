@@ -11,11 +11,11 @@
 
 **After loading the video webpage you will see:**
 
-[![](http://i.imgur.com/ja8Kx.jpg)](http://i.imgur.com/ja8Kx.jpg)
+[![](https://i.imgur.com/ja8Kx.jpg)](http://i.imgur.com/ja8Kx.jpg)
 
 **It appears above the rest of the site, so you can scroll down for the description, related links, etc.**
 
-[![](http://i.imgur.com/RiodhIb.jpg)](http://i.imgur.com/RiodhIb.jpg)
+[![](https://i.imgur.com/RiodhIb.jpg)](http://i.imgur.com/RiodhIb.jpg)
 
 # Changelog
 
