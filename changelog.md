@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 1.40 - July 23, 2014
+
+* Attempt to fix the html5 player. The seek bar & annotations might not scale properly.
+
 ## 1.39 - July 12, 2014
 
 * Remove debugging code that broke the script due to a raise in javascript execution security.
