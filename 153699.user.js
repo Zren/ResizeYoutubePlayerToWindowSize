@@ -5,7 +5,7 @@
 // @icon            http://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.39
+// @version         1.40
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -41,7 +41,7 @@
     var core_rnotwhite = /\S+/g;
     var rclass = /[\t\r\n\f]/g;
     var rtrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
-    
+
     var jQuery = {
         trim: function( text ) {
             return (text || "").replace( rtrim, "" );
@@ -49,16 +49,16 @@
         addClass: function( elem, value ) {
             var classes, cur, clazz, j,
                 proceed = typeof value === "string" && value;
-    
+
             if ( proceed ) {
                 // The disjunction here is for better compressibility (see removeClass)
                 classes = ( value || "" ).match( core_rnotwhite ) || [];
-    
+
                 cur = elem.nodeType === 1 && ( elem.className ?
                     ( " " + elem.className + " " ).replace( rclass, " " ) :
                     " "
                 );
-    
+
                 if ( cur ) {
                     j = 0;
                     while ( (clazz = classes[j++]) ) {
@@ -73,16 +73,16 @@
         removeClass: function( elem, value ) {
             var classes, cur, clazz, j,
                 proceed = arguments.length === 0 || typeof value === "string" && value;
-    
+
             if ( proceed ) {
                 classes = ( value || "" ).match( core_rnotwhite ) || [];
-    
+
                 // This expression is here for better compressibility (see addClass)
                 cur = elem.nodeType === 1 && ( elem.className ?
                     ( " " + elem.className + " " ).replace( rclass, " " ) :
                     ""
                 );
-    
+
                 if ( cur ) {
                     j = 0;
                     while ( (clazz = classes[j++]) ) {
@@ -97,7 +97,7 @@
         }
     };
 
-    
+
     //--- Stylesheet
     var JSStyleSheet = function(id) {
         this.id = id;
@@ -129,7 +129,7 @@
             console.log('Illegal arguments', arguments);
             return;
         }
-        
+
         this.stylesheet += newStyle;
     };
 
@@ -155,12 +155,12 @@
     var viewingVideoClassId = scriptShortName + '-viewing-video'; // .ytwp-viewing-video
     var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
     var scriptBodyClassSelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
-    
+
     var videoContainerId = 'player';
     var videoContainerPlacemarkerId = scriptShortName + '-placemarker'; // ytwp-placemarker
-    
+
     var transitionProperties = ["transition", "-ms-transition", "-moz-transition", "-webkit-transition", "-o-transition"];
-    
+
     //--- YTWP
     var ytwp = window.ytwp = {
         scriptShortName: scriptShortName, // YT Window Player
@@ -171,6 +171,7 @@
         initialized: false,
         pageReady: false,
         watchPage: false,
+        html5PlayerSeekFixAttemptCount: 0,
     };
 
     ytwp.util = {
@@ -193,6 +194,8 @@
             ytwp.event.initScroller();
             ytwp.initialized = true;
             ytwp.pageReady = false;
+            ytwp.html5PlayerSeekFixAttemptCount = 0;
+            ytwp.html5PlayerSeekFixMaxAttempts = 20;
         },
         initScroller: function() {
             // Register listener & Call it now.
@@ -202,7 +205,7 @@
         },
         onScroll: function() {
             var viewportHeight = document.documentElement.clientHeight;
-        
+
             // topOfPageClassId
             if (unsafeWindow.scrollY == 0) {
                 jQuery.addClass(document.body, topOfPageClassId);
@@ -226,7 +229,7 @@
         buildStylesheet: function() {
             ytwp.log('buildStylesheet');
             //--- Video Player
-        
+
             //
             var d;
             d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
@@ -257,25 +260,39 @@
                     scriptBodyClassSelector + ' #player',
                     scriptBodyClassSelector + ' #movie_player',
                     scriptBodyClassSelector + ' #player-mole-container',
+                    scriptBodyClassSelector + ' .html5-video-content',
+                    scriptBodyClassSelector + ' .html5-main-video',
                 ],
                 {
                     'width': '100% !important',
-                    'height': '100% !important',
                     'min-width': '100% !important',
                     'max-width': '100% !important',
+                    'height': '100% !important',
                     'min-height': '100% !important',
-                    'max-height': '100% !important'
+                    'max-height': '100% !important',
                 }
             );
+            // ytwp.style.appendRule(
+            //     [
+            //         scriptBodyClassSelector + ' .html5-progress-bar',
+            //     ],
+            //     {
+            //         'width': '100% !important',
+            //         'min-width': '100% !important',
+            //         'max-width': '100% !important',
+            //     }
+            // );
+
+            
 
             // Resize #player-unavailable, #player-api
-            // Using min/max width/height will keep 
+            // Using min/max width/height will keep
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
-            
-                
+
+
             //--- Sidebar
-            
+
             // Remove the transition delay as you can see it moving on page load.
             d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
             d['margin-top'] = '0 !important';
@@ -283,14 +300,14 @@
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-sidebar', d);
 
             ytwp.style.appendRule(scriptBodyClassSelector + '.cardified-page #watch7-sidebar-contents', 'padding-top', '0');
-            
+
             //--- Absolutely position the fixed header.
             // Masthead
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'position': 'absolute',
                 'top': '100% !important'
             });
-            
+
             // Guide
             // When watching the video, we need to line it up with the masthead.
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #appbar-guide-menu', {
@@ -307,14 +324,14 @@
             //---
             // Hide Scrollbars
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
-            
+
 
             //--- Fix Other Possible Style Issues
 
             //--- Whitespace Leftover From Moving The Video
             ytwp.style.appendRule(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
             ytwp.style.appendRule(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
-            
+
             //--- Playlist Bar
             //ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
             ytwp.style.appendRule(scriptBodyClassSelector + ' .watch7-playlist-bar-left', 'width', '640px !important'); // Same width as .watch-content
@@ -331,7 +348,7 @@
                 scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', // Pre Oct 26
                 scriptBodyClassSelector + '.cardified-page #watch-appbar-playlist + #watch7-sidebar-contents', // Post Oct 26
             ], 'padding-top', '15px');
-            
+
             // YT Center
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player', 'margin-bottom', '0 !important');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
@@ -367,7 +384,7 @@
         },
         onWatchDisposeToWatch: function() {
             ytwp.log('onWatchDisposeToWatch');
-            
+
         },
         onWatchDisposeToElsewhere: function() {
             ytwp.log('onWatchDisposeToElsewhere');
@@ -392,7 +409,7 @@
             body.insertBefore(videoContainer, body.firstChild);
 
             // Moving the player seems to pause the video for some reason.
-            
+
             try {
                 if (autoPlay) {
                     document.getElementById('movie_player').playVideo();
@@ -419,7 +436,7 @@
                 mainContainer.insertBefore(bar, mainContainer.firstChild);
                 ytwp.log('Moved #playlist');
             }
-            
+
             // Move the tray to inside the sidebar
             var tray = document.getElementById('watch7-playlist-tray-container');
             var sidebar = document.getElementById('watch7-sidebar');
@@ -436,19 +453,32 @@
         html5PlayerSeekFix: function() {
             var videoContainer = document.getElementById(videoContainerId);
             if (videoContainer) {
-                var watchClasses = [
-                    'watch-small',
-                    'watch-medium',
-                    'watch-medium-540',
-                    'watch-large'
-                ];
-                for (var i = watchClasses.length - 1; i >= 0; i--) {
-                    jQuery.removeClass(videoContainer, watchClasses[i]);
+                if (ytwp.html5PlayerSeekFixAttemptCount <  ytwp.html5PlayerSeekFixMaxAttempts) {
+                    var playerWidth = document.querySelector('#player').offsetWidth;
+                    var progressBarWidth = document.querySelector('.html5-progress-bar').offsetWidth;
+                    console.log(playerWidth, progressBarWidth)
+                    if (playerWidth != progressBarWidth) {
+                        document.documentElement.setAttribute('data-player-size', '');
+                        
+                        var watchClasses = [
+                            'watch-small',
+                            'watch-medium',
+                            'watch-medium-540',
+                            'watch-large'
+                        ];
+                        for (var i = watchClasses.length - 1; i >= 0; i--) {
+                            jQuery.removeClass(videoContainer, watchClasses[i]);
+                        }
+
+                        // Trigger a refresh of the player sizes.
+                        document.querySelector('.ytp-size-toggle-small, .ytp-size-toggle-large').click();
+                        ytwp.log('html5PlayerSeekFix', ++ytwp.html5PlayerSeekFixAttemptCount);
+                    }
                 }
             }
         }
     };
-    
+
 
     ytwp.pubsubListeners = {
         'init': function() { // Not always called
@@ -464,7 +494,6 @@
             // The init event is when the body element resets all it's classes.
             ytwp.event.init();
             ytwp.event.onWatchInit();
-            ytwp.event.html5PlayerSeekFix();
         },
         'player-resize': function() {
             ytwp.event.html5PlayerSeekFix();
@@ -476,10 +505,15 @@
             // Listen to a later event that is always called in case the others are missed.
             ytwp.event.init();
             ytwp.event.onWatchInit();
-            
+
             // Channel -> /watch
             if (ytwp.util.isWatchUrl())
                 ytwp.event.addBodyClass();
+
+            ytwp.event.html5PlayerSeekFix();
+        },
+        'yt-www-pageFrameCssNotifications-load': function() {
+            ytwp.event.html5PlayerSeekFix();
         },
         'dispose-watch': function() {
             ytwp.event.onWatchDispose();
@@ -490,7 +524,7 @@
     };
 
     ytwp.initLogging = function() {
-        
+
     };
 
     ytwp.registerYoutubeListeners = function() {
