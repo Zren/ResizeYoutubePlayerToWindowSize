@@ -5,7 +5,7 @@
 // @icon            http://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.40
+// @version         1.41
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -171,7 +171,6 @@
         initialized: false,
         pageReady: false,
         watchPage: false,
-        html5PlayerSeekFixAttemptCount: 0,
     };
 
     ytwp.util = {
@@ -194,8 +193,6 @@
             ytwp.event.initScroller();
             ytwp.initialized = true;
             ytwp.pageReady = false;
-            ytwp.html5PlayerSeekFixAttemptCount = 0;
-            ytwp.html5PlayerSeekFixMaxAttempts = 20;
         },
         initScroller: function() {
             // Register listener & Call it now.
@@ -272,27 +269,23 @@
                     'max-height': '100% !important',
                 }
             );
-            // ytwp.style.appendRule(
-            //     [
-            //         scriptBodyClassSelector + ' .html5-progress-bar',
-            //     ],
-            //     {
-            //         'width': '100% !important',
-            //         'min-width': '100% !important',
-            //         'max-width': '100% !important',
-            //     }
-            // );
-
-            
-
             // Resize #player-unavailable, #player-api
             // Using min/max width/height will keep
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
 
+            //--- Move Video Player
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player', {
+                'position': 'absolute',
+                'top': '0',
+                'left': '0',
+            });
+            ytwp.style.appendRule(scriptBodyClassSelector, { // body
+                'margin-top': '100vh',
+            });
+
 
             //--- Sidebar
-
             // Remove the transition delay as you can see it moving on page load.
             d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
             d['margin-top'] = '0 !important';
@@ -362,121 +355,19 @@
             if (!ytwp.initialized) return;
             if (ytwp.pageReady) return;
 
-            ytwp.event.moveVideoContainer();
-            ytwp.event.movePlaylist();
             ytwp.event.addBodyClass();
             ytwp.pageReady = true;
-        },
-        onWatchDispose: function() {
-            ytwp.log('onWatchDispose');
-            if (ytwp.isWatchPage) {
-                if (ytwp.util.isWatchUrl()) {
-                    ytwp.event.onWatchDisposeToWatch();
-                } else {
-                    ytwp.event.onWatchDisposeToElsewhere();
-                }
-            }
         },
         onDispose: function() {
             ytwp.initialized = false;
             ytwp.pageReady = false;
             ytwp.isWatchPage = false;
         },
-        onWatchDisposeToWatch: function() {
-            ytwp.log('onWatchDisposeToWatch');
-
-        },
-        onWatchDisposeToElsewhere: function() {
-            ytwp.log('onWatchDisposeToElsewhere');
-            // Delete the Video player (as it's not where it normally is).
-            // var videoContainer = document.getElementById(videoContainerId);
-            // if (videoContainer)
-            //     videoContainer.remove();
-        },
-        moveVideoContainer: function() {
-            // https://developers.google.com/youtube/js_api_reference#getPlayerState
-            var PLAYING = 1;
-            var BUFFERING = 3;
-            var autoPlay = false;
-            try {
-                var playerState = document.getElementById('movie_player').getPlayerState();
-                autoPlay = playerState == PLAYING || playerState == BUFFERING;
-            } catch (e) {}
-
-            ytwp.log('moveVideoContainer');
-            var videoContainer = document.getElementById(videoContainerId);
-            var body = document.body;
-            body.insertBefore(videoContainer, body.firstChild);
-
-            // Moving the player seems to pause the video for some reason.
-
-            try {
-                if (autoPlay) {
-                    document.getElementById('movie_player').playVideo();
-                    ytwp.log('autoplaying');
-                }
-            } catch(e) {
-                // Videos in a playlist will cause this error, but will play fine.
-                //ytwp.error('Error calling playVideo(). Might not autoplay video.');
-            }
-        },
-        removeVideoContainer: function() {
-            ytwp.log('removeVideoContainer');
-            var videoContainer = document.getElementById(videoContainerId);
-            if (videoContainer)
-                videoContainer.parentNode.removeChild(videoContainer);
-        },
-        movePlaylist: function() {
-            // --- Old Playlist bar (still in firefox).
-
-            // Move the bar to the top of the main container.
-            var mainContainer = document.getElementById('watch7-main-container');
-            var bar = document.getElementById('playlist');
-            if (mainContainer && bar) {
-                mainContainer.insertBefore(bar, mainContainer.firstChild);
-                ytwp.log('Moved #playlist');
-            }
-
-            // Move the tray to inside the sidebar
-            var tray = document.getElementById('watch7-playlist-tray-container');
-            var sidebar = document.getElementById('watch7-sidebar');
-            if (tray && sidebar) {
-                sidebar.insertBefore(tray, sidebar.firstChild);
-                ytwp.log('Moved #watch7-playlist-tray-container');
-            }
-        },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.
             jQuery.addClass(document.body, scriptBodyClassId);
             ytwp.log('Applied ' + scriptBodyClassSelector);
         },
-        html5PlayerSeekFix: function() {
-            var videoContainer = document.getElementById(videoContainerId);
-            if (videoContainer) {
-                if (ytwp.html5PlayerSeekFixAttemptCount <  ytwp.html5PlayerSeekFixMaxAttempts) {
-                    var playerWidth = document.querySelector('#player').offsetWidth;
-                    var progressBarWidth = document.querySelector('.html5-progress-bar').offsetWidth;
-                    console.log(playerWidth, progressBarWidth)
-                    if (playerWidth != progressBarWidth) {
-                        document.documentElement.setAttribute('data-player-size', '');
-                        
-                        var watchClasses = [
-                            'watch-small',
-                            'watch-medium',
-                            'watch-medium-540',
-                            'watch-large'
-                        ];
-                        for (var i = watchClasses.length - 1; i >= 0; i--) {
-                            jQuery.removeClass(videoContainer, watchClasses[i]);
-                        }
-
-                        // Trigger a refresh of the player sizes.
-                        document.querySelector('.ytp-size-toggle-small, .ytp-size-toggle-large').click();
-                        ytwp.log('html5PlayerSeekFix', ++ytwp.html5PlayerSeekFixAttemptCount);
-                    }
-                }
-            }
-        }
     };
 
 
@@ -495,12 +386,8 @@
             ytwp.event.init();
             ytwp.event.onWatchInit();
         },
-        'player-resize': function() {
-            ytwp.event.html5PlayerSeekFix();
-        },
-        'player-playback-start': function() {
-            ytwp.event.html5PlayerSeekFix();
-        },
+        // 'player-resize': function() {},
+        // 'player-playback-start': function() {},
         'appbar-guide-delay-load': function() {
             // Listen to a later event that is always called in case the others are missed.
             ytwp.event.init();
@@ -509,15 +396,8 @@
             // Channel -> /watch
             if (ytwp.util.isWatchUrl())
                 ytwp.event.addBodyClass();
-
-            ytwp.event.html5PlayerSeekFix();
         },
-        'yt-www-pageFrameCssNotifications-load': function() {
-            ytwp.event.html5PlayerSeekFix();
-        },
-        'dispose-watch': function() {
-            ytwp.event.onWatchDispose();
-        },
+        // 'dispose-watch': function() {},
         'dispose': function() {
             ytwp.event.onDispose();
         }
@@ -540,14 +420,6 @@
     };
 
     ytwp.registerYoutubePubSubListeners = function() {
-        // Debugging Youtubes Events
-        // var yt_pubsub_publish = yt.pubsub.instance_.publish;
-        // yt.pubsub.instance_.publish = function(){
-        //     // ytwp.log(arguments);
-        //     ytwp.log('[pubsub]', arguments[0]);
-        //     yt_pubsub_publish.apply(this, arguments);
-        // };
-
         // Subscribe
         for (var eventName in ytwp.pubsubListeners) {
             var eventListener = ytwp.pubsubListeners[eventName];

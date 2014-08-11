@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 1.41 - Aug 11, 2014
+
+* Remove poorly done HTML5 fix. The HTML5 progress bar will remain unfixed until a Youtube update provides the ability to resize it.
+* Use CSS absolutly positioning to move the player. This should fix playback restarting while moving the player.
+
 ## 1.40 - July 23, 2014
 
 * Attempt to fix the html5 player. The seek bar & annotations might not scale properly.

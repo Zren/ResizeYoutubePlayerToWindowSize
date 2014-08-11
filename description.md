@@ -6,6 +6,7 @@
   *  Version 1.31+ should automatically set these settings for you.
     *   Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
     *   Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
+* The **HTML5 player** was only designed to be sized at 640px or 848px wide. Thus, the progress bar will not be resized. Using the flash player will "fix" this. 
 
 # Screenshots
 
@@ -19,8 +20,7 @@
 
 # Changelog
 
-## 1.40 - July 23, 2014
+## 1.41 - Aug 11, 2014
 
-* Attempt to fix the html5 player. The seek bar & annotations might not scale properly.
-
-... The complete changelog can be read [here](https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md).
+* Remove poorly done HTML5 fix. The HTML5 progress bar will remain unfixed until a Youtube update provides the ability to resize it.
+* Use CSS absolutly positioning to move the player. This should fix playback restarting while moving the player.
