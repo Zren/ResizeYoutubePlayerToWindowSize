@@ -1,5 +1,11 @@
 <h3>Changelog</h3>
 
+## 1.42 - Aug 18, 2014
+
+* Fix HTML5 progress bar not resizing. Thanks to [YePpHa](https://github.com/YePpHa/) for solving this bug in YoutubeCenter. [[Screenshot](https://i.imgur.com/FcLISVq.png)]
+* Fix the player getting right aligned in some cases. [[Screenshot]](https://greasyfork.org/forum/uploads/FileUpload/95/4d455197513c65d1aa243a0d800133.jpg)
+* Prevent the script from running twice on the same page.
+
 ## 1.41 - Aug 11, 2014
 
 * Remove poorly done HTML5 fix. The HTML5 progress bar will remain unfixed until a Youtube update provides the ability to resize it.

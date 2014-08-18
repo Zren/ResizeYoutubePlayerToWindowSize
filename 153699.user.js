@@ -2,10 +2,10 @@
 // @name            Resize YT To Window Size
 // @description     Moves the video to the top of the website and resizes it to the screen size.
 // @author          Chris H (Zren / Shade)
-// @icon            http://youtube.com/favicon.ico
+// @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.41
+// @version         1.42
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -19,9 +19,16 @@
 
 (function (window) {
     "use strict";
-
+    
     //--- Imported Globals
-    var yt = window.yt;
+    // yt
+    // ytcenter
+    // ytplayer
+    var uw = window.top;
+
+    //--- Already Loaded?
+    // GreaseMonkey loads this script twice for some reason.
+    if (uw.ytwp) return;
 
     //--- Utils
     function isStringType(obj) { return typeof obj === 'string'; }
@@ -148,6 +155,54 @@
         JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
     };
 
+    //---
+    // Credits to https://github.com/YePpHa/YouTubeCenter/
+    // Needed to fix the HTML5 Player progress bar.
+    // https://github.com/YePpHa/YouTubeCenter/compare/782812243a99e33e07fe443ef71d127d0917ed81...a81856b974603a1645e567ee6ac91e6856c529c8
+    var ytcenter_player_experiments = (function(){
+        function add(exp, config) {
+            var cfg = getConfig(config);
+            if (!has(exp, config)) {
+                cfg.args.fexp += "," + exp;
+            }
+        }
+        function remove(exp, config) {
+            var cfg = getConfig(config);
+            if (cfg && cfg.args && cfg.args.fexp) {
+                var e = cfg.args.fexp.split(","), i, a = [];
+                for (i = 0; i < e.length; i++) {
+                    if (exp !== e[i]) {
+                        a.push(e[i]);
+                    }
+                }
+                cfg.args.fexp = a.join(",");
+            }
+        }
+        function has(exp, config) {
+            var cfg = getConfig(config);
+            if (cfg && cfg.args && typeof cfg.fexp === "string") {
+                var e = cfg.args.fexp.split(","), i, a = [];
+                for (i = 0; i < e.length; i++) {
+                    if (exp === e[i]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        function clear(config) {
+            var cfg = getConfig(config);
+            if (cfg && cfg.args) {
+                cfg.args.fexp = "";
+            }
+        }
+        function getConfig(config) {
+            return config || ytcenter.player.config.args;
+        }
+        
+        return { add: add, remove: remove, has: has, clear: clear };
+    })();
+
     //--- Constants
     var scriptShortName = 'ytwp'; // YT Window Player
     var scriptStyleId = scriptShortName + '-style'; // ytwp-style
@@ -162,7 +217,7 @@
     var transitionProperties = ["transition", "-ms-transition", "-moz-transition", "-webkit-transition", "-o-transition"];
 
     //--- YTWP
-    var ytwp = window.ytwp = {
+    var ytwp = uw.ytwp = {
         scriptShortName: scriptShortName, // YT Window Player
         log_: function(logger, args) { logger.apply(console, ['[' + this.scriptShortName + '] '].concat(Array.prototype.slice.call(args))); return 1; },
         log: function() { return this.log_(console.log, arguments); },
@@ -176,7 +231,7 @@
     ytwp.util = {
         isWatchUrl: function (url) {
             if (!url)
-                url = window.location.href;
+                url = uw.location.href;
             return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
         }
     };
@@ -269,6 +324,20 @@
                     'max-height': '100% !important',
                 }
             );
+
+             ytwp.style.appendRule(
+                [
+                    scriptBodyClassSelector + ' #player',
+                    scriptBodyClassSelector + ' .html5-video-content',
+                    scriptBodyClassSelector + ' .html5-main-video',
+                ],
+                {
+                    'top': '0 !important',
+                    'right': '0 !important',
+                    'bottom': '0 !important',
+                    'left': '0 !important',
+                }
+            );
             // Resize #player-unavailable, #player-api
             // Using min/max width/height will keep
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
@@ -277,8 +346,7 @@
             //--- Move Video Player
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player', {
                 'position': 'absolute',
-                'top': '0',
-                'left': '0',
+                // Already top:0; left: 0;
             });
             ytwp.style.appendRule(scriptBodyClassSelector, { // body
                 'margin-top': '100vh',
@@ -368,6 +436,18 @@
             jQuery.addClass(document.body, scriptBodyClassId);
             ytwp.log('Applied ' + scriptBodyClassSelector);
         },
+        html5PlayerFix: function() {
+            ytwp.log('html5PlayerFix');
+            if (uw.ytplayer.config.args.fexp.match(/\b(931983|931972)\b/)) {
+                ytcenter_player_experiments.remove("931983", uw.ytplayer.config);
+                ytcenter_player_experiments.remove("931972", uw.ytplayer.config);
+
+                if (ytplayer.config.loaded) {
+                    ytwp.log('rerunning ytplayer.load()');
+                    ytplayer.load();
+                }
+            }
+        }
     };
 
 
@@ -375,16 +455,19 @@
         'init': function() { // Not always called
             ytwp.event.init();
             ytwp.event.onWatchInit();
+            ytwp.event.html5PlayerFix();
         },
         'init-watch': function() { // Not always called
             ytwp.event.init();
             ytwp.event.onWatchInit();
+            ytwp.event.html5PlayerFix();
         },
         'player-added': function() { // Not always called
             // Usually called after init-watch, however this is called before init when going from channel -> watch page.
             // The init event is when the body element resets all it's classes.
             ytwp.event.init();
             ytwp.event.onWatchInit();
+            ytwp.event.html5PlayerFix();
         },
         // 'player-resize': function() {},
         // 'player-playback-start': function() {},
@@ -403,38 +486,27 @@
         }
     };
 
-    ytwp.initLogging = function() {
-
-    };
-
     ytwp.registerYoutubeListeners = function() {
-        // ytwp.registerYoutubePlayerApiListeners();
         ytwp.registerYoutubePubSubListeners();
-    };
-
-    ytwp.registerYoutubePlayerApiListeners = function() {
-        var onYouTubePlayerReady_old = onYouTubePlayerReady;
-        onYouTubePlayerReady = function() {
-            onYouTubePlayerReady_old.apply(this, arguments);
-        };
     };
 
     ytwp.registerYoutubePubSubListeners = function() {
         // Subscribe
         for (var eventName in ytwp.pubsubListeners) {
             var eventListener = ytwp.pubsubListeners[eventName];
-            yt.pubsub.instance_.subscribe(eventName, eventListener);
+            uw.yt.pubsub.instance_.subscribe(eventName, eventListener);
         }
     };
 
     ytwp.main = function() {
-        ytwp.initLogging();
         try {
             ytwp.registerYoutubeListeners();
         } catch(e) {
-            ytwp.error("Could not hook yt.pubsub");
+            ytwp.error("Could not hook yt.pubsub", e);
         }
+        ytwp.event.html5PlayerFix();
     };
 
     ytwp.main();
+    
 })(unsafeWindow);
