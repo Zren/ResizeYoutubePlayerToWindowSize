@@ -6,7 +6,7 @@ Moves the video to the top of the website and resizes it to the screen size. A s
 
 * **GreasyFork:** https://greasyfork.org/scripts/811-resize-yt-to-window-size
 * **OpenUserJS.org:** https://openuserjs.org/scripts/zren/httpxshade.ca/Resize_YT_To_Window_Size
-* **Userscripts.org:** http://userscripts.org:8080/scripts/show/153699
+* **Userscripts.org:** http://userscripts-mirror.org/scripts/show/153699
 
 ## License
 

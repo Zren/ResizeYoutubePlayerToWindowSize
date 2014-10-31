@@ -15,7 +15,7 @@
 // Github:          https://github.com/Zren/ResizeYoutubePlayerToWindowSize
 // GreasyFork:      https://greasyfork.org/scripts/811-resize-yt-to-window-size
 // OpenUserJS.org:  https://openuserjs.org/scripts/zren/Resize_YT_To_Window_Size
-// Userscripts.org: http://userscripts.org:8080/scripts/show/153699
+// Userscripts.org: http://userscripts-mirror.org/scripts/show/153699
 
 (function (window) {
     "use strict";
