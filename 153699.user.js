@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.42
+// @version         1.43
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -312,7 +312,6 @@
                     scriptBodyClassSelector + ' #player',
                     scriptBodyClassSelector + ' #movie_player',
                     scriptBodyClassSelector + ' #player-mole-container',
-                    scriptBodyClassSelector + ' .html5-video-content',
                     scriptBodyClassSelector + ' .html5-main-video',
                 ],
                 {
@@ -328,7 +327,6 @@
              ytwp.style.appendRule(
                 [
                     scriptBodyClassSelector + ' #player',
-                    scriptBodyClassSelector + ' .html5-video-content',
                     scriptBodyClassSelector + ' .html5-main-video',
                 ],
                 {
@@ -438,14 +436,17 @@
         },
         html5PlayerFix: function() {
             ytwp.log('html5PlayerFix');
-            if (uw.ytplayer.config.args.fexp.match(/\b(931983|931972)\b/)) {
-                ytcenter_player_experiments.remove("931983", uw.ytplayer.config);
-                ytcenter_player_experiments.remove("931972", uw.ytplayer.config);
+            // Since we have to reload the player anyways, might as well set some useful settings.
+            uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
+            
+            // https://github.com/YePpHa/YouTubeCenter/issues/1083
+            if (!ytwp.ytapp || ytwp.ytapp.g.ba === "detailpage") {
+                ytwp.log('rerunning ytplayer.load()');
+                // Next 2 lines are equivalent to: ytplayer.load();
+                ytwp.ytapp = yt.player.Application.create("player-api", ytplayer.config);
+                ytplayer.config.loaded = true;
 
-                if (ytplayer.config.loaded) {
-                    ytwp.log('rerunning ytplayer.load()');
-                    ytplayer.load();
-                }
+                ytwp.ytapp.g.ba = "asdf";
             }
         }
     };
@@ -505,8 +506,10 @@
             ytwp.error("Could not hook yt.pubsub", e);
         }
         ytwp.event.html5PlayerFix();
+        ytwp.event.init();
+        ytwp.event.onWatchInit();
     };
 
     ytwp.main();
     
-})(unsafeWindow);
+})(typeof unsafeWindow !== 'undefined' ? unsafeWindow : window);

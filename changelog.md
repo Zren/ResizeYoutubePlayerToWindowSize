@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 1.43 - Oct 30, 2014
+
+* Fix HTML5 progress bar not resizing. Thanks to [YePpHa](https://github.com/YePpHa/) for re-solving this bug in YoutubeCenter [Issue #1083](https://github.com/YePpHa/YouTubeCenter/issues/1083).
+* Completely hide the Player controls on the HTML5 player since we're reloading the player anyways.
+
 ## 1.42 - Aug 18, 2014
 
 * Fix HTML5 progress bar not resizing. Thanks to [YePpHa](https://github.com/YePpHa/) for solving this bug in YoutubeCenter. [[Screenshot](https://i.imgur.com/FcLISVq.png)]
