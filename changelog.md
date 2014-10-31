@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 1.44 - Oct 31, 2014
+
+* Fix a second video player getting loaded when running this script along Youtube Center, this reintroduces the progressbar bug for users with YT Center. Please use the [dev build of YT Center](https://github.com/YePpHa/YouTubeCenter/raw/master/dist/YouTubeCenter.user.js) until the author pushes the fix to the main build.
+
 ## 1.43 - Oct 30, 2014
 
 * Fix HTML5 progress bar not resizing. Thanks to [YePpHa](https://github.com/YePpHa/) for re-solving this bug in YoutubeCenter [Issue #1083](https://github.com/YePpHa/YouTubeCenter/issues/1083).

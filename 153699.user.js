@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.43
+// @version         1.44
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -14,7 +14,7 @@
 
 // Github:          https://github.com/Zren/ResizeYoutubePlayerToWindowSize
 // GreasyFork:      https://greasyfork.org/scripts/811-resize-yt-to-window-size
-// OpenUserJS.org:  https://openuserjs.org/scripts/zren/httpxshade.ca/Resize_YT_To_Window_Size
+// OpenUserJS.org:  https://openuserjs.org/scripts/zren/Resize_YT_To_Window_Size
 // Userscripts.org: http://userscripts.org:8080/scripts/show/153699
 
 (function (window) {
@@ -154,54 +154,6 @@
     JSStyleSheet.prototype.injectIntoHeader = function(injectedStyleId, stylesheet) {
         JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
     };
-
-    //---
-    // Credits to https://github.com/YePpHa/YouTubeCenter/
-    // Needed to fix the HTML5 Player progress bar.
-    // https://github.com/YePpHa/YouTubeCenter/compare/782812243a99e33e07fe443ef71d127d0917ed81...a81856b974603a1645e567ee6ac91e6856c529c8
-    var ytcenter_player_experiments = (function(){
-        function add(exp, config) {
-            var cfg = getConfig(config);
-            if (!has(exp, config)) {
-                cfg.args.fexp += "," + exp;
-            }
-        }
-        function remove(exp, config) {
-            var cfg = getConfig(config);
-            if (cfg && cfg.args && cfg.args.fexp) {
-                var e = cfg.args.fexp.split(","), i, a = [];
-                for (i = 0; i < e.length; i++) {
-                    if (exp !== e[i]) {
-                        a.push(e[i]);
-                    }
-                }
-                cfg.args.fexp = a.join(",");
-            }
-        }
-        function has(exp, config) {
-            var cfg = getConfig(config);
-            if (cfg && cfg.args && typeof cfg.fexp === "string") {
-                var e = cfg.args.fexp.split(","), i, a = [];
-                for (i = 0; i < e.length; i++) {
-                    if (exp === e[i]) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        function clear(config) {
-            var cfg = getConfig(config);
-            if (cfg && cfg.args) {
-                cfg.args.fexp = "";
-            }
-        }
-        function getConfig(config) {
-            return config || ytcenter.player.config.args;
-        }
-        
-        return { add: add, remove: remove, has: has, clear: clear };
-    })();
 
     //--- Constants
     var scriptShortName = 'ytwp'; // YT Window Player
@@ -440,7 +392,7 @@
             uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
             
             // https://github.com/YePpHa/YouTubeCenter/issues/1083
-            if (!ytwp.ytapp || ytwp.ytapp.g.ba === "detailpage") {
+            if (!uw.ytcenter && (!ytwp.ytapp || ytwp.ytapp.g.ba === "detailpage")) {
                 ytwp.log('rerunning ytplayer.load()');
                 // Next 2 lines are equivalent to: ytplayer.load();
                 ytwp.ytapp = yt.player.Application.create("player-api", ytplayer.config);
