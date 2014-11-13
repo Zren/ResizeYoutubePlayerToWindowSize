@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.44
+// @version         1.45
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -377,6 +377,7 @@
             ytwp.pageReady = true;
         },
         onDispose: function() {
+            window.removeEventListener('click', ytwp.event.onWindowClick);
             ytwp.initialized = false;
             ytwp.pageReady = false;
             ytwp.isWatchPage = false;
@@ -392,15 +393,38 @@
             uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
             
             // https://github.com/YePpHa/YouTubeCenter/issues/1083
-            if (!uw.ytcenter && (!ytwp.ytapp || ytwp.ytapp.g.ba === "detailpage")) {
+            if (!uw.ytcenter && (!ytwp.ytapp || (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ca === "detailpage"))) {
                 ytwp.log('rerunning ytplayer.load()');
                 // Next 2 lines are equivalent to: ytplayer.load();
                 ytwp.ytapp = yt.player.Application.create("player-api", ytplayer.config);
                 ytplayer.config.loaded = true;
 
-                ytwp.ytapp.g.ba = "asdf";
+                ytwp.ytapp.g.ca = 'GIBBERISH'; // If not set to 'detailpage' it will scale the progressbar/annotations.
+                ytwp.log('ytwp.ytapp.g.ca: "detailpage" => "GIBBERISH"');
+                // We need to hook click events to change it back to 'detailpage' so that 
+                // it loads more than just the next video in the player (eg: the video description / comments).
+                window.addEventListener('click', ytwp.event.onWindowClick, true);
             }
-        }
+        },
+        onWindowClick: function(event) {
+            function isClickingLink(el) {
+                while (el) {
+                    if (el.tagName === 'A' && el.href) { // is anchor tag
+                        return true;
+                    }
+                    el = el.parentNode;
+                }    
+                return false;
+            }
+            
+            var el = event.target;
+            if (isClickingLink(event.target)) {
+                if (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ca === 'GIBBERISH') {
+                    ytwp.ytapp.g.ca = 'detailpage';
+                    ytwp.log('ytwp.ytapp.g.ca: "GIBBERISH" => "detailpage"');
+                }
+            }
+        },
     };
 
 

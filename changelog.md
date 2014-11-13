@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 1.45 - Nov 12, 2014
+
+* Re fix the progress bar scaling issue.
+* Undo the HTML5 player fix before navigating to a new video in order to also load the video description / comments.
+
 ## 1.44 - Oct 31, 2014
 
 * Fix a second video player getting loaded when running this script along Youtube Center, this reintroduces the progressbar bug for users with YT Center. Please use the [dev build of YT Center](https://github.com/YePpHa/YouTubeCenter/raw/master/dist/YouTubeCenter.user.js) until the author pushes the fix to the main build.
