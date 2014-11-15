@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.45
+// @version         1.46
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -420,8 +420,8 @@
             var el = event.target;
             if (isClickingLink(event.target)) {
                 if (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ca === 'GIBBERISH') {
-                    ytwp.ytapp.g.ca = 'detailpage';
-                    ytwp.log('ytwp.ytapp.g.ca: "GIBBERISH" => "detailpage"');
+                    //ytwp.ytapp.g.ca = 'detailpage';
+                    //ytwp.log('ytwp.ytapp.g.ca: "GIBBERISH" => "detailpage"');
                 }
             }
         },

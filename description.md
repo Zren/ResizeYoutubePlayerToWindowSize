@@ -23,7 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 1.45 - Nov 12, 2014
+## 1.46 - Nov 15, 2014
 
-* Re fix the progress bar scaling issue.
-* Undo the HTML5 player fix before navigating to a new video in order to also load the video description / comments.
+* Remote undoing the HTML5 player fix before navigating to a new video as it isn't needed.
