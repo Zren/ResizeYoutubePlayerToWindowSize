@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.46
+// @version         1.47
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -389,21 +389,27 @@
         },
         html5PlayerFix: function() {
             ytwp.log('html5PlayerFix');
-            // Since we have to reload the player anyways, might as well set some useful settings.
-            uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
             
             // https://github.com/YePpHa/YouTubeCenter/issues/1083
-            if (!uw.ytcenter && (!ytwp.ytapp || (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ca === "detailpage"))) {
+            if (!uw.ytcenter
+                && (!ytwp.ytapp || (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ba === "detailpage"))
+                && (uw.ytplayer && uw.ytplayer.config)
+                && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
+            ) {
                 ytwp.log('rerunning ytplayer.load()');
+                
+                // Since we have to reload the player anyways, might as well set some useful settings.
+                uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
+                
                 // Next 2 lines are equivalent to: ytplayer.load();
-                ytwp.ytapp = yt.player.Application.create("player-api", ytplayer.config);
-                ytplayer.config.loaded = true;
+                ytwp.ytapp = uw.yt.player.Application.create("player-api", uw.ytplayer.config);
+                uw.ytplayer.config.loaded = true;
 
-                ytwp.ytapp.g.ca = 'GIBBERISH'; // If not set to 'detailpage' it will scale the progressbar/annotations.
-                ytwp.log('ytwp.ytapp.g.ca: "detailpage" => "GIBBERISH"');
+                ytwp.ytapp.g.ba = 'GIBBERISH'; // If not set to 'detailpage' it will scale the progressbar/annotations.
+                ytwp.log('ytwp.ytapp.g.ba: "detailpage" => "GIBBERISH"');
                 // We need to hook click events to change it back to 'detailpage' so that 
                 // it loads more than just the next video in the player (eg: the video description / comments).
-                window.addEventListener('click', ytwp.event.onWindowClick, true);
+                //window.addEventListener('click', ytwp.event.onWindowClick, true);
             }
         },
         onWindowClick: function(event) {
@@ -419,9 +425,9 @@
             
             var el = event.target;
             if (isClickingLink(event.target)) {
-                if (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ca === 'GIBBERISH') {
-                    //ytwp.ytapp.g.ca = 'detailpage';
-                    //ytwp.log('ytwp.ytapp.g.ca: "GIBBERISH" => "detailpage"');
+                if (ytwp.ytapp && ytwp.ytapp.g && ytwp.ytapp.g.ba === 'GIBBERISH') {
+                    ytwp.ytapp.g.ba = 'detailpage';
+                    ytwp.log('ytwp.ytapp.g.ba: "GIBBERISH" => "detailpage"');
                 }
             }
         },

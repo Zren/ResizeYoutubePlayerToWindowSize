@@ -23,6 +23,7 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 1.46 - Nov 15, 2014
+## 1.47 - Dev 11, 2014
 
-* Remote undoing the HTML5 player fix before navigating to a new video as it isn't needed.
+* Fix bug when visiting a non /watch page first before navigation to the watch video page.
+* Update to the new "detailpage" variable for the HTML5 fix.
