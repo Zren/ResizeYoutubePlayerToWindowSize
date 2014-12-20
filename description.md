@@ -23,7 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 1.47 - Dev 11, 2014
+## 1.48 - Dec 20, 2014
 
-* Fix bug when visiting a non /watch page first before navigation to the watch video page.
 * Update to the new "detailpage" variable for the HTML5 fix.
