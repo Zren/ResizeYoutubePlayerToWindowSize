@@ -23,6 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 1.48 - Dec 20, 2014
+## 1.49 - Jan 9, 2015
 
 * Update to the new "detailpage" variable for the HTML5 fix.

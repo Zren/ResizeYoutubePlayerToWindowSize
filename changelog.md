@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 1.49 - Jan 9, 2015
+
+* Update to the new "detailpage" variable for the HTML5 fix.
+
 ## 1.48 - Dec 20, 2014
 
 * Update to the new "detailpage" variable for the HTML5 fix.
