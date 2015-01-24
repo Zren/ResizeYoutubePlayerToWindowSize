@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.49
+// @version         1.50
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -187,6 +187,41 @@
             return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
         }
     };
+
+    var Html5PlayerFix = {
+        YTRect: null,
+        moviePlayer: null,
+        moviePlayerElement: null,
+        app: null,
+    };
+    Html5PlayerFix.getPlayerRect = function() {
+        return new Html5PlayerFix.YTRect(Html5PlayerFix.moviePlayerElement.clientWidth, Html5PlayerFix.moviePlayerElement.clientHeight);
+    };
+    Html5PlayerFix.isFixed = function(app) {
+        return app.o.ub === Html5PlayerFix.getPlayerRect;
+    };
+    Html5PlayerFix.shouldFix = function() {
+        return ytplayer.config.html5 && (Html5PlayerFix.app === null || !Html5PlayerFix.isFixed(Html5PlayerFix.app));
+    }
+    Html5PlayerFix.update = function(app) {
+        try {
+            if (Html5PlayerFix.app === null || Html5PlayerFix.app !== app) {
+                Html5PlayerFix.app = app;
+                Html5PlayerFix.moviePlayer = Html5PlayerFix.app.o;
+                Html5PlayerFix.moviePlayerElement = Html5PlayerFix.moviePlayer.element;
+                Html5PlayerFix.YTRect = Html5PlayerFix.moviePlayer.ub().constructor;
+            }
+            if (Html5PlayerFix.app && !Html5PlayerFix.isFixed(Html5PlayerFix.app)) {
+                Html5PlayerFix.moviePlayer.ub = Html5PlayerFix.getPlayerRect;
+                Html5PlayerFix.moviePlayer.hb = Html5PlayerFix.getPlayerRect;
+                Html5PlayerFix.moviePlayer.pj();
+            }
+        } catch (e) {
+            Html5PlayerFix.app = null;
+            console.log('[ytwp] ', 'HTML5 Player has changed', e);
+        }
+    };
+    ytwp.Html5PlayerFix = Html5PlayerFix;
 
     ytwp.event = {
         init: function() {
@@ -389,10 +424,10 @@
         },
         html5PlayerFix: function() {
             ytwp.log('html5PlayerFix');
-            
+
             // https://github.com/YePpHa/YouTubeCenter/issues/1083
             if (!uw.ytcenter
-                && (!ytwp.ytapp || (ytwp.ytapp && ytwp.ytapp.j && ytwp.ytapp.j.ca === "detailpage"))
+                && (!ytwp.ytapp || ytwp.Html5PlayerFix.shouldFix())
                 && (uw.ytplayer && uw.ytplayer.config)
                 && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
             ) {
@@ -405,11 +440,7 @@
                 ytwp.ytapp = uw.yt.player.Application.create("player-api", uw.ytplayer.config);
                 uw.ytplayer.config.loaded = true;
 
-                ytwp.ytapp.j.ca = 'GIBBERISH'; // If not set to 'detailpage' it will scale the progressbar/annotations.
-                ytwp.log('ytwp.ytapp.j.ca: "detailpage" => "GIBBERISH"');
-                // We need to hook click events to change it back to 'detailpage' so that 
-                // it loads more than just the next video in the player (eg: the video description / comments).
-                //window.addEventListener('click', ytwp.event.onWindowClick, true);
+                ytwp.Html5PlayerFix.update(ytwp.ytapp);
             }
         },
         onWindowClick: function(event) {

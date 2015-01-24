@@ -23,6 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 1.49 - Jan 9, 2015
+## 1.50 - Jan 24, 2015
 
-* Update to the new "detailpage" variable for the HTML5 fix.
+* New HTML5 player fix method which should fix any weird video => video navigation bugs.
