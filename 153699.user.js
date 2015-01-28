@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         1.50
+// @version         1.51
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -198,10 +198,26 @@
         return new Html5PlayerFix.YTRect(Html5PlayerFix.moviePlayerElement.clientWidth, Html5PlayerFix.moviePlayerElement.clientHeight);
     };
     Html5PlayerFix.isFixed = function(app) {
-        return app.o.ub === Html5PlayerFix.getPlayerRect;
+        return app.o.tb === Html5PlayerFix.getPlayerRect;
+    };
+    Html5PlayerFix.validateVersion = function(app) {
+        return typeof app === 'object' &&
+            typeof app.o === 'object' &&
+            typeof app.o.tb === 'function' && app.o.toString() === 'function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?R7.J.tb.call(this):L5(a,!0)}' && 
+            typeof app.o.hb === 'function' && app.o.toString() === 'function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?R7.J.hb.call(this):L5(a)}' && 
+            typeof app.o.jk === 'function' && app.o.jk.toString() === 'function (){L7.J.jk.call(this);N7(this,this.hb())}';
     };
     Html5PlayerFix.shouldFix = function() {
-        return ytplayer.config.html5 && (Html5PlayerFix.app === null || !Html5PlayerFix.isFixed(Html5PlayerFix.app));
+        if (!ytplayer.config.html5)
+            return false;
+
+        if (Html5PlayerFix.app === null)
+            return true;
+
+        if (!Html5PlayerFix.validateVersion(Html5PlayerFix.app))
+            return false;
+
+        return !Html5PlayerFix.isFixed(Html5PlayerFix.app);
     }
     Html5PlayerFix.update = function(app) {
         try {
@@ -209,12 +225,12 @@
                 Html5PlayerFix.app = app;
                 Html5PlayerFix.moviePlayer = Html5PlayerFix.app.o;
                 Html5PlayerFix.moviePlayerElement = Html5PlayerFix.moviePlayer.element;
-                Html5PlayerFix.YTRect = Html5PlayerFix.moviePlayer.ub().constructor;
+                Html5PlayerFix.YTRect = Html5PlayerFix.moviePlayer.tb().constructor;
             }
             if (Html5PlayerFix.app && !Html5PlayerFix.isFixed(Html5PlayerFix.app)) {
-                Html5PlayerFix.moviePlayer.ub = Html5PlayerFix.getPlayerRect;
+                Html5PlayerFix.moviePlayer.tb = Html5PlayerFix.getPlayerRect;
                 Html5PlayerFix.moviePlayer.hb = Html5PlayerFix.getPlayerRect;
-                Html5PlayerFix.moviePlayer.pj();
+                Html5PlayerFix.moviePlayer.jk();
             }
         } catch (e) {
             Html5PlayerFix.app = null;
