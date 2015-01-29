@@ -23,6 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 1.51 - Jan 27, 2015
+## 52 - Jan 28, 2015
 
-* Update HTML5 fix variables and check in case things have changed.
+* Search with regex for function that need replacing in HTML5 player.
