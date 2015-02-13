@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 53 - Feb 12, 2015
+
+* Fix double audio due to not doing a null check.
+* Hide `Skip navigation` text that overlays the video.
+
 ## 52 - Jan 28, 2015
 
 * Search with regex for function that need replacing in HTML5 player.

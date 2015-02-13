@@ -23,6 +23,7 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 52 - Jan 28, 2015
+## 53 - Feb 12, 2015
 
-* Search with regex for function that need replacing in HTML5 player.
+* Fix double audio due to not doing a null check.
+* Hide `Skip navigation` text that overlays the video.

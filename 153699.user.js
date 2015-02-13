@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         52
+// @version         53
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -198,6 +198,9 @@
         return new Html5PlayerFix.YTRect(Html5PlayerFix.moviePlayerElement.clientWidth, Html5PlayerFix.moviePlayerElement.clientHeight);
     };
     Html5PlayerFix.update = function(app) {
+        if (!app)
+            return;
+
         var moviePlayerElement = document.getElementById('movie_player');
         var moviePlayer = null;
         var moviePlayerKey = null;
@@ -422,6 +425,8 @@
 
 
             //--- Fix Other Possible Style Issues
+
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .skip-nav', 'display', 'none');
 
             //--- Whitespace Leftover From Moving The Video
             ytwp.style.appendRule(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
