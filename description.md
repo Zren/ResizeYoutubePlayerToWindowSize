@@ -23,7 +23,8 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 53 - Feb 12, 2015
+## 53 - Feb 22, 2015
 
-* Fix double audio due to not doing a null check.
-* Hide `Skip navigation` text that overlays the video.
+* Fix double audio bug after clicking a video on the homepage/search page.
+* No longer reloading the html5 player to get the `playerInstance`. We are instead creating an unused dummy `playerInstance` to get the reference to it's constructor, which has a static list of the list of active `playerInstances`.
+* Reattempt to subscribe to `pubsub` events 1 second later if we get an error.

@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         53
+// @version         54
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -190,12 +190,80 @@
 
     var Html5PlayerFix = {
         YTRect: null,
+        YTApplication: null,
+        playerInstances: null,
         moviePlayer: null,
         moviePlayerElement: null,
         app: null,
     };
     Html5PlayerFix.getPlayerRect = function() {
         return new Html5PlayerFix.YTRect(Html5PlayerFix.moviePlayerElement.clientWidth, Html5PlayerFix.moviePlayerElement.clientHeight);
+    };
+    Html5PlayerFix.getApplicationClass = function() {
+        if (Html5PlayerFix.YTApplication === null) {
+            var testEl = document.createElement('div');
+            var testAppInstance = uw.yt.player.Application.create(testEl, {});
+            Html5PlayerFix.YTApplication = testAppInstance.constructor;
+
+            // Cleanup testAppInstance
+            var playerInstances = Html5PlayerFix.getPlayerInstances();
+
+            var testAppInstanceKey = null;
+            Object.keys(playerInstances).forEach(function(key) {
+                if (playerInstances[key] === testAppInstance) {
+                    testAppInstanceKey = key;
+                }
+            });
+            testAppInstance.dispose();
+            delete playerInstances[testAppInstanceKey];
+            
+        }
+
+
+        return Html5PlayerFix.YTApplication;
+    };
+    Html5PlayerFix.getPlayerInstances = function() {
+        if (Html5PlayerFix.playerInstances === null) {
+            var YTApplication =  Html5PlayerFix.getApplicationClass();
+            if (YTApplication === null)
+                return null;
+
+            // Use yt.player.Application.create to find the playerInstancesKey.
+            // function (a,b){try{var c=U7.A(a);if(U7.j[c]){try{U7.j[c].dispose()}catch(d){Sf(d)}U7.j[c]=null}var e=new U7(a,b);ti(e,function(){U7.j[c]=null});return U7.j[c]=e}catch(g){throw Sf(g),g;}}
+            var appCreateRegex = /^^function \(\w+,\w+\)\{try\{var \w+=\w+\.\w+\(\w+\);if\(\w+\.(\w+)\[\w+\]\)/;
+            var fnString = yt.player.Application.create.toString();
+            var m = appCreateRegex.exec(fnString);
+            if (m) {
+                var playerInstancesKey = m[1];
+                Html5PlayerFix.playerInstances = YTApplication[playerInstancesKey];
+            } else {
+                ytwp.error('Error trying to find playerInstancesKey.', fnString);
+            }
+            Html5PlayerFix.playerInstances = YTApplication.j;
+        }
+
+        return Html5PlayerFix.playerInstances;
+    };
+    Html5PlayerFix.getPlayerInstance = function() {
+        if (!ytwp.ytapp) {
+            var playerInstances = Html5PlayerFix.getPlayerInstances();
+            ytwp.log('playerInstances', playerInstances);
+            var appInstance = null;
+            var appInstanceKey = null;
+            Object.keys(playerInstances).forEach(function(key) {
+                appInstanceKey = key;
+                appInstance = playerInstances[key];
+            });
+            ytwp.ytapp = appInstance;
+        }
+        return ytwp.ytapp;
+    };
+    Html5PlayerFix.autohideControls = function() {
+        var moviePlayerElement = document.getElementById('movie_player');
+        // ytwp.log(moviePlayerElement.classList);
+        jQuery.removeClass(moviePlayerElement, 'autohide-controlbar autominimize-controls-aspect autohide-controls-fullscreenonly autohide-controls hide-controls-when-cued autominimize-progress-bar autominimize-progress-bar-fullscreenonly autohide-controlbar-fullscreenonly autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect');
+        jQuery.addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
+        // ytwp.log(moviePlayerElement.classList);
     };
     Html5PlayerFix.update = function(app) {
         if (!app)
@@ -466,9 +534,11 @@
             ytwp.pageReady = true;
         },
         onDispose: function() {
+            ytwp.log('onDispose');
             ytwp.initialized = false;
             ytwp.pageReady = false;
             ytwp.isWatchPage = false;
+            ytwp.ytapp = null;
         },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.
@@ -484,17 +554,26 @@
                 && (uw.ytplayer && uw.ytplayer.config)
                 && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
             ) {
+                ytwp.ytapp = Html5PlayerFix.getPlayerInstance();
+                return;
+                
+                if (document.querySelectorAll('#movie_player').length > 0)
+                    return;
+                
                 ytwp.log('rerunning ytplayer.load()');
                 
                 // Since we have to reload the player anyways, might as well set some useful settings.
                 uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
                 
                 // Next 2 lines are equivalent to: ytplayer.load();
+                ytwp.log(document.querySelectorAll('#movie_player'));
                 ytwp.ytapp = uw.yt.player.Application.create("player-api", uw.ytplayer.config);
+                ytwp.log(document.querySelectorAll('#movie_player'));
                 uw.ytplayer.config.loaded = true;
             }
 
-            ytwp.Html5PlayerFix.update(ytwp.ytapp);
+            Html5PlayerFix.update(ytwp.ytapp);
+            Html5PlayerFix.autohideControls();
         },
     };
 
@@ -551,6 +630,7 @@
             ytwp.registerYoutubeListeners();
         } catch(e) {
             ytwp.error("Could not hook yt.pubsub", e);
+            setTimeout(ytwp.main, 1000);
         }
         ytwp.event.html5PlayerFix();
         ytwp.event.init();
