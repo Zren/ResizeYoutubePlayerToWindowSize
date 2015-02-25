@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         54
+// @version         55
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -260,6 +260,7 @@
     };
     Html5PlayerFix.autohideControls = function() {
         var moviePlayerElement = document.getElementById('movie_player');
+        if (!moviePlayerElement) return;
         // ytwp.log(moviePlayerElement.classList);
         jQuery.removeClass(moviePlayerElement, 'autohide-controlbar autominimize-controls-aspect autohide-controls-fullscreenonly autohide-controls hide-controls-when-cued autominimize-progress-bar autominimize-progress-bar-fullscreenonly autohide-controlbar-fullscreenonly autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect');
         jQuery.addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
@@ -274,12 +275,12 @@
         var moviePlayerKey = null;
 
         // function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?S7.J.wb.call(this):N5(a,!0)}
-        var clientRectFn1Regex = /^function \(\)\{var a=this\.app\.\w+\(\);return"detailpage"!=a\.\w+\|\|a\.\w+\?\w+\.\w+\.\w+\.call\(this\):\w+\(a,!0\)\}$/;
+        var clientRectFn1Regex = /^(function \(\)\{var a=this\.app\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a,!0\)\})$/;
         var clientRectFn1 = null;
         var clientRectFn1Key = null;
 
         // function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?R7.J.hb.call(this):L5(a)}
-        var clientRectFn2Regex = /^function \(\)\{var a=this\.app\.\w+\(\);return"detailpage"!=a\.\w+\|\|a\.\w+\?\w+\.\w+\.\w+\.call\(this\):\w+\(a\)\}$/;
+        var clientRectFn2Regex = /^(function \(\)\{var a=this\.app\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a\)\})$/;
         var clientRectFn2 = null;
         var clientRectFn2Key = null;
 

@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 55 - Feb 24, 2015
+
+* Update HTML5 fix regexes.
+
+
 ## 54 - Feb 23, 2015
 
 * Fix double audio bug after clicking a video on the homepage/search page.
