@@ -23,12 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 55 - Feb 24, 2015
+## 56 - Mar 2, 2015
 
 * Update HTML5 fix regexes.
-
-## 54 - Feb 23, 2015
-
-* Fix double audio bug after clicking a video on the homepage/search page.
-* No longer reloading the html5 player to get the `playerInstance`. We are instead creating an unused dummy `playerInstance` to get the reference to it's constructor, which has a static list of the list of active `playerInstances`.
-* Reattempt to subscribe to `pubsub` events 1 second later if we get an error.

@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         55
+// @version         56
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -274,13 +274,14 @@
         var moviePlayer = null;
         var moviePlayerKey = null;
 
-        // function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?S7.J.wb.call(this):N5(a,!0)}
-        var clientRectFn1Regex = /^(function \(\)\{var a=this\.app\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a,!0\)\})$/;
+        // function (){var a=this.j.W();return"detailpage"!=a.ja||a.hb?F8.K.wb.call(this):A6(a,!0)}
+        var clientRectFn1Regex = /^(function \(\)\{var a=this\.\w+\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a,!0\)\})$/;
         var clientRectFn1 = null;
         var clientRectFn1Key = null;
 
+
         // function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?R7.J.hb.call(this):L5(a)}
-        var clientRectFn2Regex = /^(function \(\)\{var a=this\.app\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a\)\})$/;
+        var clientRectFn2Regex = /^(function \(\)\{var a=this\.\w+\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a\)\})$/;
         var clientRectFn2 = null;
         var clientRectFn2Key = null;
 
