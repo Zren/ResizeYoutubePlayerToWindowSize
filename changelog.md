@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 56 - Mar 16, 2015
+
+* Update HTML5 fix regexes.
+
 ## 56 - Mar 2, 2015
 
 * Update HTML5 fix regexes.

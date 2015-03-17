@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         56
+// @version         57
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -124,12 +124,10 @@
             selector = selector.join(',\n');
         var newStyle;
         if (!isUndefined(k) && !isUndefined(v) && isStringType(k)) { // v can be any type (as we stringify it).
-            // appendRule('#blarg', 'display', 'none');
             var d = {};
             d[k] = v;
             newStyle = this.buildRule(selector, d);
         } else if (!isUndefined(k) && isUndefined(v) && isObjectType(k)) {
-            // appendRule('#blarg', {'display': 'none'});
             newStyle = this.buildRule(selector, k);
         } else {
             // Invalid Arguments
@@ -230,7 +228,7 @@
 
             // Use yt.player.Application.create to find the playerInstancesKey.
             // function (a,b){try{var c=U7.A(a);if(U7.j[c]){try{U7.j[c].dispose()}catch(d){Sf(d)}U7.j[c]=null}var e=new U7(a,b);ti(e,function(){U7.j[c]=null});return U7.j[c]=e}catch(g){throw Sf(g),g;}}
-            var appCreateRegex = /^^function \(\w+,\w+\)\{try\{var \w+=\w+\.\w+\(\w+\);if\(\w+\.(\w+)\[\w+\]\)/;
+            var appCreateRegex = /^function \(\w+,\w+\)\{try\{var \w+=\w+\.\w+\(\w+\);if\(\w+\.(\w+)\[\w+\]\)/;
             var fnString = yt.player.Application.create.toString();
             var m = appCreateRegex.exec(fnString);
             if (m) {
@@ -266,7 +264,15 @@
         jQuery.addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
         // ytwp.log(moviePlayerElement.classList);
     };
-    Html5PlayerFix.update = function(app) {
+    Html5PlayerFix.update = function() {
+        if (!Html5PlayerFix.playerInstances)
+            return;
+        for (var key in Html5PlayerFix.playerInstances) {
+            var playerInstance = Html5PlayerFix.playerInstances[key];
+            Html5PlayerFix.updatePlayerInstance(playerInstance);
+        }
+    };
+    Html5PlayerFix.updatePlayerInstance = function(app) {
         if (!app)
             return;
 
@@ -274,21 +280,15 @@
         var moviePlayer = null;
         var moviePlayerKey = null;
 
-        // function (){var a=this.j.W();return"detailpage"!=a.ja||a.hb?F8.K.wb.call(this):A6(a,!0)}
-        var clientRectFn1Regex = /^(function \(\)\{var a=this\.\w+\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a,!0\)\})$/;
+        // function (){var a=this.j.W();return"detailpage"!=a.ka||a.fb?P8.K.vb.call(this):this.ub(!0)}
+        var clientRectFn1Regex = /^(function \(\)\{var a=this\.\w+\.\w+\(\);return"detailpage"!=a\.\w+).+(:this\.\w+\(!0\)\})$/;
         var clientRectFn1 = null;
         var clientRectFn1Key = null;
 
-
-        // function (){var a=this.app.R();return"detailpage"!=a.da||a.Za?R7.J.hb.call(this):L5(a)}
-        var clientRectFn2Regex = /^(function \(\)\{var a=this\.\w+\.\w+\(\);return"detailpage"!=a\.\w+).+(:\w+\(a\)\})$/;
+        // function (a){var b=this.j.W(),c=P8.K.ub.call(this);a||"detailpage"!=b.ka||b.fb||b.experiments.H||(c.height+=30);return c}
+        var clientRectFn2Regex = /^(function \(a\)\{var b=this\.\w+\.\w+\(\)).*("detailpage"!=).*(return \w})$/;
         var clientRectFn2 = null;
         var clientRectFn2Key = null;
-
-        // function (){L7.J.jk.call(this);N7(this,this.hb())}
-        // var clientRectUpdateFnRegex = /^function \(\)\{\w+\.\w+\.\w+\.call\(this\);\w+\(this,this\.\w+\(\)\)\}$/;
-        // var clientRectUpdateFn = null;
-        // var clientRectUpdateFnKey = null;
 
         var fnAlreadyReplacedCount = 0;
 
@@ -309,9 +309,6 @@
                         } else if (clientRectFn2 === null && clientRectFn2Regex.test(fnString)) {
                             clientRectFn2 = val2;
                             clientRectFn2Key = key2;
-                        // } else if (clientRectUpdateFn === null && clientRectUpdateFnRegex.test(fnString)) {
-                        //     clientRectUpdateFn = val2;
-                        //     clientRectUpdateFnKey = key2;
                         } else if (val2 === Html5PlayerFix.getPlayerRect) {
                             fnAlreadyReplacedCount += 1;
                         } else {
@@ -326,12 +323,11 @@
             return;
         }
 
-        if (moviePlayer === null || clientRectFn1 === null || clientRectFn2 === null /*|| clientRectUpdateFn === null*/) {
-            console.log('[ytwp] ', '[Error]', 'HTML5 Player has changed');
+        if (moviePlayer === null || clientRectFn1 === null || clientRectFn2 === null) {
+            console.log('[ytwp] ', '[Error]', 'HTML5 Player has changed or there\'s multiple playerInstances and this one has been destroyed.');
             console.log('moviePlayer', moviePlayerKey, moviePlayer);
             console.log('clientRectFn1', clientRectFn1Key, clientRectFn1);
             console.log('clientRectFn2', clientRectFn2Key, clientRectFn2);
-            // console.log('clientRectUpdateFn', clientRectUpdateFnKey, clientRectUpdateFn);
             console.log('fnAlreadyReplacedCount', fnAlreadyReplacedCount);
             return;
         }
@@ -348,15 +344,17 @@
     ytwp.event = {
         init: function() {
             ytwp.log('init');
-            if (ytwp.initialized) return;
-
-            ytwp.isWatchPage = ytwp.util.isWatchUrl();
-            if (!ytwp.isWatchPage) return;
-
-            ytwp.event.initStyle();
-            ytwp.event.initScroller();
-            ytwp.initialized = true;
-            ytwp.pageReady = false;
+            if (!ytwp.initialized) {
+                ytwp.isWatchPage = ytwp.util.isWatchUrl();
+                if (ytwp.isWatchPage) {
+                    ytwp.event.initStyle();
+                    ytwp.event.initScroller();
+                    ytwp.initialized = true;
+                    ytwp.pageReady = false;
+                }
+            }
+            ytwp.event.onWatchInit();
+            ytwp.event.html5PlayerFix();
         },
         initScroller: function() {
             // Register listener & Call it now.
@@ -574,36 +572,30 @@
                 uw.ytplayer.config.loaded = true;
             }
 
-            Html5PlayerFix.update(ytwp.ytapp);
+            Html5PlayerFix.update();
             Html5PlayerFix.autohideControls();
         },
+
     };
 
 
     ytwp.pubsubListeners = {
         'init': function() { // Not always called
             ytwp.event.init();
-            ytwp.event.onWatchInit();
-            ytwp.event.html5PlayerFix();
         },
         'init-watch': function() { // Not always called
             ytwp.event.init();
-            ytwp.event.onWatchInit();
-            ytwp.event.html5PlayerFix();
         },
         'player-added': function() { // Not always called
             // Usually called after init-watch, however this is called before init when going from channel -> watch page.
             // The init event is when the body element resets all it's classes.
             ytwp.event.init();
-            ytwp.event.onWatchInit();
-            ytwp.event.html5PlayerFix();
         },
         // 'player-resize': function() {},
         // 'player-playback-start': function() {},
         'appbar-guide-delay-load': function() {
             // Listen to a later event that is always called in case the others are missed.
             ytwp.event.init();
-            ytwp.event.onWatchInit();
 
             // Channel -> /watch
             if (ytwp.util.isWatchUrl())
@@ -634,9 +626,7 @@
             ytwp.error("Could not hook yt.pubsub", e);
             setTimeout(ytwp.main, 1000);
         }
-        ytwp.event.html5PlayerFix();
         ytwp.event.init();
-        ytwp.event.onWatchInit();
     };
 
     ytwp.main();
