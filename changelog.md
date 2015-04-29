@@ -1,6 +1,10 @@
 <h3>Changelog</h3>
 
-## 56 - Mar 16, 2015
+## 58 - Apr 29, 2015
+
+* Hide the #placeholder-player element.
+
+## 57 - Mar 16, 2015
 
 * Update HTML5 fix regexes.
 

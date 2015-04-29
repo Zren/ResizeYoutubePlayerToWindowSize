@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         57
+// @version         58
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -493,7 +493,7 @@
 
 
             //--- Fix Other Possible Style Issues
-
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #placeholder-player', 'display', 'none');
             ytwp.style.appendRule(scriptBodyClassSelector + ' .skip-nav', 'display', 'none');
 
             //--- Whitespace Leftover From Moving The Video
