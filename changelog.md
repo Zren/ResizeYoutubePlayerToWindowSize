@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 60 - Apr 29, 2015
+
+* Prevent offset on `.player-api` when in theater mode.
+
 ## 59 - Apr 29, 2015
 
 * Update HTML5 fix regexes.

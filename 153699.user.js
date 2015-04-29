@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         59
+// @version         60
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -410,6 +410,13 @@
             d['float'] = 'initial';
 
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player-api', d);
+
+            // Theatre mode
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .watch-stage-mode #player .player-api', {
+                'left': 'initial',
+                'margin-left': 'initial',
+            });
+                
 
             // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
             // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
