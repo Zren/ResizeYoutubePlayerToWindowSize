@@ -23,6 +23,10 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 59 - Apr 29, 2015
+
+* Update HTML5 fix regexes.
+
 ## 58 - Apr 29, 2015
 
 * Hide the #placeholder-player element.

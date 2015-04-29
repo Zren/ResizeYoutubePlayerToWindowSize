@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         58
+// @version         59
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -227,12 +227,12 @@
                 return null;
 
             // Use yt.player.Application.create to find the playerInstancesKey.
-            // function (a,b){try{var c=U7.A(a);if(U7.j[c]){try{U7.j[c].dispose()}catch(d){Sf(d)}U7.j[c]=null}var e=new U7(a,b);ti(e,function(){U7.j[c]=null});return U7.j[c]=e}catch(g){throw Sf(g),g;}}
-            var appCreateRegex = /^function \(\w+,\w+\)\{try\{var \w+=\w+\.\w+\(\w+\);if\(\w+\.(\w+)\[\w+\]\)/;
+            // function (a,b){try{var c=t$.B(a);if(t$.j[c]){try{t$.j[c].dispose()}catch(d){cg(d)}t$.j[c]=null}var e=new t$(a,b);Ji(e,function(){t$.j[c]=null});return t$.j[c]=e}catch(g){throw cg(g),g;}}
+            var appCreateRegex = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\);if\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
             var fnString = yt.player.Application.create.toString();
             var m = appCreateRegex.exec(fnString);
             if (m) {
-                var playerInstancesKey = m[1];
+                var playerInstancesKey = m[4];
                 Html5PlayerFix.playerInstances = YTApplication[playerInstancesKey];
             } else {
                 ytwp.error('Error trying to find playerInstancesKey.', fnString);
