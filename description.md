@@ -23,6 +23,10 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 61 - Apr 30, 2015
+
+* Update HTML5 fix.
+
 ## 60 - Apr 29, 2015
 
 * Prevent offset on `.player-api` when in theater mode.

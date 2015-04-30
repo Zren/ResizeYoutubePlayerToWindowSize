@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name            Resize YT To Window Size
-// @description     Moves the video to the top of the website and resizes it to the screen size.
+// @description     Moves the YouTube video to the top of the website and resizes it to the window size.
 // @author          Chris H (Zren / Shade)
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         60
+// @version         61
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -190,9 +190,7 @@
         YTRect: null,
         YTApplication: null,
         playerInstances: null,
-        moviePlayer: null,
         moviePlayerElement: null,
-        app: null,
     };
     Html5PlayerFix.getPlayerRect = function() {
         return new Html5PlayerFix.YTRect(Html5PlayerFix.moviePlayerElement.clientWidth, Html5PlayerFix.moviePlayerElement.clientHeight);
@@ -273,22 +271,18 @@
         }
     };
     Html5PlayerFix.updatePlayerInstance = function(app) {
-        if (!app)
+        if (!app) {
             return;
+        }
 
         var moviePlayerElement = document.getElementById('movie_player');
         var moviePlayer = null;
         var moviePlayerKey = null;
 
-        // function (){var a=this.j.W();return"detailpage"!=a.ka||a.fb?P8.K.vb.call(this):this.ub(!0)}
-        var clientRectFn1Regex = /^(function \(\)\{var a=this\.\w+\.\w+\(\);return"detailpage"!=a\.\w+).+(:this\.\w+\(!0\)\})$/;
-        var clientRectFn1 = null;
-        var clientRectFn1Key = null;
-
-        // function (a){var b=this.j.W(),c=P8.K.ub.call(this);a||"detailpage"!=b.ka||b.fb||b.experiments.H||(c.height+=30);return c}
-        var clientRectFn2Regex = /^(function \(a\)\{var b=this\.\w+\.\w+\(\)).*("detailpage"!=).*(return \w})$/;
-        var clientRectFn2 = null;
-        var clientRectFn2Key = null;
+        // function (a){var b=this.j.X(),c=n$.L.xb.call(this);a||"detailpage"!=b.ma||b.ib||b.experiments.T||(c.height+=30);return c}
+        var clientRectFnRegex = /^(function \(a\)\{var b=this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(\)).*("detailpage"!=).*(return c})$/;
+        var clientRectFn = null;
+        var clientRectFnKey = null;
 
         var fnAlreadyReplacedCount = 0;
 
@@ -303,12 +297,9 @@
                     if (typeof val2 === 'function') {
                         var fnString = val2.toString();
                         // console.log(fnString);
-                        if (clientRectFn1 === null && clientRectFn1Regex.test(fnString)) {
-                            clientRectFn1 = val2;
-                            clientRectFn1Key = key2;
-                        } else if (clientRectFn2 === null && clientRectFn2Regex.test(fnString)) {
-                            clientRectFn2 = val2;
-                            clientRectFn2Key = key2;
+                        if (clientRectFn === null && clientRectFnRegex.test(fnString)) {
+                            clientRectFn = val2;
+                            clientRectFnKey = key2;
                         } else if (val2 === Html5PlayerFix.getPlayerRect) {
                             fnAlreadyReplacedCount += 1;
                         } else {
@@ -323,21 +314,18 @@
             return;
         }
 
-        if (moviePlayer === null || clientRectFn1 === null || clientRectFn2 === null) {
+        if (moviePlayer === null || clientRectFn === null) {
             console.log('[ytwp] ', '[Error]', 'HTML5 Player has changed or there\'s multiple playerInstances and this one has been destroyed.');
             console.log('moviePlayer', moviePlayerKey, moviePlayer);
-            console.log('clientRectFn1', clientRectFn1Key, clientRectFn1);
-            console.log('clientRectFn2', clientRectFn2Key, clientRectFn2);
+            console.log('clientRectFn', clientRectFnKey, clientRectFn);
             console.log('fnAlreadyReplacedCount', fnAlreadyReplacedCount);
             return;
         }
         
         Html5PlayerFix.moviePlayerElement = moviePlayerElement;
-        Html5PlayerFix.YTRect = moviePlayer[clientRectFn1Key].call(moviePlayer).constructor;
+        Html5PlayerFix.YTRect = moviePlayer[clientRectFnKey].call(moviePlayer).constructor;
 
-        moviePlayer[clientRectFn1Key] = Html5PlayerFix.getPlayerRect;
-        moviePlayer[clientRectFn2Key] = Html5PlayerFix.getPlayerRect;
-        //clientRectUpdateFn();
+        moviePlayer[clientRectFnKey] = Html5PlayerFix.getPlayerRect;
     };
     ytwp.Html5PlayerFix = Html5PlayerFix;
 
@@ -562,21 +550,7 @@
                 && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
             ) {
                 ytwp.ytapp = Html5PlayerFix.getPlayerInstance();
-                return;
-                
-                if (document.querySelectorAll('#movie_player').length > 0)
-                    return;
-                
-                ytwp.log('rerunning ytplayer.load()');
-                
-                // Since we have to reload the player anyways, might as well set some useful settings.
-                uw.ytplayer.config.args.autohide = 1; // Autohide the playback control bar.
-                
-                // Next 2 lines are equivalent to: ytplayer.load();
-                ytwp.log(document.querySelectorAll('#movie_player'));
-                ytwp.ytapp = uw.yt.player.Application.create("player-api", uw.ytplayer.config);
-                ytwp.log(document.querySelectorAll('#movie_player'));
-                uw.ytplayer.config.loaded = true;
+                // return;
             }
 
             Html5PlayerFix.update();
