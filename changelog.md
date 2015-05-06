@@ -1,5 +1,14 @@
 <h3>Changelog</h3>
 
+## 63 - May 6, 2015
+
+* Update HTML5 fix.
+* Remove transition on the masthead.
+
+## 62 - May 6, 2015
+
+* Fix the height on new `.html5-video-container` element.
+
 ## 61 - Apr 30, 2015
 
 * Update HTML5 fix.
