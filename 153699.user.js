@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         61
+// @version         62
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -414,6 +414,7 @@
                     scriptBodyClassSelector + ' #player',
                     scriptBodyClassSelector + ' #movie_player',
                     scriptBodyClassSelector + ' #player-mole-container',
+                    scriptBodyClassSelector + ' .html5-video-container',
                     scriptBodyClassSelector + ' .html5-main-video',
                 ],
                 {
@@ -550,7 +551,6 @@
                 && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
             ) {
                 ytwp.ytapp = Html5PlayerFix.getPlayerInstance();
-                // return;
             }
 
             Html5PlayerFix.update();

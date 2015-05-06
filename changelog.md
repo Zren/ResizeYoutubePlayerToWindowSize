@@ -14,7 +14,7 @@
 
 ## 58 - Apr 29, 2015
 
-* Hide the #placeholder-player element.
+* Hide the `#placeholder-player` element.
 
 ## 57 - Mar 16, 2015
 
