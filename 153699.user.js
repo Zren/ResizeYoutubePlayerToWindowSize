@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         63
+// @version         64
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -165,6 +165,7 @@
     var videoContainerPlacemarkerId = scriptShortName + '-placemarker'; // ytwp-placemarker
 
     var transitionProperties = ["transition", "-ms-transition", "-moz-transition", "-webkit-transition", "-o-transition"];
+    var transformProperties = ["transform", "-ms-transform", "-moz-transform", "-webkit-transform", "-o-transform"];
 
     //--- YTWP
     var ytwp = uw.ytwp = {
@@ -467,7 +468,7 @@
 
             //--- Absolutely position the fixed header.
             // Masthead
-            d = buildVenderPropertyDict(transitionProperties, 'top 0s linear');
+            d = buildVenderPropertyDict(transitionProperties, 'top 0s linear !important');
             ytwp.style.appendRule(scriptBodyClassSelector + '.hide-header-transition #masthead-positioner', d);
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'position': 'absolute',
@@ -494,6 +495,7 @@
 
             //--- Fix Other Possible Style Issues
             ytwp.style.appendRule(scriptBodyClassSelector + ' #placeholder-player', 'display', 'none');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch-sidebar-spacer', 'display', 'none');
             ytwp.style.appendRule(scriptBodyClassSelector + ' .skip-nav', 'display', 'none');
 
             //--- Whitespace Leftover From Moving The Video
@@ -501,29 +503,17 @@
             ytwp.style.appendRule(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
 
             //--- Playlist Bar
-            //ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', "margin", "-15px -10px 20px -10px");
-            ytwp.style.appendRule(scriptBodyClassSelector + ' .watch7-playlist-bar-left', 'width', '640px !important'); // Same width as .watch-content
             ytwp.style.appendRule([
-                scriptBodyClassSelector + ' .playlist',
-                scriptBodyClassSelector + ' .playlist .watch7-playlist-bar',
-            ], 'max-width', '1040px'); // Same width as .watch-content (640px) + .watch-sidebar (300-400px).
-            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
-                "margin-top": "-15px",
-                "height": "287px !important", // 65 (playlist tile) * 4 + 27 (trim on bottom)
-                "margin-bottom": "15px"
-            });
-            ytwp.style.appendRule([
-                scriptBodyClassSelector + '.cardified-page #watch7-playlist-tray-container + #watch7-sidebar-contents', // Pre Oct 26
-                scriptBodyClassSelector + '.cardified-page #watch-appbar-playlist + #watch7-sidebar-contents', // Post Oct 26
-            ], 'padding-top', '15px');
-
-            // YT Center
-            ytwp.style.appendRule(scriptBodyClassSelector + ' #player', 'margin-bottom', '0 !important');
-            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch7-playlist-tray-container', {
-                'left': 'initial !important',
-                'width': 'initial !important'
-            });
-            ytwp.style.appendRule(scriptBodyClassSelector + ' .watch7-playlist-bar-right', 'width', '363px !important');
+                scriptBodyClassSelector + ' #placeholder-playlist',
+                scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist',
+            ], 'height', '490px !important');
+            d = buildVenderPropertyDict(transitionProperties, 'transform 0s linear');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #watch-appbar-playlist', d);
+            d = buildVenderPropertyDict(transformProperties, 'translateY(0px)');
+            d['margin-left'] = '0';
+            d['top'] = 'calc(100vh + 60px)';
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist', d);
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .playlist-videos-list', 'height', '430px');
         },
         onWatchInit: function() {
             ytwp.log('onWatchInit');

@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 64 - May 7, 2015
+
+* Fix removing transition on the masthead. YT Center has another rule with !important.
+* Fix the playlist widget getting hidden beneath the player.
+
 ## 63 - May 6, 2015
 
 * Update HTML5 fix.
