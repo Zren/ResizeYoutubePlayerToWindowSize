@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         64
+// @version         65
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -281,7 +281,8 @@
         var moviePlayerKey = null;
 
         // function (a){var b=this.j.X(),c=n$.L.xb.call(this);a||"detailpage"!=b.ma||b.ib||b.experiments.T||(c.height+=30);return c}
-        var clientRectFnRegex1 = /^(function \(a\)\{var b=this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(\)).*("detailpage"!=).*(return c})$/;
+        // function (a){var b=this.app.X(),c=n$.M.xb.call(this);a||!JK(b)||b.ab||b.experiments.U||(c.height+=30);return c}
+        var clientRectFnRegex1 = /^(function \(a\)\{var b=this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(\)).*(\|\|\(c\.height\+=30\);return c})$/;
         // function (){var a=this.A.U();if(window.matchMedia){if((a.wb||a.Fb)&&window.matchMedia("(width: "+window.innerWidth+"px) and (height: "+window.innerHeight+"px)").matches)return new H(window.innerWidth,window.innerHeight);if("detailpage"==a.ja&&"blazer"!=a.j&&!a.Fb){a=a.experiments.A;if(window.matchMedia(S6.C).matches)return new H(426,a?280:240);var b=this.A.ha;if(window.matchMedia(b?S6.o:S6.j).matches)return new H(1280,a?760:720);if(b||window.matchMedia(S6.A).matches)return new H(854,a?520:480);if(window.matchMedia(S6.B).matches)return new H(640,a?400:360)}}return new H(this.element.clientWidth,this.element.clientHeight)}
         var clientRectFnRegex2 = /^(function \()(.|\n)*(return new ([a-zA-Z_$][\w_$]*)\(this\.element\.clientWidth,this\.element\.clientHeight\)})$/;
         var clientRectFn = null;
