@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 66 - June 14, 2015
+
+* Fix player offset when the window is really small.
+
 ## 65 - May 28, 2015
 
 * Update HTML5 fix for old player.

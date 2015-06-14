@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         65
+// @version         66
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -400,6 +400,10 @@
             // Parts of the header (search box) are hidden under the player.
             // Firefox doesn't seem to be using the fixed header+guide yet.
             d['float'] = 'initial';
+
+            // Skinny mode
+            d['left'] = 0;
+            d['margin-left'] = 0;
 
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player-api', d);
 

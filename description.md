@@ -23,6 +23,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 65 - May 28, 2015
+## 66 - June 14, 2015
 
-* Update HTML5 fix for old player.
+* Fix player offset when the window is really small.
