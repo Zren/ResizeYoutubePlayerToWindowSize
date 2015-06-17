@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 67 - June 17, 2015
+
+* Make script slightly compatible with Youtube+
+
 ## 66 - June 14, 2015
 
 * Fix player offset when the window is really small.

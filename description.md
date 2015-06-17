@@ -5,9 +5,10 @@
     * HTML5 Player: Default operation of this script.
     * Flash Player: Use [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki).
 * If using [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki):
-  *  v31+ should automatically set these settings for you.
-    *   Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
-    *   Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
+    * Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
+    * Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
+* If using [Youtube+](https://greasyfork.org/en/scripts/9932-youtube):
+    * Uncheck **Video > Player always visible when reading comments** while this script is disabled.
 
 # Screenshots
 
@@ -23,6 +24,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 66 - June 14, 2015
+## 67 - June 17, 2015
 
-* Fix player offset when the window is really small.
+* Make script slightly compatible with Youtube+

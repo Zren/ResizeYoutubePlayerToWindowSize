@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         66
+// @version         67
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -506,6 +506,9 @@
             //--- Whitespace Leftover From Moving The Video
             ytwp.style.appendRule(scriptBodyClassSelector + ' #page.watch', 'padding-top', '0');
             ytwp.style.appendRule(scriptBodyClassSelector + ' .player-branded-banner', 'height', '0');
+
+            //--- Youtube+ Compatiblity
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #body-container', 'position', 'static');
 
             //--- Playlist Bar
             ytwp.style.appendRule([
