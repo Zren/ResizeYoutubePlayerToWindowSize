@@ -4,6 +4,7 @@
 * Auto-Hide the Progressbar & Controlbar:
     * HTML5 Player: Default operation of this script.
     * Flash Player: Use [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki).
+* Hide scrollbars with [this userstyle (Chrome)](https://userstyles.org/styles/115328/hidden-scrollbars) | [(Firefox)](https://userstyles.org/styles/5449/scrollbar-hidden-hide-scrollbars-totally).
 * If using [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki):
     * Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
     * Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
@@ -19,6 +20,8 @@
 **It appears above the rest of the site, so you can scroll down for the description, related links, etc.**
 
 [![](https://i.imgur.com/RiodhIb.jpg)](https://i.imgur.com/RiodhIb.jpg)
+
+Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https://userstyles.org/styles/115328/hidden-scrollbars) | [(Firefox)](https://userstyles.org/styles/5449/scrollbar-hidden-hide-scrollbars-totally).
 
 # Changelog
 
