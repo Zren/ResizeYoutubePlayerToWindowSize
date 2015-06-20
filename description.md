@@ -27,6 +27,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 67 - June 17, 2015
+## 68 - June 19, 2015
 
-* Make script slightly compatible with Youtube+
+* Update HTML5 fix for the old player. `Objects.keys(obj.constructor.prototype)` was skipping the property, so used `for (var k in obj){}`.
