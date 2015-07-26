@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         68
+// @version         69
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -23,6 +23,7 @@
     //--- Imported Globals
     // yt
     // ytcenter
+    // html5Patched (Youtube+)
     // ytplayer
     var uw = window.top;
 
@@ -216,8 +217,6 @@
             delete playerInstances[testAppInstanceKey];
             
         }
-
-
         return ytwp.html5.YTApplication;
     };
     ytwp.html5.getPlayerInstances = function() {
@@ -352,13 +351,14 @@
             if (moviePlayer != null) {
                 console.log('Debugging: clientRectFn');
                 var table = [];
-                Object.keys(app.constructor.prototype).forEach(function(key2) {
+                for (var key2 in moviePlayer) {
+                    var val2 = moviePlayer[key2];
                     table.push({
                         key: key2,
                         returns: moviePlayer[key2] && moviePlayer[key2].toString().indexOf('return'),
                         src: moviePlayer[key2] && moviePlayer[key2].toString(),
                     });
-                });
+                }
                 console.table(table);
             }
             return;
@@ -582,17 +582,21 @@
         html5PlayerFix: function() {
             ytwp.log('html5PlayerFix');
 
-            // https://github.com/YePpHa/YouTubeCenter/issues/1083
-            if (!uw.ytcenter
-                && (!ytwp.html5.app)
-                && (uw.ytplayer && uw.ytplayer.config)
-                && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
-            ) {
-                ytwp.html5.app = ytwp.html5.getPlayerInstance();
-            }
+            try {
+                if (!uw.ytcenter // Youtube Center
+                    && !uw.html5Patched // Youtube+
+                    && (!ytwp.html5.app)
+                    && (uw.ytplayer && uw.ytplayer.config)
+                    && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
+                ) {
+                    ytwp.html5.app = ytwp.html5.getPlayerInstance();
+                }
 
-            ytwp.html5.update();
-            ytwp.html5.autohideControls();
+                ytwp.html5.update();
+                ytwp.html5.autohideControls();
+            } catch (e) {
+                ytwp.error(e);
+            }
         },
 
     };
