@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         69
+// @version         70
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -545,12 +545,13 @@
 
             //--- Youtube+ Compatiblity
             ytwp.style.appendRule(scriptBodyClassSelector + ' #body-container', 'position', 'static');
+            ytwp.style.appendRule('.part_static_size:not(.content-snap-width-skinny-mode) ' + scriptBodyClassSelector + ' .watch-non-stage-mode #player-playlist', 'width', '1066px');
 
             //--- Playlist Bar
             ytwp.style.appendRule([
                 scriptBodyClassSelector + ' #placeholder-playlist',
                 scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist',
-            ], 'height', '490px !important');
+            ], 'height', '540px !important');
             d = buildVenderPropertyDict(transitionProperties, 'transform 0s linear');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch-appbar-playlist', d);
             d = buildVenderPropertyDict(transformProperties, 'translateY(0px)');

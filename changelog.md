@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 70 - Aug 19, 2015
+
+* Fix playlist overlaying the rest of the sidebar.
+* Fix playlist overlaying the video description when using Youtube+.
+
 ## 69 - July 26, 2015
 
 * Make script slightly compatible with Youtube+ after clicking another video.

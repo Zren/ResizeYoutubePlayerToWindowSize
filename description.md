@@ -27,6 +27,7 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 69 - July 26, 2015
+## 70 - Aug 19, 2015
 
-* Make script slightly compatible with Youtube+ after clicking another video.
+* Fix playlist overlaying the rest of the sidebar.
+* Fix playlist overlaying the video description when using Youtube+.
