@@ -386,22 +386,22 @@
         },
         initScroller: function() {
             // Register listener & Call it now.
-            unsafeWindow.addEventListener('scroll', ytwp.event.onScroll, false);
-            unsafeWindow.addEventListener('resize', ytwp.event.onScroll, false);
+            uw.addEventListener('scroll', ytwp.event.onScroll, false);
+            uw.addEventListener('resize', ytwp.event.onScroll, false);
             ytwp.event.onScroll();
         },
         onScroll: function() {
             var viewportHeight = document.documentElement.clientHeight;
 
             // topOfPageClassId
-            if (unsafeWindow.scrollY == 0) {
+            if (uw.scrollY == 0) {
                 jQuery.addClass(document.body, topOfPageClassId);
             } else {
                 jQuery.removeClass(document.body, topOfPageClassId);
             }
 
             // viewingVideoClassId
-            if (unsafeWindow.scrollY <= viewportHeight) {
+            if (uw.scrollY <= viewportHeight) {
                 jQuery.addClass(document.body, viewingVideoClassId);
             } else {
                 jQuery.removeClass(document.body, viewingVideoClassId);
