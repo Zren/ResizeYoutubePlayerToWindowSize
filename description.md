@@ -1,9 +1,5 @@
 # Suggestions
-* [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki) now has a similar feature with a few more options in their script. Check out **YT Center Settings > Player > Fullscreen Top Player**.
 * Use [Yays!](http://eugenox.appspot.com/script/yays) or [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki) to select a video resolution if you want a constant resolution.
-* Auto-Hide the Progressbar & Controlbar:
-    * HTML5 Player: Default operation of this script.
-    * Flash Player: Use [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki).
 * Hide scrollbars with [this userstyle (Chrome)](https://userstyles.org/styles/115328/hidden-scrollbars) | [(Firefox)](https://userstyles.org/styles/5449/scrollbar-hidden-hide-scrollbars-totally).
 * If using [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki):
     * Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
@@ -27,7 +23,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 70 - Aug 19, 2015
+## 70 - Nov 24, 2015
 
-* Fix playlist overlaying the rest of the sidebar.
-* Fix playlist overlaying the video description when using Youtube+.
+* Fix html5 seekbar.

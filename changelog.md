@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 70 - Nov 24, 2015
+
+* Fix html5 seekbar.
+
 ## 70 - Aug 19, 2015
 
 * Fix playlist overlaying the rest of the sidebar.
