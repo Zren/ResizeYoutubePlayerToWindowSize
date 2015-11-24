@@ -226,7 +226,7 @@
                 return null;
 
             // Use yt.player.Application.create to find the playerInstancesKey.
-            // function (a,b){try{var c=t$.B(a);if(t$.j[c]){try{t$.j[c].dispose()}catch(d){cg(d)}t$.j[c]=null}var e=new t$(a,b);Ji(e,function(){t$.j[c]=null});return t$.j[c]=e}catch(g){throw cg(g),g;}}
+            // function (a,b){try{var c=e9.D(a);if(e9.o[c]){try{e9.o[c].dispose()}catch(e){Fi(e)}e9.o[c]=null}var d=new e9(a,b);Kb(d,function(){e9.o[c]=null});return e9.o[c]=d}catch(e){throw Fi(e),e.stack;}}
             var appCreateRegex = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\);if\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
             var fnString = yt.player.Application.create.toString();
             var m = appCreateRegex.exec(fnString);
@@ -236,7 +236,7 @@
             } else {
                 ytwp.error('Error trying to find playerInstancesKey.', fnString);
             }
-            ytwp.html5.playerInstances = YTApplication.j;
+            ytwp.html5.playerInstances = YTApplication[playerInstancesKey];
         }
 
         return ytwp.html5.playerInstances;
