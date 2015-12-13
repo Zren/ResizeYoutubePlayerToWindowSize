@@ -1,6 +1,11 @@
 <h3>Changelog</h3>
 
-## 70 - Nov 24, 2015
+## 72 - Dec 12, 2015
+
+* Disable the html5 seekbar fix (for now). My technique appears to break everything (comment loading/autoplay/buttons) on occasion.
+* Fix playlist widget overlaying sidebar.
+
+## 71 - Nov 24, 2015
 
 * Fix html5 seekbar.
 

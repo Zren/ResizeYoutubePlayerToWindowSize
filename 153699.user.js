@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         71
+// @version         72
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -318,6 +318,8 @@
                             clientRectFnKey = key2;
                         } else if (val2 === ytwp.html5.getPlayerRect) {
                             fnAlreadyReplacedCount += 1;
+                            clientRectFn = val2;
+                            clientRectFnKey = key2;
                         } else {
                             // console.log(key1, key2, val2, '[Not Used]');
                         }
@@ -327,7 +329,7 @@
         });
 
         if (fnAlreadyReplacedCount > 0) {
-            return;
+            // return;
         }
 
         if (moviePlayer === null || clientRectFn === null) {
@@ -448,6 +450,10 @@
                 'left': 'initial',
                 'margin-left': 'initial',
             });
+            
+            // Hide the cinema/wide mode button since it's useless.
+            //ytwp.style.appendRule(scriptBodyClassSelector + ' #movie_player .ytp-size-button', 'display', 'none');
+            
                 
 
             // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
@@ -551,14 +557,21 @@
             ytwp.style.appendRule([
                 scriptBodyClassSelector + ' #placeholder-playlist',
                 scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist',
-            ], 'height', '540px !important');
+            ], {
+                'height': '540px !important',
+                'max-height': '540px !important',
+            });
+
             d = buildVenderPropertyDict(transitionProperties, 'transform 0s linear');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch-appbar-playlist', d);
             d = buildVenderPropertyDict(transformProperties, 'translateY(0px)');
             d['margin-left'] = '0';
             d['top'] = 'calc(100vh + 60px)';
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist', d);
-            ytwp.style.appendRule(scriptBodyClassSelector + ' .playlist-videos-list', 'height', '430px');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .playlist-videos-list', {
+                'max-height': '470px !important',
+                'height': 'initial !important',
+            });
         },
         onWatchInit: function() {
             ytwp.log('onWatchInit');
@@ -593,7 +606,7 @@
                     ytwp.html5.app = ytwp.html5.getPlayerInstance();
                 }
 
-                ytwp.html5.update();
+                // ytwp.html5.update();
                 ytwp.html5.autohideControls();
             } catch (e) {
                 ytwp.error(e);
