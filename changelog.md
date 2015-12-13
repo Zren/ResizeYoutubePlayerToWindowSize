@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 73 - Dec 13, 2015
+
+* Reenable the html5 seekbar fix since apparently the problem is unrelated to my script.
+
 ## 72 - Dec 12, 2015
 
 * Disable the html5 seekbar fix (for now). My technique appears to break everything (comment loading/autoplay/buttons) on occasion.

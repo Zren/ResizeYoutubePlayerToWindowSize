@@ -23,7 +23,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 72 - Dec 12, 2015
+## 73 - Dec 13, 2015
 
-* Disable the html5 seekbar fix (for now). My technique appears to break everything (comment loading/autoplay/buttons) on occasion.
-* Fix playlist widget overlaying sidebar.
+* Reenable the html5 seekbar fix since apparently the problem is unrelated to my script.

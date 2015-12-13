@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         72
+// @version         73
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -202,6 +202,7 @@
         if (ytwp.html5.YTApplication === null) {
             var testEl = document.createElement('div');
             var testAppInstance = uw.yt.player.Application.create(testEl, {});
+            // var testAppInstance = uw.yt.player.Application.create("player-api", uw.ytplayer.config);
             ytwp.html5.YTApplication = testAppInstance.constructor;
 
             // Cleanup testAppInstance
@@ -606,7 +607,7 @@
                     ytwp.html5.app = ytwp.html5.getPlayerInstance();
                 }
 
-                // ytwp.html5.update();
+                ytwp.html5.update();
                 ytwp.html5.autohideControls();
             } catch (e) {
                 ytwp.error(e);
