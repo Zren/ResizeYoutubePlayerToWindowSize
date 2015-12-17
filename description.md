@@ -23,6 +23,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 73 - Dec 13, 2015
+## 74 - Dec 17, 2015
 
-* Reenable the html5 seekbar fix since apparently the problem is unrelated to my script.
+* Fix the Skip Ad UI getting hidden.

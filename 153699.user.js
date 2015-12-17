@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         73
+// @version         74
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -494,6 +494,10 @@
             // Using min/max width/height will keep
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
+
+            // Ad
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .html5-video-player .ad-container-single-media-element-annotations', 'top', '0');
+            
 
             //--- Move Video Player
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player', {

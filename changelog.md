@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 74 - Dec 17, 2015
+
+* Fix the Skip Ad UI getting hidden.
+
 ## 73 - Dec 13, 2015
 
 * Reenable the html5 seekbar fix since apparently the problem is unrelated to my script.
