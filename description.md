@@ -23,6 +23,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 74 - Dec 17, 2015
+## 75 - Dec 19, 2015
 
-* Fix the Skip Ad UI getting hidden.
+* Trigger resizing the player controls after patching it's size function.

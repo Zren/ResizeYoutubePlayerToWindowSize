@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         74
+// @version         75
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -293,6 +293,11 @@
         var moviePlayer = null;
         var moviePlayerKey = null;
 
+        // function (a,b){return this.isDisposed()?!1:this.R.P.apply(this.R,arguments)}
+        var applyFnRegex = /^function \(a,b\)\{return this\.isDisposed\(\)\?!1:this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\.apply\(this\.([a-zA-Z_$][\w_$]*),arguments\)\}$/;
+        var applyFnKey = null;
+
+
         // function (a){var b=this.j.X(),c=n$.L.xb.call(this);a||"detailpage"!=b.ma||b.ib||b.experiments.T||(c.height+=30);return c}
         // function (a){var b=this.app.X(),c=n$.M.xb.call(this);a||!JK(b)||b.ab||b.experiments.U||(c.height+=30);return c}
         var clientRectFnRegex1 = /^(function \(a\)\{var b=this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(\)).*(\|\|\(c\.height\+=30\);return c})$/;
@@ -303,7 +308,8 @@
 
         var fnAlreadyReplacedCount = 0;
 
-        Object.keys(app).forEach(function(key1) {
+        // Object.keys(app).forEach(function(key1) {
+        for (var key1 in app) {
             var val1 = app[key1];//console.log(key1, val1);
             if (typeof val1 === 'object' && val1 !== null && val1.element === moviePlayerElement) {
                 moviePlayer = val1;
@@ -326,8 +332,14 @@
                         }
                     }
                 }
+            } else if (typeof val1 === 'function') {
+                var fnString = val1.toString();
+                if (applyFnRegex.test(fnString)) {
+                    applyFnKey = key1;
+                }
             }
-        });
+        }
+        // });
 
         if (fnAlreadyReplacedCount > 0) {
             // return;
@@ -368,6 +380,12 @@
         }
         
         ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
+
+        if (applyFnKey) {
+            app[applyFnKey]('resize');
+        } else {
+            ytwp.log('applyFn not found');
+        }
     };
 
 
