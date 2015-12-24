@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         75
+// @version         76
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -308,7 +308,6 @@
 
         var fnAlreadyReplacedCount = 0;
 
-        // Object.keys(app).forEach(function(key1) {
         for (var key1 in app) {
             var val1 = app[key1];//console.log(key1, val1);
             if (typeof val1 === 'object' && val1 !== null && val1.element === moviePlayerElement) {
@@ -339,7 +338,6 @@
                 }
             }
         }
-        // });
 
         if (fnAlreadyReplacedCount > 0) {
             // return;
@@ -478,13 +476,14 @@
             // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
             // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
             // Also, Youtube Center resizes #player at element level.
+            // Don't resize if Youtube+'s html.floater is detected.
             ytwp.style.appendRule(
                 [
                     scriptBodyClassSelector + ' #player',
-                    scriptBodyClassSelector + ' #movie_player',
+                    'html:not(.floater) ' + scriptBodyClassSelector + ' #movie_player',
                     scriptBodyClassSelector + ' #player-mole-container',
-                    scriptBodyClassSelector + ' .html5-video-container',
-                    scriptBodyClassSelector + ' .html5-main-video',
+                    'html:not(.floater) ' + scriptBodyClassSelector + ' .html5-video-container',
+                    'html:not(.floater) ' + scriptBodyClassSelector + ' .html5-main-video',
                 ],
                 {
                     'width': '100% !important',
@@ -543,6 +542,10 @@
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'position': 'absolute',
                 'top': '100% !important'
+            });
+            // Lower masthead below Youtube+'s html.floater
+            ytwp.style.appendRule('html.floater ' + scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
+                'z-index': '5',
             });
 
             // Guide
@@ -610,6 +613,10 @@
             ytwp.pageReady = false;
             ytwp.isWatchPage = false;
             ytwp.html5.app = null;
+            // ytwp.html5.YTRect = null;
+            ytwp.html5.YTApplication = null;
+            ytwp.html5.playerInstances = null;
+            //ytwp.html5.moviePlayerElement = null;
         },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.

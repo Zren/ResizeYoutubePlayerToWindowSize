@@ -4,8 +4,6 @@
 * If using [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki):
     * Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
     * Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
-* If using [Youtube+](https://greasyfork.org/en/scripts/9932-youtube):
-    * Uncheck **Video > Player always visible when reading comments** while this script is disabled.
 
 # Screenshots
 
@@ -23,6 +21,7 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 75 - Dec 19, 2015
+## 76 - Dec 24, 2015
 
-* Trigger resizing the player controls after patching it's size function.
+* Cleanup cached varibles when changing pages. Should fix the seekbar width breaking after a few videos.
+* Make compatible with Youtube+'s "Player always visible when reading comments" feature.

@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 76 - Dec 24, 2015
+
+* Cleanup cached varibles when changing pages. Should fix the seekbar width breaking after a few videos.
+* Make compatible with Youtube+'s "Player always visible when reading comments" feature.
+
 ## 75 - Dec 19, 2015
 
 * Trigger resizing the player controls after patching it's size function.
