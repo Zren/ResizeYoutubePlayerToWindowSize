@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         76
+// @version         77
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -512,8 +512,11 @@
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
 
-            // Ad
-            ytwp.style.appendRule(scriptBodyClassSelector + ' .html5-video-player .ad-container-single-media-element-annotations', 'top', '0');
+            // Fix video overlays
+            ytwp.style.appendRule([
+                scriptBodyClassSelector + ' .html5-video-player .ad-container-single-media-element-annotations', // Ad
+                scriptBodyClassSelector + ' .html5-video-player .ytp-upnext', // Autoplay Next Video
+            ], 'top', '0');
             
 
             //--- Move Video Player

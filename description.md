@@ -21,6 +21,10 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 77 - Dec 24, 2015
+
+* Fix the autoplay UI not being shown.
+
 ## 76 - Dec 24, 2015
 
 * Cleanup cached varibles when changing pages. Should fix the seekbar width breaking after a few videos.

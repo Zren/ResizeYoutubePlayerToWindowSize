@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 77 - Dec 24, 2015
+
+* Fix the autoplay UI not being shown.
+
 ## 76 - Dec 24, 2015
 
 * Cleanup cached varibles when changing pages. Should fix the seekbar width breaking after a few videos.
