@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         77
+// @version         78
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -196,7 +196,8 @@
         moviePlayerElement: null,
     };
     ytwp.html5.getPlayerRect = function() {
-        return new ytwp.html5.YTRect(ytwp.html5.moviePlayerElement.clientWidth, ytwp.html5.moviePlayerElement.clientHeight);
+        var moviePlayerElement = ytwp.html5.moviePlayerElement || document.getElementById('movie_player');
+        return new ytwp.html5.YTRect(moviePlayerElement.clientWidth, moviePlayerElement.clientHeight);
     };
     ytwp.html5.getApplicationClass = function() {
         if (ytwp.html5.YTApplication === null) {
@@ -380,7 +381,7 @@
         ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
 
         if (applyFnKey) {
-            app[applyFnKey]('resize');
+            app[applyFnKey]('resize', ytwp.html5.getPlayerRect());
         } else {
             ytwp.log('applyFn not found');
         }
@@ -415,6 +416,9 @@
             // topOfPageClassId
             if (uw.scrollY == 0) {
                 jQuery.addClass(document.body, topOfPageClassId);
+                //var player = document.getElementById('movie_player');
+                //if (player)
+                //    player.focus();
             } else {
                 jQuery.removeClass(document.body, topOfPageClassId);
             }

@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 78 - Jan 18, 2016
+
+* Fix a few errors.
+
 ## 77 - Dec 24, 2015
 
 * Fix the autoplay UI not being shown.
