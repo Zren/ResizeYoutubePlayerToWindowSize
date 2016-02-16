@@ -1,9 +1,5 @@
 # Suggestions
-* Use [Yays!](http://eugenox.appspot.com/script/yays) or [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki) to select a video resolution if you want a constant resolution.
 * Hide scrollbars with [this userstyle (Chrome)](https://userstyles.org/styles/115328/hidden-scrollbars) | [(Firefox)](https://userstyles.org/styles/5449/scrollbar-hidden-hide-scrollbars-totally).
-* If using [Youtube Center](https://github.com/YePpHa/YouTubeCenter/wiki):
-    * Unchecked **YT Center Settings > Player > Player Size > Enable Resize**.
-    * Unchecked **YT Center Settings > Player > General > Scroll to Video**. YT Center will scroll to the wrong location.
 
 # Screenshots
 
@@ -21,6 +17,8 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 78 - Jan 18, 2016
+## 79 - Feb 16, 2016
 
-* Fix a few errors.
+* Tempfix the player ui not resizing before being clicked.
+* Stop duplicating the stylesheet every page.
+* Target `body[data-spf-name="watch"]` if spf is enabled so the player remains the same size when changing video.

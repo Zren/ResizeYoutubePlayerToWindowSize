@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         78
+// @version         79
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -25,7 +25,7 @@
     // ytcenter
     // html5Patched (Youtube+)
     // ytplayer
-    var uw = window.top;
+    var uw = window;
 
     //--- Already Loaded?
     // GreaseMonkey loads this script twice for some reason.
@@ -384,6 +384,7 @@
             app[applyFnKey]('resize', ytwp.html5.getPlayerRect());
         } else {
             ytwp.log('applyFn not found');
+            app.ma.S('resize', ytwp.html5.getPlayerRect()); // tempfix
         }
     };
 
@@ -395,7 +396,9 @@
             if (!ytwp.initialized) {
                 ytwp.isWatchPage = ytwp.util.isWatchUrl();
                 if (ytwp.isWatchPage) {
-                    ytwp.event.initStyle();
+                    if (!document.getElementById(scriptStyleId)) {
+                        ytwp.event.initStyle();
+                    }
                     ytwp.event.initScroller();
                     ytwp.initialized = true;
                     ytwp.pageReady = false;
@@ -434,13 +437,21 @@
             ytwp.log('initStyle');
             ytwp.style = new JSStyleSheet(scriptStyleId);
             ytwp.event.buildStylesheet();
+            // Duplicate stylesheet targeting data-spf-name if enabled.
+            if (uw.spf) {
+                var temp = scriptBodyClassSelector;
+                scriptBodyClassSelector = 'body[data-spf-name="watch"]';
+                ytwp.event.buildStylesheet();
+                ytwp.style.appendRule('body[data-spf-name="watch"]:not(.ytwp-window-player) #masthead-positioner',  {
+                    'position': 'absolute',
+                    'top': '100% !important'
+                });
+            }
             ytwp.style.injectIntoHeader();
         },
         buildStylesheet: function() {
             ytwp.log('buildStylesheet');
             //--- Video Player
-
-            //
             var d;
             d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');
             d['padding'] = '0 !important';

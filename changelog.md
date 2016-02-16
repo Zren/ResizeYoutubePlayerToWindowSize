@@ -1,5 +1,11 @@
 <h3>Changelog</h3>
 
+## 79 - Feb 16, 2016
+
+* Tempfix the player ui not resizing before being clicked.
+* Stop duplicating the stylesheet every page.
+* Target `body[data-spf-name="watch"]` if spf is enabled so the player remains the same size when changing video.
+
 ## 78 - Jan 18, 2016
 
 * Fix a few errors.
