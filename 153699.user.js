@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         79
+// @version         80
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -332,6 +332,8 @@
                         }
                     }
                 }
+            } else if (typeof val1 === 'object' && val1 !== null && val1.logEvent === moviePlayerElement) {
+                
             } else if (typeof val1 === 'function') {
                 var fnString = val1.toString();
                 if (applyFnRegex.test(fnString)) {
@@ -384,7 +386,7 @@
             app[applyFnKey]('resize', ytwp.html5.getPlayerRect());
         } else {
             ytwp.log('applyFn not found');
-            app.ma.S('resize', ytwp.html5.getPlayerRect()); // tempfix
+            app.oa.T('resize', ytwp.html5.getPlayerRect()); // tempfix
         }
     };
 
