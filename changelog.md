@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 81 - Feb 20, 2016
+
+* Proper fix for the player ui not resizing before being clicked.
+
 ## 80 - Feb 20, 2016
 
 * Tempfix the player ui not resizing before being clicked.
