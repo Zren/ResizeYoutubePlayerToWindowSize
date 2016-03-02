@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         81
+// @version         82
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -424,7 +424,9 @@
                 }
             }
             ytwp.event.onWatchInit();
-            ytwp.event.html5PlayerFix();
+            if (ytwp.isWatchPage) {
+                ytwp.event.html5PlayerFix();
+            }
         },
         initScroller: function() {
             // Register listener & Call it now.
