@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         82
+// @version         83
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -516,6 +516,7 @@
             ytwp.style.appendRule(
                 [
                     scriptBodyClassSelector + ' #player',
+                    scriptBodyClassSelector + ' #player-api',
                     'html:not(.floater) ' + scriptBodyClassSelector + ' #movie_player',
                     scriptBodyClassSelector + ' #player-mole-container',
                     'html:not(.floater) ' + scriptBodyClassSelector + ' .html5-video-container',

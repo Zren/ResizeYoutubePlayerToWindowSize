@@ -17,16 +17,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 81 - Feb 20, 2016
+## 83 - Mar 27, 2016
 
-* Proper fix for the player ui not resizing before being clicked.
-
-## 80 - Feb 20, 2016
-
-* Tempfix the player ui not resizing before being clicked.
-
-## 79 - Feb 16, 2016
-
-* Tempfix the player ui not resizing before being clicked.
-* Stop duplicating the stylesheet every page.
-* Target `body[data-spf-name="watch"]` if spf is enabled so the player remains the same size when changing video.
+* Force width to 100% on the `#player-api` element to fix compatibility with Youtube+.

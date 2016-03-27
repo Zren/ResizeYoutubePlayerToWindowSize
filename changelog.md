@@ -1,5 +1,13 @@
 <h3>Changelog</h3>
 
+## 83 - Mar 27, 2016
+
+* Force width to 100% on the `#player-api` element to fix compatibility with Youtube+.
+
+## 82 - Mar 1, 2016
+
+* Prevent script from running on channel pages.
+
 ## 81 - Feb 20, 2016
 
 * Proper fix for the player ui not resizing before being clicked.
