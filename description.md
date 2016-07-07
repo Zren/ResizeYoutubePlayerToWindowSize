@@ -17,6 +17,7 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 83 - Mar 27, 2016
+## 84 - July 7, 2016
 
-* Force width to 100% on the `#player-api` element to fix compatibility with Youtube+.
+* Don't run script in youtube.com video iframes, or iframes on youtube.com. Now compatible with "Simple YouTube MP3 Button".
+* Fix videos on channel pages when first visiting a video url.

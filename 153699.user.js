@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         83
+// @version         84
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -30,6 +30,16 @@
     //--- Already Loaded?
     // GreaseMonkey loads this script twice for some reason.
     if (uw.ytwp) return;
+    
+    //--- Is iframe?
+    function inIframe () {
+        try {
+            return window.self !== window.top;
+        } catch (e) {
+            return true;
+        }
+    }
+    if (inIframe()) return;
 
     //--- Utils
     function isStringType(obj) { return typeof obj === 'string'; }
@@ -196,7 +206,7 @@
         moviePlayerElement: null,
     };
     ytwp.html5.getPlayerRect = function() {
-        var moviePlayerElement = ytwp.html5.moviePlayerElement || document.getElementById('movie_player');
+        var moviePlayerElement = this.element || ytwp.html5.moviePlayerElement || document.querySelector('movie_player');
         return new ytwp.html5.YTRect(moviePlayerElement.clientWidth, moviePlayerElement.clientHeight);
     };
     ytwp.html5.getApplicationClass = function() {
