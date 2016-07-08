@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 84 - July 7, 2016
+
+* Don't run script in youtube.com video iframes, or iframes on youtube.com. Now compatible with "Simple YouTube MP3 Button".
+* Fix videos on channel pages when first visiting a video url.
+
 ## 83 - Mar 27, 2016
 
 * Force width to 100% on the `#player-api` element to fix compatibility with Youtube+.
