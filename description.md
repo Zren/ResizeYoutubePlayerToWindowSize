@@ -17,6 +17,10 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 85 - July 14, 2016
+
+* Fix seekbar fix regex.
+
 ## 84 - July 7, 2016
 
 * Don't run script in youtube.com video iframes, or iframes on youtube.com. Now compatible with "Simple YouTube MP3 Button".
