@@ -52,69 +52,18 @@
             d[propertyNames[i]] = value;
         return d;
     }
-
-    //--- jQuery
-    // Based on jQuery
-    // https://github.com/jquery/jquery/blob/master/src/manipulation.js
-    var core_rnotwhite = /\S+/g;
-    var rclass = /[\t\r\n\f]/g;
-    var rtrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
-
-    var jQuery = {
-        trim: function( text ) {
-            return (text || "").replace( rtrim, "" );
-        },
-        addClass: function( elem, value ) {
-            var classes, cur, clazz, j,
-                proceed = typeof value === "string" && value;
-
-            if ( proceed ) {
-                // The disjunction here is for better compressibility (see removeClass)
-                classes = ( value || "" ).match( core_rnotwhite ) || [];
-
-                cur = elem.nodeType === 1 && ( elem.className ?
-                    ( " " + elem.className + " " ).replace( rclass, " " ) :
-                    " "
-                );
-
-                if ( cur ) {
-                    j = 0;
-                    while ( (clazz = classes[j++]) ) {
-                        if ( cur.indexOf( " " + clazz + " " ) < 0 ) {
-                            cur += clazz + " ";
-                        }
-                    }
-                    elem.className = jQuery.trim( cur );
-                }
-            }
-        },
-        removeClass: function( elem, value ) {
-            var classes, cur, clazz, j,
-                proceed = arguments.length === 0 || typeof value === "string" && value;
-
-            if ( proceed ) {
-                classes = ( value || "" ).match( core_rnotwhite ) || [];
-
-                // This expression is here for better compressibility (see addClass)
-                cur = elem.nodeType === 1 && ( elem.className ?
-                    ( " " + elem.className + " " ).replace( rclass, " " ) :
-                    ""
-                );
-
-                if ( cur ) {
-                    j = 0;
-                    while ( (clazz = classes[j++]) ) {
-                        // Remove *all* instances
-                        while ( cur.indexOf( " " + clazz + " " ) >= 0 ) {
-                            cur = cur.replace( " " + clazz + " ", " " );
-                        }
-                    }
-                    elem.className = value ? jQuery.trim( cur ) : "";
-                }
-            }
+    function addClass(el, value) {
+        var classes = value.split(' ');
+        for (var i = 0; i < classes.length; i++) {
+            el.classList.add(classes[i]);
         }
-    };
-
+    }
+    function removeClass(el, value) {
+        var classes = value.split(' ');
+        for (var i = 0; i < classes.length; i++) {
+            el.classList.remove(classes[i]);
+        }
+    }
 
     //--- Stylesheet
     var JSStyleSheet = function(id) {
@@ -271,8 +220,8 @@
         var moviePlayerElement = document.getElementById('movie_player');
         if (!moviePlayerElement) return;
         // ytwp.log(moviePlayerElement.classList);
-        jQuery.removeClass(moviePlayerElement, 'autohide-controlbar autominimize-controls-aspect autohide-controls-fullscreenonly autohide-controls hide-controls-when-cued autominimize-progress-bar autominimize-progress-bar-fullscreenonly autohide-controlbar-fullscreenonly autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect');
-        jQuery.addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
+        removeClass(moviePlayerElement, 'autohide-controlbar autominimize-controls-aspect autohide-controls-fullscreenonly autohide-controls hide-controls-when-cued autominimize-progress-bar autominimize-progress-bar-fullscreenonly autohide-controlbar-fullscreenonly autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect');
+        addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
         // ytwp.log(moviePlayerElement.classList);
     };
     ytwp.html5.update = function() {
@@ -451,19 +400,19 @@
 
             // topOfPageClassId
             if (uw.scrollY == 0) {
-                jQuery.addClass(document.body, topOfPageClassId);
+                document.body.classList.add(topOfPageClassId);
                 //var player = document.getElementById('movie_player');
                 //if (player)
                 //    player.focus();
             } else {
-                jQuery.removeClass(document.body, topOfPageClassId);
+                document.body.classList.remove(topOfPageClassId);
             }
 
             // viewingVideoClassId
             if (uw.scrollY <= viewportHeight) {
-                jQuery.addClass(document.body, viewingVideoClassId);
+                document.body.classList.add(viewingVideoClassId);
             } else {
-                jQuery.removeClass(document.body, viewingVideoClassId);
+                document.body.classList.remove(viewingVideoClassId);
             }
         },
         initStyle: function() {
@@ -675,7 +624,7 @@
         },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.
-            jQuery.addClass(document.body, scriptBodyClassId);
+            document.body.classList.add(scriptBodyClassId);
             ytwp.log('Applied ' + scriptBodyClassSelector);
         },
         html5PlayerFix: function() {
