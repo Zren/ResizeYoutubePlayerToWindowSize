@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 87 - September 3, 2016
+
+* Rewrite the previous fix since it caused problems.
+
 ## 86 - September 3, 2016
 
 * Fix empty space when closing the share widget.

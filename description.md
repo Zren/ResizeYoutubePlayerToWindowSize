@@ -17,6 +17,10 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 87 - September 3, 2016
+
+* Rewrite the previous fix since it caused problems.
+
 ## 86 - September 3, 2016
 
 * Fix empty space when closing the share widget.

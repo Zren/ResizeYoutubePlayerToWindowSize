@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         86
+// @version         87
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -63,6 +63,16 @@
         for (var i = 0; i < classes.length; i++) {
             el.classList.remove(classes[i]);
         }
+    }
+    function observe(selector, config, callback) {
+        var observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation){
+                callback(mutation);
+            });
+        });
+        var target = document.querySelector(selector);
+        observer.observe(target, config);
+        return observer;
     }
 
     //--- Stylesheet
@@ -544,9 +554,6 @@
                 'position': 'absolute',
                 'top': '100% !important'
             });
-            // Fix the offset when closing the Share widget (element.style.height = ~275px).
-            ytwp.style.appendRule(scriptBodyClassSelector + '.appbar-hidden #masthead-positioner-height-offset', 'height', '50px !important');
-            ytwp.style.appendRule(scriptBodyClassSelector + ' #masthead-positioner-height-offset', 'height', '90px !important');
             // Lower masthead below Youtube+'s html.floater
             ytwp.style.appendRule('html.floater ' + scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'z-index': '5',
@@ -646,7 +653,27 @@
                 ytwp.error(e);
             }
         },
+        fixMasthead: function() {
+            ytwp.log('fixMasthead');
+            // Fix the offset when closing the Share widget (element.style.height = ~275px).
 
+            observe('#masthead-positioner-height-offset', {
+                attributes: true,
+            }, function(mutation) {
+                console.log(mutation.type, mutation)
+                if (mutation.attributeName === 'style') {
+                    var el = mutation.target;
+                    if (el.style.height) { // != ""
+                        setTimeout(function(){
+                            el.style.height = ""
+                            document.querySelector('#appbar-guide-menu').style.marginTop = "";
+                        }, 0);
+                    }
+
+                }
+            });
+
+        },
     };
 
 
@@ -669,8 +696,11 @@
             ytwp.event.init();
 
             // Channel -> /watch
-            if (ytwp.util.isWatchUrl())
+            if (ytwp.util.isWatchUrl()) {
                 ytwp.event.addBodyClass();
+            }
+            
+            ytwp.event.fixMasthead();
         },
         // 'dispose-watch': function() {},
         'dispose': function() {
