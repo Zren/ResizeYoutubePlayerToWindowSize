@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         85
+// @version         86
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -595,6 +595,9 @@
                 'position': 'absolute',
                 'top': '100% !important'
             });
+            // Fix the offset when closing the Share widget (element.style.height = ~275px).
+            ytwp.style.appendRule(scriptBodyClassSelector + '.appbar-hidden #masthead-positioner-height-offset', 'height', '50px !important');
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #masthead-positioner-height-offset', 'height', '90px !important');
             // Lower masthead below Youtube+'s html.floater
             ytwp.style.appendRule('html.floater ' + scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'z-index': '5',
