@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 86 - September 3, 2016
+
+* Fix empty space when closing the share widget.
+
 ## 85 - July 14, 2016
 
 * Fix seekbar fix regex.
