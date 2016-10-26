@@ -1,6 +1,6 @@
 # Suggestions
 * Hide scrollbars with [this userstyle (Chrome)](https://userstyles.org/styles/115328/hidden-scrollbars) | [(Firefox)](https://userstyles.org/styles/96257/auto-hidden-minimal-scrollbars-for-firefox).
-* Use Resize Video To Window Size for Crunchyroll, Vimeo, and a few others.
+* Use [Resize Video To Window Size](https://greasyfork.org/en/scripts/10815-resize-video-to-window-size) for Crunchyroll, Vimeo, and a few others.
 
 # Screenshots
 
