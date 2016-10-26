@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         87
+// @version         88
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -71,6 +71,9 @@
             });
         });
         var target = document.querySelector(selector);
+        if (!target) {
+            return null;
+        }
         observer.observe(target, config);
         return observer;
     }
@@ -186,7 +189,6 @@
             });
             testAppInstance.dispose();
             delete playerInstances[testAppInstanceKey];
-            
         }
         return ytwp.html5.YTApplication;
     };
@@ -264,7 +266,9 @@
         var moviePlayerKey = null;
 
         // function (a,b){return this.isDisposed()?!1:this.R.P.apply(this.R,arguments)}
-        var applyFnRegex = /^function \(a,b\)\{return this\.isDisposed\(\)\?!1:this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\.apply\(this\.([a-zA-Z_$][\w_$]*),arguments\)\}$/;
+        var applyFnRegex1 = /^function \(a,b\)\{return this\.isDisposed\(\)\?!1:this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\.apply\(this\.([a-zA-Z_$][\w_$]*),arguments\)\}$/;
+        // function (a,b){return this.O.Y.apply(this.O,arguments)}
+        var applyFnRegex2 = /^function \(a,b\)\{return this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\.apply\(this\.([a-zA-Z_$][\w_$]*),arguments\)\}$/;
         var applyFnKey = null;
         var applyKey1 = null;
         var applyKey2 = null;
@@ -300,27 +304,31 @@
                             fnAlreadyReplacedCount += 1;
                             clientRectFn = val2;
                             clientRectFnKey = key2;
+                        } else if (applyFnRegex2.test(fnString)) {
+                            console.log('applyFnRegex2', key1, key2,  applyKey1, applyKey2, moviePlayerKey)
+                            applyKey1 = key1;
+                            applyKey2 = key2;
                         } else {
                             // console.log(key1, key2, val2, '[Not Used]');
                         }
                     }
                 }
             } else if (typeof val1 === 'object' && val1 !== null && typeof val1.logEvent === 'function') {
-                applyKey1 = key1;
-                
                 for (var key2 in val1) {
                     var val2 = val1[key2];//console.log(key1, key2, val2);
                     if (typeof val2 === 'function') {
                         var fnString = val2.toString();
                         // console.log(fnString);
-                        if (applyKey2 === null && applyFnRegex.test(fnString)) {
+                        if (applyKey2 === null && applyFnRegex1.test(fnString)) {
+                            console.log('applyFnRegex1', key1, key2,  applyKey1, applyKey2, moviePlayerKey)
+                            applyKey1 = key1;
                             applyKey2 = key2;
                         }
                     }
                 }
             } else if (typeof val1 === 'function') {
                 var fnString = val1.toString();
-                if (applyFnRegex.test(fnString)) {
+                if (applyFnRegex1.test(fnString)) {
                     applyFnKey = key1;
                 }
             }
@@ -370,7 +378,7 @@
             ytwp.log('applyFnKey', applyFnKey);
             app[applyFnKey]('resize', ytwp.html5.getPlayerRect());
         } else if (applyKey1 && applyKey2) {
-            ytwp.log('applyKey', applyKey1, applyKey2);
+            ytwp.log('applyKey', applyKey1, applyKey2, app[applyKey1][applyKey2]);
             app[applyKey1][applyKey2]('resize', ytwp.html5.getPlayerRect());
         } else {
             ytwp.log('applyFn not found');
@@ -409,7 +417,7 @@
             var viewportHeight = document.documentElement.clientHeight;
 
             // topOfPageClassId
-            if (uw.scrollY == 0) {
+            if (ytwp.isWatchPage && uw.scrollY == 0) {
                 document.body.classList.add(topOfPageClassId);
                 //var player = document.getElementById('movie_player');
                 //if (player)
@@ -419,7 +427,7 @@
             }
 
             // viewingVideoClassId
-            if (uw.scrollY <= viewportHeight) {
+            if (ytwp.isWatchPage && uw.scrollY <= viewportHeight) {
                 document.body.classList.add(viewingVideoClassId);
             } else {
                 document.body.classList.remove(viewingVideoClassId);
@@ -477,8 +485,6 @@
             
             // Hide the cinema/wide mode button since it's useless.
             //ytwp.style.appendRule(scriptBodyClassSelector + ' #movie_player .ytp-size-button', 'display', 'none');
-            
-                
 
             // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
             // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
@@ -497,9 +503,9 @@
                     'width': '100% !important',
                     'min-width': '100% !important',
                     'max-width': '100% !important',
-                    'height': '100% !important',
-                    'min-height': '100% !important',
-                    'max-height': '100% !important',
+                    'height': '100vh !important',
+                    'min-height': '100vh !important',
+                    'max-height': '100vh !important',
                 }
             );
 
@@ -572,6 +578,7 @@
                 'position': 'initial'
             });
 
+
             //---
             // Hide Scrollbars
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
@@ -608,6 +615,29 @@
             ytwp.style.appendRule(scriptBodyClassSelector + ' .playlist-videos-list', {
                 'max-height': '470px !important',
                 'height': 'initial !important',
+            });
+            
+            //---
+            // Material UI
+            ytwp.style.appendRule('body.ytwp-viewing-video .yt-polymer-opt-out-dialog-0', 'display', 'none');
+            ytwp.style.appendRule('body > #player:not(.ytd-watch)', 'display', 'none');
+            ytwp.style.appendRule('body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager', 'margin-top', '0 !important');
+            ytwp.style.appendRule('body.ytwp-window-player:not(#body)', 'margin-top', '0vh');
+            ytwp.style.appendRule('.ytd-watch-0 #content-separator.ytd-watch', 'margin-top', '0');
+            ytwp.style.appendRule('.ytd-watch-0 #container.ytd-watch', {
+                'position': 'relative',
+                'margin-top': 'calc(100vh + 56px)',
+            });
+            ytwp.style.appendRule('body.ytwp-viewing-video ytd-app #masthead-container.ytd-app', {
+                'position': 'absolute',
+                'top': '100vh',
+            });
+            
+            ytwp.style.appendRule([
+                'body.ytwp-window-player.ytwp-viewing-video #masthead-positioner',
+                'body[data-spf-name="watch"].ytwp-viewing-video #masthead-positioner',
+            ], {
+                'top': '100vh !important',
             });
         },
         onWatchInit: function() {
@@ -705,7 +735,19 @@
         // 'dispose-watch': function() {},
         'dispose': function() {
             ytwp.event.onDispose();
-        }
+        },
+        
+        //--- Material UI (pubsub2)
+        'timing-sent': function() {
+            console.log('ytwp timimg-sent');
+            ytwp.pubsubListeners['appbar-guide-delay-load']();
+            
+            if (!ytwp.util.isWatchUrl()) {
+                console.log('ytwp timimg-sent');
+                ytwp.pubsubListeners['dispose']();
+                document.body.classList.remove(scriptBodyClassId);
+            }
+        },
     };
 
     ytwp.registerYoutubeListeners = function() {
@@ -718,6 +760,9 @@
             var eventListener = ytwp.pubsubListeners[eventName];
             uw.yt.pubsub.instance_.subscribe(eventName, eventListener);
         }
+        
+        // Material UI doesn't use pubsub except for this.
+        uw.yt.pubsub2.instance_.subscribe('timing-sent', ytwp.pubsubListeners['timing-sent']);
     };
 
     ytwp.main = function() {

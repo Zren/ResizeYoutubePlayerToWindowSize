@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 88 - October 25, 2016
+
+* Add support for the Material Design UI experiment.
+
 ## 87 - September 3, 2016
 
 * Rewrite the previous fix since it caused problems.

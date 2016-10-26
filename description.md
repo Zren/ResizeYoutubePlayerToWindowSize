@@ -1,5 +1,6 @@
 # Suggestions
 * Hide scrollbars with [this userstyle (Chrome)](https://userstyles.org/styles/115328/hidden-scrollbars) | [(Firefox)](https://userstyles.org/styles/96257/auto-hidden-minimal-scrollbars-for-firefox).
+* Use Resize Video To Window Size for Crunchyroll, Vimeo, and a few others.
 
 # Screenshots
 
@@ -17,10 +18,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 87 - September 3, 2016
+## 88 - October 25, 2016
 
-* Rewrite the previous fix since it caused problems.
-
-## 86 - September 3, 2016
-
-* Fix empty space when closing the share widget.
+* Add support for the Material Design UI experiment.
