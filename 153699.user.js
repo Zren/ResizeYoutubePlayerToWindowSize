@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         88
+// @version         89
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -451,6 +451,12 @@
         },
         buildStylesheet: function() {
             ytwp.log('buildStylesheet');
+            //--- Browser Scrollbar
+            ytwp.style.appendRule(scriptBodyClassSelector + '::-webkit-scrollbar', {
+                'width': '0',
+                'height': '0',
+            });
+
             //--- Video Player
             var d;
             d = buildVenderPropertyDict(transitionProperties, 'left 0s linear, padding-left 0s linear');

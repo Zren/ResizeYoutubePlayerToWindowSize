@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 89 - January 24, 2017
+
+* Hide the scrollbar on video pages (webkit browsers).
+* No longer promote Stylish to hide scrollbars now that the extension spies on you by default.
+
 ## 88 - October 25, 2016
 
 * Add support for the Material Design UI experiment.

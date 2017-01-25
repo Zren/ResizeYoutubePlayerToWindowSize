@@ -1,3 +1,5 @@
+Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by default (and only on video pages) now that Stylish went to the dark side and is used to spy on the websites you visit by "tracking you anonymously" by default.
+
 # Suggestions
 * Use [Resize Video To Window Size](https://greasyfork.org/en/scripts/10815-resize-video-to-window-size) for Crunchyroll, Vimeo, and a few others.
 
@@ -17,6 +19,7 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 88 - October 25, 2016
+## 89 - January 24, 2017
 
-* Add support for the Material Design UI experiment.
+* Hide the scrollbar on video pages (webkit browsers).
+* No longer promote Stylish to hide scrollbars now that the extension spies on you by default.
