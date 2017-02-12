@@ -156,7 +156,7 @@
         isWatchUrl: function (url) {
             if (!url)
                 url = uw.location.href;
-            return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
+            return url.match(/https?:\/\/(www\.)?youtube.com\/(watch|shared)\?/);
         }
     };
 
@@ -531,6 +531,9 @@
             // Using min/max width/height will keep
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-width', 'width', '100% !important');
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height', 'height', '100% !important');
+            
+            // Fix /shared?ci= urls.
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .shared-conversation-watch .player-height', 'top', '0 !important');
 
             // Fix video overlays
             ytwp.style.appendRule([
