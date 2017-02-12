@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Resize YT To Window Size
-// @description     Moves the YouTube video to the top of the website and resizes it to the window size.
+// @description     Moves the YouTube video to the top of the website and fill the window with the video player.
 // @author          Chris H (Zren / Shade)
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
