@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 90 - February 12, 2017
+
+* Support `/shared` pages.
+
 ## 89 - January 24, 2017
 
 * Hide the scrollbar on video pages (webkit browsers).

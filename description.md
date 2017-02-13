@@ -19,7 +19,6 @@ Scrollbars are hidden in the above picture with [this userstyle (Chrome)](https:
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 89 - January 24, 2017
+## 90 - February 12, 2017
 
-* Hide the scrollbar on video pages (webkit browsers).
-* No longer promote Stylish to hide scrollbars now that the extension spies on you by default.
+* Support `/shared` pages.
