@@ -31,3 +31,21 @@
         #watch7-playlist-bar
 #watch7-main-container
   ...
+
+The following pubsub events fire when you scroll to see the comments since ~2017-02-14.
+pubsub1 yt-www-pageFrameCssNotifications-load
+pubsub1 yt-www-comments-page-updated
+
+Something fires on scroll that needs to fire, otherwise the next button doesn't work,
+and autoplay doesn't work either.
+
+/watch_fragments_ajax
+	?v=9BJ3jDWlOHE
+	&list=WL
+	&index=15
+	&tr=scroll
+	&distiller=1
+	&ctoken=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa%253D
+		decode this param with atob(decodeURIComponent(decodeURIComponent("...")))
+	&frags=comments
+	&spf=load
