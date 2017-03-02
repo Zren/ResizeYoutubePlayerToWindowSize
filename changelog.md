@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 91 - March 2, 2017
+
+* Update CSS to support new beta of the Material Design layout (tested by adding `&f6=4` to the `PREFS` cookie).
+
 ## 90 - February 12, 2017
 
 * Support `/shared` pages.

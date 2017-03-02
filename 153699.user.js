@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         90
+// @version         91
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -628,24 +628,18 @@
             
             //---
             // Material UI
-            ytwp.style.appendRule('body.ytwp-viewing-video .yt-polymer-opt-out-dialog-0', 'display', 'none');
-            ytwp.style.appendRule('body > #player:not(.ytd-watch)', 'display', 'none');
-            ytwp.style.appendRule('body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager', 'margin-top', '0 !important');
-            ytwp.style.appendRule('body.ytwp-window-player:not(#body)', 'margin-top', '0vh');
-            ytwp.style.appendRule('.ytd-watch-0 #content-separator.ytd-watch', 'margin-top', '0');
-            ytwp.style.appendRule('.ytd-watch-0 #container.ytd-watch', {
-                'position': 'relative',
-                'margin-top': 'calc(100vh + 56px)',
-            });
-            ytwp.style.appendRule('body.ytwp-viewing-video ytd-app #masthead-container.ytd-app', {
+            ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-scrolltop #extra-buttons', 'display', 'none !important');
+            // ytwp.style.appendRule('body > #player:not(.ytd-watch)', 'display', 'none');
+            // ytwp.style.appendRule('body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager', 'margin-top', '0 !important');
+            // ytwp.style.appendRule('.ytd-watch-0 #content-separator.ytd-watch', 'margin-top', '0');
+            ytwp.style.appendRule('ytd-watch #top', 'margin-top', '71px !important'); // 56px (topnav height) + 15px (margin)
+            ytwp.style.appendRule('ytd-watch #container', 'margin-top', '0 !important');
+            ytwp.style.appendRule('ytd-watch #content-separator', 'margin-top', '0 !important');
+            ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-app #masthead-container.ytd-app', {
                 'position': 'absolute',
                 'top': '100vh',
             });
-            
-            ytwp.style.appendRule([
-                'body.ytwp-window-player.ytwp-viewing-video #masthead-positioner',
-                'body[data-spf-name="watch"].ytwp-viewing-video #masthead-positioner',
-            ], {
+            ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-watch #masthead-positioner', {
                 'top': '100vh !important',
             });
         },
