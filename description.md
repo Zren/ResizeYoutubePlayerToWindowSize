@@ -13,8 +13,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 [![](https://i.imgur.com/RiodhIb.jpg)](https://i.imgur.com/RiodhIb.jpg)
 
-Note: In the latest version, scrollbars are automatically hidden on video pages.
-
 # Changelog
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
