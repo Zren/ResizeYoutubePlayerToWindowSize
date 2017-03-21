@@ -767,7 +767,8 @@
         }
         
         // Material UI doesn't use pubsub except for this.
-        uw.yt.pubsub2.instance_.subscribe('timing-sent', ytwp.pubsubListeners['timing-sent']);
+        var instance2 = uw.yt.pubsub2.instance_ || uw.yt.pubsub2.pubsub2.instance_;
+        instance2.subscribe('timing-sent', ytwp.pubsubListeners['timing-sent']);
     };
 
     ytwp.main = function() {
