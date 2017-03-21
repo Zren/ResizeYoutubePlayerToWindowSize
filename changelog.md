@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 92 - March 21, 2017
+
+* Fix content positioning in the Material Design css.
+* Fix some error spam caused by the pubsub/pubsub2 subscribe() function getting moved.
+
 ## 91 - March 2, 2017
 
 * Update CSS to support new beta of the Material Design layout (tested by adding `&f6=4` to the `PREFS` cookie).
