@@ -760,9 +760,10 @@
 
     ytwp.registerYoutubePubSubListeners = function() {
         // Subscribe
+        var instance = uw.yt.pubsub.instance_ || uw.yt.pubsub;
         for (var eventName in ytwp.pubsubListeners) {
             var eventListener = ytwp.pubsubListeners[eventName];
-            uw.yt.pubsub.instance_.subscribe(eventName, eventListener);
+            instance.subscribe(eventName, eventListener);
         }
         
         // Material UI doesn't use pubsub except for this.
