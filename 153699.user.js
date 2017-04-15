@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         93
+// @version         94
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -764,8 +764,13 @@
         }
         
         // Material UI doesn't use pubsub except for this.
-        var instance2 = uw.yt.pubsub2.instance_ || uw.yt.pubsub2.pubsub2.instance_;
-        instance2.subscribe('timing-sent', ytwp.pubsubListeners['timing-sent']);
+        // Doesn't exist on regular UI.
+        if (uw.yt.pubsub2) {
+            var instance2 = uw.yt.pubsub2.instance_ || uw.yt.pubsub2.pubsub2.instance_;
+            if (instance2) {
+                instance2.subscribe('timing-sent', ytwp.pubsubListeners['timing-sent']);
+            }
+        }
     };
 
     ytwp.main = function() {
