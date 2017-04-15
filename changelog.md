@@ -1,5 +1,13 @@
 <h3>Changelog</h3>
 
+## 94 - April 15, 2017
+
+* Fix high CPU usage caused by binding listeners over and over due to an error (and my bad code).
+
+## 93 - April 4, 2017
+
+* Don't run on `/shared` pages anymore.
+
 ## 92 - March 21, 2017
 
 * Fix content positioning in the Material Design css.

@@ -17,7 +17,10 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 92 - March 21, 2017
+## 94 - April 15, 2017
 
-* Fix content positioning in the Material Design css.
-* Fix some error spam caused by the pubsub/pubsub2 subscribe() function getting moved.
+* Fix high CPU usage caused by binding listeners over and over due to an error (and my bad code).
+
+## 93 - April 4, 2017
+
+* Don't run on `/shared` pages anymore.
