@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         94
+// @version         95
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -125,6 +125,51 @@
     JSStyleSheet.prototype.injectIntoHeader = function(injectedStyleId, stylesheet) {
         JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
     };
+
+    //--- History
+    var HistoryEvent = function() {}
+    HistoryEvent.listeners = []
+
+    HistoryEvent.dispatch = function(state, title, url) {
+      var stack = this.listeners
+      for (var i = 0, l = stack.length; i < l; i++) {
+        stack[i].call(this, state, title, url)
+      }
+    }
+    HistoryEvent.onPushState = function(state, title, url) {
+        HistoryEvent.dispatch(state, title, url)
+        return HistoryEvent.origPushState.apply(window.history, arguments)
+    }
+    HistoryEvent.onReplaceState = function(state, title, url) {
+        HistoryEvent.dispatch(state, title, url)
+        return HistoryEvent.origReplaceState.apply(window.history, arguments)
+    }
+    HistoryEvent.inject = function() {
+        if (!HistoryEvent.injected) {
+            HistoryEvent.origPushState = window.history.pushState
+            HistoryEvent.origReplaceState = window.history.replaceState
+
+            window.history.pushState = HistoryEvent.onPushState
+            window.history.replaceState = HistoryEvent.onReplaceState
+            HistoryEvent.injected = true
+        }
+    }
+
+    HistoryEvent.timerId = 0
+    HistoryEvent.onTick = function() {
+        if (HistoryEvent.lastPath != window.location.pathname) {
+            HistoryEvent.dispatch({}, document.title, window.location.href)
+            HistoryEvent.lastPath = window.location.pathname
+        }
+    }
+    HistoryEvent.startTimer = function() {
+        HistoryEvent.lastPath = window.location.pathname
+        HistoryEvent.timerId = setInterval(HistoryEvent.onTick, 500)
+    }
+    HistoryEvent.stopTimer = function() {
+        clearInterval(HistoryEvent.timerId)
+    }
+
 
     //--- Constants
     var scriptShortName = 'ytwp'; // YT Window Player
@@ -737,20 +782,19 @@
         'dispose': function() {
             ytwp.event.onDispose();
         },
-        
-        //--- Material UI (pubsub2)
-        'timing-sent': function() {
-            console.log('ytwp timimg-sent');
-            ytwp.pubsubListeners['appbar-guide-delay-load']();
-            
-            if (!ytwp.util.isWatchUrl()) {
-                console.log('ytwp timimg-sent');
-                ytwp.pubsubListeners['dispose']();
-                document.body.classList.remove(scriptBodyClassId);
-            }
-        },
     };
 
+    //--- Material UI
+    ytwp.materialPageTransition = function() {
+        ytwp.pubsubListeners['appbar-guide-delay-load']();
+        
+        if (!ytwp.util.isWatchUrl()) {
+             ytwp.pubsubListeners['dispose']();
+            document.body.classList.remove(scriptBodyClassId);
+        }
+    };
+
+    //--- Listeners
     ytwp.registerYoutubeListeners = function() {
         ytwp.registerYoutubePubSubListeners();
     };
@@ -762,15 +806,12 @@
             var eventListener = ytwp.pubsubListeners[eventName];
             instance.subscribe(eventName, eventListener);
         }
-        
-        // Material UI doesn't use pubsub except for this.
-        // Doesn't exist on regular UI.
-        if (uw.yt.pubsub2) {
-            var instance2 = uw.yt.pubsub2.instance_ || uw.yt.pubsub2.pubsub2.instance_;
-            if (instance2) {
-                instance2.subscribe('timing-sent', ytwp.pubsubListeners['timing-sent']);
-            }
-        }
+
+        // For Material UI
+        HistoryEvent.listeners.push(ytwp.materialPageTransition)
+        HistoryEvent.startTimer()
+        // HistoryEvent.inject()
+        // HistoryEvent.listeners.push(console.log.bind(console))
     };
 
     ytwp.main = function() {
