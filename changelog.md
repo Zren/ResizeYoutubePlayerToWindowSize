@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 96 - April 25, 2017
+
+* Fix Material UI bug. Don't use pubsub anymore since Material UI keeps fucking around with it's API. Just use a periodic timer.
+
 ## 95 - April 16, 2017
 
 * TempFix for detecting page transition for the Material UI. Check the URL every 500ms and see if it's changed. A proper fix will come when I find a better solution.

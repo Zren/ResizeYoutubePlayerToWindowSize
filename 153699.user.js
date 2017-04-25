@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         95
+// @version         96
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -432,52 +432,54 @@
     };
 
 
+    ytwp.init = function() {
+        ytwp.log('init');
+        if (!ytwp.initialized) {
+            ytwp.isWatchPage = ytwp.util.isWatchUrl();
+            if (ytwp.isWatchPage) {
+                if (!document.getElementById(scriptStyleId)) {
+                    ytwp.event.initStyle();
+                }
+                ytwp.initScroller();
+                ytwp.initialized = true;
+                ytwp.pageReady = false;
+            }
+        }
+        ytwp.event.onWatchInit();
+        if (ytwp.isWatchPage) {
+            ytwp.html5PlayerFix();
+        }
+    }
+
+    ytwp.initScroller = function() {
+        // Register listener & Call it now.
+        uw.addEventListener('scroll', ytwp.onScroll, false);
+        uw.addEventListener('resize', ytwp.onScroll, false);
+        ytwp.onScroll();
+    }
+
+    ytwp.onScroll = function() {
+        var viewportHeight = document.documentElement.clientHeight;
+
+        // topOfPageClassId
+        if (ytwp.isWatchPage && uw.scrollY == 0) {
+            document.body.classList.add(topOfPageClassId);
+            //var player = document.getElementById('movie_player');
+            //if (player)
+            //    player.focus();
+        } else {
+            document.body.classList.remove(topOfPageClassId);
+        }
+
+        // viewingVideoClassId
+        if (ytwp.isWatchPage && uw.scrollY <= viewportHeight) {
+            document.body.classList.add(viewingVideoClassId);
+        } else {
+            document.body.classList.remove(viewingVideoClassId);
+        }
+    }
 
     ytwp.event = {
-        init: function() {
-            ytwp.log('init');
-            if (!ytwp.initialized) {
-                ytwp.isWatchPage = ytwp.util.isWatchUrl();
-                if (ytwp.isWatchPage) {
-                    if (!document.getElementById(scriptStyleId)) {
-                        ytwp.event.initStyle();
-                    }
-                    ytwp.event.initScroller();
-                    ytwp.initialized = true;
-                    ytwp.pageReady = false;
-                }
-            }
-            ytwp.event.onWatchInit();
-            if (ytwp.isWatchPage) {
-                ytwp.event.html5PlayerFix();
-            }
-        },
-        initScroller: function() {
-            // Register listener & Call it now.
-            uw.addEventListener('scroll', ytwp.event.onScroll, false);
-            uw.addEventListener('resize', ytwp.event.onScroll, false);
-            ytwp.event.onScroll();
-        },
-        onScroll: function() {
-            var viewportHeight = document.documentElement.clientHeight;
-
-            // topOfPageClassId
-            if (ytwp.isWatchPage && uw.scrollY == 0) {
-                document.body.classList.add(topOfPageClassId);
-                //var player = document.getElementById('movie_player');
-                //if (player)
-                //    player.focus();
-            } else {
-                document.body.classList.remove(topOfPageClassId);
-            }
-
-            // viewingVideoClassId
-            if (ytwp.isWatchPage && uw.scrollY <= viewportHeight) {
-                document.body.classList.add(viewingVideoClassId);
-            } else {
-                document.body.classList.remove(viewingVideoClassId);
-            }
-        },
         initStyle: function() {
             ytwp.log('initStyle');
             ytwp.style = new JSStyleSheet(scriptStyleId);
@@ -710,118 +712,102 @@
             document.body.classList.add(scriptBodyClassId);
             ytwp.log('Applied ' + scriptBodyClassSelector);
         },
-        html5PlayerFix: function() {
-            ytwp.log('html5PlayerFix');
-
-            try {
-                if (!uw.ytcenter // Youtube Center
-                    && !uw.html5Patched // Youtube+
-                    && (!ytwp.html5.app)
-                    && (uw.ytplayer && uw.ytplayer.config)
-                    && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
-                ) {
-                    ytwp.html5.app = ytwp.html5.getPlayerInstance();
-                }
-
-                ytwp.html5.update();
-                ytwp.html5.autohideControls();
-            } catch (e) {
-                ytwp.error(e);
-            }
-        },
-        fixMasthead: function() {
-            ytwp.log('fixMasthead');
-            // Fix the offset when closing the Share widget (element.style.height = ~275px).
-
-            observe('#masthead-positioner-height-offset', {
-                attributes: true,
-            }, function(mutation) {
-                console.log(mutation.type, mutation)
-                if (mutation.attributeName === 'style') {
-                    var el = mutation.target;
-                    if (el.style.height) { // != ""
-                        setTimeout(function(){
-                            el.style.height = ""
-                            document.querySelector('#appbar-guide-menu').style.marginTop = "";
-                        }, 0);
-                    }
-
-                }
-            });
-
-        },
     };
 
+    ytwp.html5PlayerFix = function() {
+        ytwp.log('html5PlayerFix');
 
-    ytwp.pubsubListeners = {
-        'init': function() { // Not always called
-            ytwp.event.init();
-        },
-        'init-watch': function() { // Not always called
-            ytwp.event.init();
-        },
-        'player-added': function() { // Not always called
-            // Usually called after init-watch, however this is called before init when going from channel -> watch page.
-            // The init event is when the body element resets all it's classes.
-            ytwp.event.init();
-        },
-        // 'player-resize': function() {},
-        // 'player-playback-start': function() {},
-        'appbar-guide-delay-load': function() {
-            // Listen to a later event that is always called in case the others are missed.
-            ytwp.event.init();
-
-            // Channel -> /watch
-            if (ytwp.util.isWatchUrl()) {
-                ytwp.event.addBodyClass();
+        try {
+            if (!uw.ytcenter // Youtube Center
+                && !uw.html5Patched // Youtube+
+                && (!ytwp.html5.app)
+                && (uw.ytplayer && uw.ytplayer.config)
+                && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
+            ) {
+                ytwp.html5.app = ytwp.html5.getPlayerInstance();
             }
-            
-            ytwp.event.fixMasthead();
-        },
-        // 'dispose-watch': function() {},
-        'dispose': function() {
-            ytwp.event.onDispose();
-        },
-    };
+
+            ytwp.html5.update();
+            ytwp.html5.autohideControls();
+        } catch (e) {
+            ytwp.error(e);
+        }
+    }
+
+    ytwp.fixMasthead = function() {
+        ytwp.log('fixMasthead');
+        var el = document.querySelector('#masthead-positioner-height-offset');
+        if (el) {
+            ytwp.fixMastheadElement(el);
+        }
+    }
+    ytwp.fixMastheadElement = function(el) {
+        ytwp.log('fixMastheadElement', el);
+        if (el.style.height) { // != ""
+            setTimeout(function(){
+                el.style.height = ""
+                document.querySelector('#appbar-guide-menu').style.marginTop = "";
+            }, 0);
+        }
+    }
+
+    ytwp.registerMastheadFix = function() {
+        ytwp.log('registerMastheadFix');
+        // Fix the offset when closing the Share widget (element.style.height = ~275px).
+
+        observe('#masthead-positioner-height-offset', {
+            attributes: true,
+        }, function(mutation) {
+            console.log(mutation.type, mutation)
+            if (mutation.attributeName === 'style') {
+                var el = mutation.target;
+                if (el.style.height) { // != ""
+                    setTimeout(function(){
+                        el.style.height = ""
+                        document.querySelector('#appbar-guide-menu').style.marginTop = "";
+                    }, 0);
+                }
+
+            }
+        });
+    }
 
     //--- Material UI
     ytwp.materialPageTransition = function() {
-        ytwp.pubsubListeners['appbar-guide-delay-load']();
-        
-        if (!ytwp.util.isWatchUrl()) {
-             ytwp.pubsubListeners['dispose']();
+        ytwp.init();
+
+        if (ytwp.util.isWatchUrl()) {
+            ytwp.event.addBodyClass();
+            if (!ytwp.html5.app) {
+                ytwp.log('materialPageTransition !ytwp.html5.app', ytwp.html5.app)
+                setTimeout(ytwp.materialPageTransition, 100);
+            }
+        } else {
+            ytwp.event.onDispose();
             document.body.classList.remove(scriptBodyClassId);
         }
+        ytwp.onScroll();
+        ytwp.fixMasthead();
     };
 
     //--- Listeners
-    ytwp.registerYoutubeListeners = function() {
-        ytwp.registerYoutubePubSubListeners();
+    ytwp.registerListeners = function() {
+        ytwp.registerMaterialListeners();
+        ytwp.registerMastheadFix();
     };
 
-    ytwp.registerYoutubePubSubListeners = function() {
-        // Subscribe
-        var instance = uw.yt.pubsub.instance_ || uw.yt.pubsub;
-        for (var eventName in ytwp.pubsubListeners) {
-            var eventListener = ytwp.pubsubListeners[eventName];
-            instance.subscribe(eventName, eventListener);
-        }
-
+    ytwp.registerMaterialListeners = function() {
         // For Material UI
-        HistoryEvent.listeners.push(ytwp.materialPageTransition)
-        HistoryEvent.startTimer()
-        // HistoryEvent.inject()
-        // HistoryEvent.listeners.push(console.log.bind(console))
+        HistoryEvent.listeners.push(ytwp.materialPageTransition);
+        HistoryEvent.startTimer();
+        // HistoryEvent.inject();
+        // HistoryEvent.listeners.push(console.log.bind(console));
     };
 
     ytwp.main = function() {
-        try {
-            ytwp.registerYoutubeListeners();
-        } catch(e) {
-            ytwp.error("Could not hook yt.pubsub", e);
-            setTimeout(ytwp.main, 1000);
-        }
-        ytwp.event.init();
+        ytwp.registerListeners();
+        ytwp.init();
+        ytwp.fixMasthead();
     };
 
     ytwp.main();
