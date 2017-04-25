@@ -17,14 +17,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 95 - April 16, 2017
+## 96 - April 25, 2017
 
-* TempFix for detecting page transition for the Material UI. Check the URL every 500ms and see if it's changed. A proper fix will come when I find a better solution.
-
-## 94 - April 15, 2017
-
-* Fix high CPU usage caused by binding listeners over and over due to an error (and my bad code).
-
-## 93 - April 4, 2017
-
-* Don't run on `/shared` pages anymore.
+* Fix Material UI bug. Don't use pubsub anymore since Material UI keeps fucking around with it's API. Just use a periodic timer.
