@@ -10,6 +10,7 @@
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
 // @include         http*://youtu.be/*
+// @grant           none
 // ==/UserScript==
 
 // Github:          https://github.com/Zren/ResizeYoutubePlayerToWindowSize
