@@ -20,6 +20,9 @@
 
 (function (window) {
     "use strict";
+
+    //--- Settings
+    var playerHeight = '100vh';
     
     //--- Imported Globals
     // yt
@@ -492,7 +495,7 @@
                 ytwp.event.buildStylesheet();
                 ytwp.style.appendRule('body[data-spf-name="watch"]:not(.ytwp-window-player) #masthead-positioner',  {
                     'position': 'absolute',
-                    'top': '100% !important'
+                    'top': playerHeight + ' !important'
                 });
             }
             ytwp.style.injectIntoHeader();
@@ -557,9 +560,9 @@
                     'width': '100% !important',
                     'min-width': '100% !important',
                     'max-width': '100% !important',
-                    'height': '100vh !important',
-                    'min-height': '100vh !important',
-                    'max-height': '100vh !important',
+                    'height': playerHeight + ' !important',
+                    'min-height': playerHeight + ' !important',
+                    'max-height': playerHeight + ' !important',
                 }
             );
 
@@ -593,7 +596,7 @@
                 // Already top:0; left: 0;
             });
             ytwp.style.appendRule(scriptBodyClassSelector, { // body
-                'margin-top': '100vh',
+                'margin-top': playerHeight,
             });
 
 
@@ -612,7 +615,7 @@
             ytwp.style.appendRule(scriptBodyClassSelector + '.hide-header-transition #masthead-positioner', d);
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'position': 'absolute',
-                'top': '100% !important'
+                'top': playerHeight + ' !important'
             });
             // Lower masthead below Youtube+'s html.floater
             ytwp.style.appendRule('html.floater ' + scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
@@ -664,7 +667,7 @@
             ytwp.style.appendRule(scriptBodyClassSelector + ' #watch-appbar-playlist', d);
             d = buildVenderPropertyDict(transformProperties, 'translateY(0px)');
             d['margin-left'] = '0';
-            d['top'] = 'calc(100vh + 60px)';
+            d['top'] = 'calc(' + playerHeight + ' + 60px)';
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist', d);
             ytwp.style.appendRule(scriptBodyClassSelector + ' .playlist-videos-list', {
                 'max-height': '470px !important',
@@ -683,10 +686,10 @@
             ytwp.style.appendRule('ytd-watch #content-separator', 'margin-top', '0 !important');
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-app #masthead-container.ytd-app', {
                 'position': 'absolute',
-                'top': '100vh',
+                'top': playerHeight,
             });
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-watch #masthead-positioner', {
-                'top': '100vh !important',
+                'top': playerHeight + ' !important',
             });
         },
         onWatchInit: function() {
