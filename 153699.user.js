@@ -599,6 +599,9 @@
                 'margin-top': playerHeight,
             });
 
+            // Fix the top right avatar button
+            ytwp.style.appendRule(scriptBodyClassSelector + ' button.ytp-button.ytp-cards-button', 'top', '0');
+
 
             //--- Sidebar
             // Remove the transition delay as you can see it moving on page load.
