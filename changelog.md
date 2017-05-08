@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 97 - May 8, 2017
+
+* Fix the info card button in the top right. Example of button: https://www.youtube.com/watch?v=XGu-WCyiaEY
+* Make it easy to edit the script to set the player to a fixed height.
+
 ## 96 - April 25, 2017
 
 * Fix Material UI bug. Don't use pubsub anymore since Material UI keeps fucking around with it's API. Just use a periodic timer.

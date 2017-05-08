@@ -17,6 +17,7 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 96 - April 25, 2017
+## 97 - May 8, 2017
 
-* Fix Material UI bug. Don't use pubsub anymore since Material UI keeps fucking around with it's API. Just use a periodic timer.
+* Fix the info card button in the top right. Example of button: https://www.youtube.com/watch?v=XGu-WCyiaEY
+* Make it easy to edit the script to set the player to a fixed height.
