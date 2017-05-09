@@ -17,6 +17,10 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 98 - May 8, 2017
+
+* Quick update for the control bar monkey patch. We need to reinit the player so it's slightly slower than normal. Unfortunately the list of players isn't exposed anymore.
+
 ## 97 - May 8, 2017
 
 * Fix the info card button in the top right. Example of button: https://www.youtube.com/watch?v=XGu-WCyiaEY

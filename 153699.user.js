@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         97
+// @version         98
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -220,62 +220,14 @@
         var moviePlayerElement = this.element || ytwp.html5.moviePlayerElement || document.querySelector('movie_player');
         return new ytwp.html5.YTRect(moviePlayerElement.clientWidth, moviePlayerElement.clientHeight);
     };
-    ytwp.html5.getApplicationClass = function() {
-        if (ytwp.html5.YTApplication === null) {
-            var testEl = document.createElement('div');
-            var testAppInstance = uw.yt.player.Application.create(testEl, {});
-            // var testAppInstance = uw.yt.player.Application.create("player-api", uw.ytplayer.config);
-            ytwp.html5.YTApplication = testAppInstance.constructor;
-
-            // Cleanup testAppInstance
-            var playerInstances = ytwp.html5.getPlayerInstances();
-
-            var testAppInstanceKey = null;
-            Object.keys(playerInstances).forEach(function(key) {
-                if (playerInstances[key] === testAppInstance) {
-                    testAppInstanceKey = key;
-                }
-            });
-            testAppInstance.dispose();
-            delete playerInstances[testAppInstanceKey];
-        }
-        return ytwp.html5.YTApplication;
-    };
-    ytwp.html5.getPlayerInstances = function() {
-        if (ytwp.html5.playerInstances === null) {
-            var YTApplication =  ytwp.html5.getApplicationClass();
-            if (YTApplication === null)
-                return null;
-
-            // Use yt.player.Application.create to find the playerInstancesKey.
-            // function (a,b){g.M.call(this);var c=this;this.ba=Yia(b);var d=this.ba.args||{};this.Z=new zO(d);g.N(this,this.Z);this.Z.experiments.g("legacy_autoplay_flag")||"detailpage"!=this.Z.g||(d.autoplay="1");this.zc=…
-            var appCreateRegex1 = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\);if\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
-            // function (a,b){try{var c=g.z(a)?a:"player"+g.xa(a);if(m4[c]){try{m4[c].dispose()}catch(e){g.kE(e)}m4[c]=null}var d=new O1(a,b);g.Pe(d,function(){m4[c]=null});return m4[c]=d}catch(e){throw g.kE(e),e.stack;}}
-            var appCreateRegex2 = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\)\?:"player"\+\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
-
-            var fnString = yt.player.Application.create.toString();
-            var m = appCreateRegex1.exec(fnString);
-            if (m) {
-                var playerInstancesKey = m[4];
-                ytwp.html5.playerInstances = YTApplication[playerInstancesKey];
-            } else {
-                ytwp.error('Error trying to find playerInstancesKey.', fnString);
-            }
-            ytwp.html5.playerInstances = YTApplication[playerInstancesKey];
-        }
-
-        return ytwp.html5.playerInstances;
-    };
     ytwp.html5.getPlayerInstance = function() {
         if (!ytwp.html5.app) {
-            var playerInstances = ytwp.html5.getPlayerInstances();
-            ytwp.log('playerInstances', playerInstances);
-            var appInstance = null;
-            var appInstanceKey = null;
-            Object.keys(playerInstances).forEach(function(key) {
-                appInstanceKey = key;
-                appInstance = playerInstances[key];
-            });
+            // This will dispose and recreate the player
+            // This is the only way to get the app instance since the list of players is no longer publicly exported in any way.
+            // We could attempt to rewrite the <script>var ytplayer = ytplayer || {}; ... </script> before it executes, but that'd
+            // be exceedingly difficult.
+            var appInstance = yt.player.Application.create("player-api", ytplayer.config)
+            ytwp.log('appInstance', appInstance)
             ytwp.html5.app = appInstance;
         }
         return ytwp.html5.app;
@@ -289,12 +241,9 @@
         // ytwp.log(moviePlayerElement.classList);
     };
     ytwp.html5.update = function() {
-        if (!ytwp.html5.playerInstances)
+        if (!ytwp.html5.app)
             return;
-        for (var key in ytwp.html5.playerInstances) {
-            var playerInstance = ytwp.html5.playerInstances[key];
-            ytwp.html5.updatePlayerInstance(playerInstance);
-        }
+        ytwp.html5.updatePlayerInstance(ytwp.html5.app);
     };
     ytwp.html5.replaceClientRect = function(app, moviePlayerKey, clientRectFnKey) {
         var moviePlayer = app[moviePlayerKey];
