@@ -239,6 +239,7 @@
         removeClass(moviePlayerElement, 'autohide-controlbar autominimize-controls-aspect autohide-controls-fullscreenonly autohide-controls hide-controls-when-cued autominimize-progress-bar autominimize-progress-bar-fullscreenonly autohide-controlbar-fullscreenonly autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect');
         addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
         // ytwp.log(moviePlayerElement.classList);
+        moviePlayerElement.insertBefore(moviePlayerElement.querySelector('button[aria-owns="iv-drawer"]'), moviePlayerElement.firstChild);
     };
     ytwp.html5.update = function() {
         if (!ytwp.html5.app)
