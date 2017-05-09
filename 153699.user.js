@@ -248,10 +248,13 @@
                 return null;
 
             // Use yt.player.Application.create to find the playerInstancesKey.
-            // function (a,b){try{var c=e9.D(a);if(e9.o[c]){try{e9.o[c].dispose()}catch(e){Fi(e)}e9.o[c]=null}var d=new e9(a,b);Kb(d,function(){e9.o[c]=null});return e9.o[c]=d}catch(e){throw Fi(e),e.stack;}}
-            var appCreateRegex = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\);if\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
+            // function (a,b){g.M.call(this);var c=this;this.ba=Yia(b);var d=this.ba.args||{};this.Z=new zO(d);g.N(this,this.Z);this.Z.experiments.g("legacy_autoplay_flag")||"detailpage"!=this.Z.g||(d.autoplay="1");this.zc=…
+            var appCreateRegex1 = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\);if\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
+            // function (a,b){try{var c=g.z(a)?a:"player"+g.xa(a);if(m4[c]){try{m4[c].dispose()}catch(e){g.kE(e)}m4[c]=null}var d=new O1(a,b);g.Pe(d,function(){m4[c]=null});return m4[c]=d}catch(e){throw g.kE(e),e.stack;}}
+            var appCreateRegex2 = /^function \(a,b\)\{try\{var c=([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(a\)\?:"player"\+\(([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\[c\]\)/;
+
             var fnString = yt.player.Application.create.toString();
-            var m = appCreateRegex.exec(fnString);
+            var m = appCreateRegex1.exec(fnString);
             if (m) {
                 var playerInstancesKey = m[4];
                 ytwp.html5.playerInstances = YTApplication[playerInstancesKey];
