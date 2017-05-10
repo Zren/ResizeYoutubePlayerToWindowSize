@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 99 - May 10, 2017
+
+* Undo the update for the control bar since it can cause a second instance of the player.
+
 ## 98 - May 8, 2017
 
 * Quick update for the control bar monkey patch. We need to reinit the player so it's slightly slower than normal. Unfortunately the list of players isn't exposed anymore.
