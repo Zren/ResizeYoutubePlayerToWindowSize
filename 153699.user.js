@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         100
+// @version         101
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -266,12 +266,9 @@
         var moviePlayer = null;
         var moviePlayerKey = null;
 
-        // function (a,b){return this.isDisposed()?!1:this.R.P.apply(this.R,arguments)}
-        var applyFnRegex1 = /^function \(a,b\)\{return this\.isDisposed\(\)\?!1:this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\.apply\(this\.([a-zA-Z_$][\w_$]*),arguments\)\}$/;
-        // function (a,b){return this.O.Y.apply(this.O,arguments)}
-        var applyFnRegex2 = /^function \(a,b\)\{return this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\.apply\(this\.([a-zA-Z_$][\w_$]*),arguments\)\}$/;
-        var applyFnKey = null;
-        var applyKey1 = null;
+        // function (){if(this.o){var a=this.Xa();if(!a.isEmpty()){var b=!g.Wd(a,g.Rg(this.B)),c=cZ(this);b&&(this.B.width=a.width,this.B.height=a.height);a=this.app.Z;(c||b||a.ka)&&this.app.g.Y("resize",this.Xa())}}}
+        //     Tail: this.app.g.Y("resize",this.Xa())}}}
+        var applyFnRegex2 = /^function \(\)\{.+this\.app\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\("resize",this\.([a-zA-Z_$][\w_$]*)\(\)\)\}\}\}$/;
         var applyKey2 = null;
 
         // function (a){var b=this.j.X(),c=n$.L.xb.call(this);a||"detailpage"!=b.ma||b.ib||b.experiments.T||(c.height+=30);return c}
@@ -306,31 +303,12 @@
                             clientRectFn = val2;
                             clientRectFnKey = key2;
                         } else if (applyFnRegex2.test(fnString)) {
-                            console.log('applyFnRegex2', key1, key2,  applyKey1, applyKey2, moviePlayerKey)
-                            applyKey1 = key1;
+                            console.log('applyFnRegex2', key1, key2,  moviePlayerKey, applyKey2)
                             applyKey2 = key2;
                         } else {
                             // console.log(key1, key2, val2, '[Not Used]');
                         }
                     }
-                }
-            } else if (typeof val1 === 'object' && val1 !== null && typeof val1.logEvent === 'function') {
-                for (var key2 in val1) {
-                    var val2 = val1[key2];//console.log(key1, key2, val2);
-                    if (typeof val2 === 'function') {
-                        var fnString = val2.toString();
-                        // console.log(fnString);
-                        if (applyKey2 === null && applyFnRegex1.test(fnString)) {
-                            console.log('applyFnRegex1', key1, key2,  applyKey1, applyKey2, moviePlayerKey)
-                            applyKey1 = key1;
-                            applyKey2 = key2;
-                        }
-                    }
-                }
-            } else if (typeof val1 === 'function') {
-                var fnString = val1.toString();
-                if (applyFnRegex1.test(fnString)) {
-                    applyFnKey = key1;
                 }
             }
         }
@@ -375,15 +353,29 @@
         
         ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
 
-        if (applyFnKey) { // Probably not needed.
-            ytwp.log('applyFnKey', applyFnKey);
-            app[applyFnKey]('resize', ytwp.html5.getPlayerRect());
-        } else if (applyKey1 && applyKey2) {
-            ytwp.log('applyKey', applyKey1, applyKey2, app[applyKey1][applyKey2]);
-            app[applyKey1][applyKey2]('resize', ytwp.html5.getPlayerRect());
+        if (moviePlayer && applyKey2) {
+            ytwp.log('applyKey2', moviePlayerKey, applyKey2, moviePlayer[applyKey2]);
+            // moviePlayer[applyKey2]('resize', ytwp.html5.getPlayerRect());
+            try {
+                moviePlayer[applyKey2]();
+            } catch (e) {
+                ytwp.error('error calling applyKey2')
+            }
         } else {
             ytwp.log('applyFn not found');
-            //app.oa.T('resize', ytwp.html5.getPlayerRect()); // tempfix
+            ytwp.moviePlayerKey = moviePlayerKey
+            ytwp.moviePlayer = moviePlayer
+            console.log('Debugging: applyFn');
+            var table = [];
+            for (var key2 in moviePlayer) {
+                var val2 = moviePlayer[key2];
+                table.push({
+                    key: key2,
+                    returns: moviePlayer[key2] && moviePlayer[key2].toString().indexOf('return'),
+                    src: moviePlayer[key2] && moviePlayer[key2].toString(),
+                });
+            }
+            console.table(table);
         }
     };
 
@@ -776,6 +768,11 @@
     ytwp.doMonkeyPatch = function() {
         ytwp.log('doMonkeyPatch')
 
+        if (ytwp.patchKey) {
+            ytwp.log('doMonkeyPatch called with ytwp.patchKey already set', ytwp.patchKey)
+            return
+        }
+
         // Chrome:  function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
         // Firefox: function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
         var patchRegex =  /^function \(a,b\)\{return b\?1==b\?a\.([a-zA-Z_$][\w_$]*):a\.([a-zA-Z_$][\w_$]*)\[b\]\|\|null:a.([a-zA-Z_$][\w_$]*)\}$/;
@@ -797,18 +794,20 @@
             ytwp.log('patchKey', patchKey)
             if (patchKey) {
                 try {
-                    ytwp.patchKey = patchKey
-                    ytwp.patchOrigFn = window._yt_player[patchKey]
-                    window._yt_player[patchKey] = function(a,b) {
-                        ytwp.log('_yt_player.'+ytwp.patchKey, arguments);
-                        try {
-                            ytwp.html5.app = a
-                            ytwp.html5.updatePlayerInstance(a)
-                        } catch(e) {
-                            ytwp.error('error when trying to apply html5fix to app instance in _yt_player.'+ytwp.patchKey, arguments, e);
+                    if (!ytwp.patchKey) {
+                        ytwp.patchKey = patchKey
+                        ytwp.patchOrigFn = window._yt_player[patchKey]
+                        window._yt_player[patchKey] = function(a,b) {
+                            ytwp.log('_yt_player.'+ytwp.patchKey, arguments);
+                            window._yt_player[ytwp.patchKey] = ytwp.patchOrigFn
+                            try {
+                                ytwp.html5.app = a
+                                ytwp.html5.updatePlayerInstance(a)
+                            } catch(e) {
+                                ytwp.error('error when trying to apply html5fix to app instance in _yt_player.'+ytwp.patchKey, arguments, e);
+                            }
+                            return ytwp.patchOrigFn.apply(this, arguments);
                         }
-                        window._yt_player[ytwp.patchKey] = ytwp.patchOrigFn
-                        return ytwp.patchOrigFn.apply(this, arguments);
                     }
                 } catch(e) {
                     ytwp.error('Could not monkey patch _yt_player.'+patchKey, e);

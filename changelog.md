@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 101 - May 11, 2017
+
+* Finish the last regex for applying the control bar fix on page load, control bar should now work in firefox.
+
 ## 100 - May 11, 2017
 
 * Patch the player with a newer method to retrieve the app instance. Works for Chrome, but firefox needs one more regex update. Will push a final fix for firefox later today.
