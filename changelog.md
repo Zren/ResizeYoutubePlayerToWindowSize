@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 100 - May 11, 2017
+
+* Patch the player with a newer method to retrieve the app instance. Works for Chrome, but firefox needs one more regex update. Will push a final fix for firefox later today.
+
 ## 99 - May 10, 2017
 
 * Undo the update for the control bar since it can cause a second instance of the player.
