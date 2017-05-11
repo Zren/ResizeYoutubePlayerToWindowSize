@@ -818,7 +818,7 @@
             }
         } else {
             ytwp.log('_yt_player not yet ready')
-            setTimeout(doMonkeyPatch, 100)
+            setTimeout(ytwp.doMonkeyPatch, 100)
         }
     }
     
