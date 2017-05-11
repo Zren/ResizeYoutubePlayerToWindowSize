@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         99
+// @version         100
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -772,5 +772,56 @@
     };
 
     ytwp.main();
+
+    ytwp.doMonkeyPatch = function() {
+        ytwp.log('doMonkeyPatch')
+
+        // Chrome:  function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
+        // Firefox: function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
+        var patchRegex =  /^function \(a,b\)\{return b\?1==b\?a\.([a-zA-Z_$][\w_$]*):a\.([a-zA-Z_$][\w_$]*)\[b\]\|\|null:a.([a-zA-Z_$][\w_$]*)\}$/;
+        var patchKey = null;
+
+        if (window._yt_player) {
+            ytwp.log('_yt_player exists')
+            for (var key in window._yt_player) {
+                var val = window._yt_player[key];
+                if (typeof val === 'function') {
+                    var fnString = val.toString();
+                    // ytwp.log('', key, fnString)
+                    if (patchRegex.test(fnString)) {
+                        patchKey = key;
+                        break;
+                    }
+                }
+            }
+            ytwp.log('patchKey', patchKey)
+            if (patchKey) {
+                try {
+                    ytwp.patchKey = patchKey
+                    ytwp.patchOrigFn = window._yt_player[patchKey]
+                    window._yt_player[patchKey] = function(a,b) {
+                        ytwp.log('_yt_player.'+ytwp.patchKey, arguments);
+                        try {
+                            ytwp.html5.app = a
+                            ytwp.html5.updatePlayerInstance(a)
+                        } catch(e) {
+                            ytwp.error('error when trying to apply html5fix to app instance in _yt_player.'+ytwp.patchKey, arguments, e);
+                        }
+                        window._yt_player[ytwp.patchKey] = ytwp.patchOrigFn
+                        return ytwp.patchOrigFn.apply(this, arguments);
+                    }
+                } catch(e) {
+                    ytwp.error('Could not monkey patch _yt_player.'+patchKey, e);
+                    ytwp.log('_yt_player', window._yt_player)
+                    ytwp.log('_yt_player.'+patchKey, window._yt_player ? window._yt_player[patchKey] : '')
+                }
+            }
+        } else {
+            ytwp.log('_yt_player not yet ready')
+            setTimeout(doMonkeyPatch, 100)
+        }
+    }
     
+    ytwp.doMonkeyPatch()
+
 })(typeof unsafeWindow !== 'undefined' ? unsafeWindow : window);

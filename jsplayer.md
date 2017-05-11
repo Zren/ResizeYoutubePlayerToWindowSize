@@ -122,6 +122,9 @@ O1 = function(a, b) {
 The g variable is an alias for _yt_player.
 We can monkey patch g.WU since it's passed the "c = this" variable as it's first argument.
 
+g.WU=function(a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}; // Chrome
+g.ZU=function(a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}; // Firefox
+
 We then take that instance and patch app[key1][key2]()
 where the value of key1 has a property called element that points to #movie_player
 app[key1].element = #movie_player
