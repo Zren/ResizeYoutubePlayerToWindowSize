@@ -354,7 +354,7 @@
         ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
         ytwp.log('ytwp.html5.setRectFn', moviePlayerKey, clientRectFnKey, app);
 
-        ytwp.log('applyKey check', moviePlayer && applyKey2, moviePlayerKey, moviePlayer, applyKey2, moviePlayer[applyKey2]);
+        ytwp.log('applyKey check', !!(moviePlayer && applyKey2), moviePlayerKey, moviePlayer, applyKey2, moviePlayer[applyKey2]);
         if (moviePlayer && applyKey2) {
             ytwp.log('applyKey2', moviePlayerKey, applyKey2, moviePlayer[applyKey2]);
             // moviePlayer[applyKey2]('resize', ytwp.html5.getPlayerRect());
