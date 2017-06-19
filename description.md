@@ -25,15 +25,9 @@ https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 * Patch the player with a newer method to retrieve the app instance. Works for Chrome, but firefox needs one more regex update. Will push a final fix for firefox later today.
 
-## 99 - May 10, 2017
+## 102 - June 18, 2017
 
-* Undo the update for the control bar since it can cause a second instance of the player.
-
-## 98 - May 8, 2017
-
-* Quick update for the control bar monkey patch. We need to reinit the player so it's slightly slower than normal. Unfortunately the list of players isn't exposed anymore.
-
-## 97 - May 8, 2017
-
-* Fix the info card button in the top right. Example of button: https://www.youtube.com/watch?v=XGu-WCyiaEY
-* Make it easy to edit the script to set the player to a fixed height.
+* Fix regex checks in FF v54.
+* Attempt to fix resizing the progressbar after a few vidoes have played.
+* Fix detection for video -> video page changes.
+* Keep track of the player size instead of querying the element every time it's looked up (which is a lot).

@@ -1,5 +1,12 @@
 <h3>Changelog</h3>
 
+## 102 - June 18, 2017
+
+* Fix regex checks in FF v54.
+* Attempt to fix resizing the progressbar after a few vidoes have played.
+* Fix detection for video -> video page changes.
+* Keep track of the player size instead of querying the element every time it's looked up (which is a lot).
+
 ## 101 - May 11, 2017
 
 * Finish the last regex for applying the control bar fix on page load, control bar should now work in firefox.
