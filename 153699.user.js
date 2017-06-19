@@ -161,18 +161,20 @@
 
     HistoryEvent.timerId = 0
     HistoryEvent.onTick = function() {
-        if (HistoryEvent.lastPath != window.location.pathname) {
+        var currentPage = window.location.pathname + window.location.search
+        if (HistoryEvent.lastPage != currentPage) {
             HistoryEvent.dispatch({}, document.title, window.location.href)
-            HistoryEvent.lastPath = window.location.pathname
+            HistoryEvent.lastPage = currentPage
         }
     }
     HistoryEvent.startTimer = function() {
-        HistoryEvent.lastPath = window.location.pathname
+        HistoryEvent.lastPage = window.location.pathname + window.location.search
         HistoryEvent.timerId = setInterval(HistoryEvent.onTick, 500)
     }
     HistoryEvent.stopTimer = function() {
         clearInterval(HistoryEvent.timerId)
     }
+    window.ytwpHistoryEvent = HistoryEvent
 
 
     //--- Constants
