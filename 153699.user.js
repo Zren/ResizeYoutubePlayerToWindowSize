@@ -209,6 +209,20 @@
         }
     };
 
+    ytwp.playerWidth = window.innerWidth;
+    ytwp.playerHeight = window.innerHeight;
+    ytwp.moviePlayer = null;
+    ytwp.updatePlayerSize = function() {
+        ytwp.moviePlayer = document.getElementById('movie_player');
+        if (ytwp.moviePlayer) {
+            ytwp.playerWidth = ytwp.moviePlayer.clientWidth;
+            ytwp.playerHeight = ytwp.moviePlayer.clientHeight;
+        }
+        console.log('updatePlayerSize', ytwp.playerWidth, ytwp.playerHeight)
+    }
+    ytwp.updatePlayerSize();
+    window.addEventListener('resize', ytwp.updatePlayerSize, true);
+
     ytwp.html5 = {
         app: null,
         YTRect: null,
@@ -217,8 +231,7 @@
         moviePlayerElement: null,
     };
     ytwp.html5.getPlayerRect = function() {
-        var moviePlayerElement = this.element || ytwp.html5.moviePlayerElement || document.querySelector('movie_player');
-        return new ytwp.html5.YTRect(moviePlayerElement.clientWidth, moviePlayerElement.clientHeight);
+        return new ytwp.html5.YTRect(ytwp.playerWidth, ytwp.playerHeight);
     };
     ytwp.html5.getPlayerInstance = function() {
         if (!ytwp.html5.app) {
@@ -770,6 +783,7 @@
     ytwp.main();
 
     ytwp.updatePlayer = function() {
+        ytwp.updatePlayerSize();
         if (ytwp.html5.app) {
             ytwp.html5.updatePlayerInstance(ytwp.html5.app);
         }
