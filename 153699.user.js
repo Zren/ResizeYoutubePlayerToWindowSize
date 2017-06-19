@@ -352,7 +352,9 @@
         }
         
         ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
+        ytwp.log('ytwp.html5.setRectFn', moviePlayerKey, clientRectFnKey, app);
 
+        ytwp.log('applyKey check', moviePlayer && applyKey2, moviePlayerKey, moviePlayer, applyKey2, moviePlayer[applyKey2]);
         if (moviePlayer && applyKey2) {
             ytwp.log('applyKey2', moviePlayerKey, applyKey2, moviePlayer[applyKey2]);
             // moviePlayer[applyKey2]('resize', ytwp.html5.getPlayerRect());
@@ -726,6 +728,7 @@
 
     //--- Material UI
     ytwp.materialPageTransition = function() {
+        ytwp.log('materialPageTransition')
         ytwp.init();
 
         if (ytwp.util.isWatchUrl()) {
@@ -741,6 +744,7 @@
         }
         ytwp.onScroll();
         ytwp.fixMasthead();
+        ytwp.updatePlayer();
     };
 
     //--- Listeners
@@ -765,13 +769,20 @@
 
     ytwp.main();
 
+    ytwp.updatePlayer = function() {
+        if (ytwp.html5.app) {
+            ytwp.html5.updatePlayerInstance(ytwp.html5.app);
+        }
+        ytwp.doMonkeyPatch();
+    }
+
     ytwp.doMonkeyPatch = function() {
         ytwp.log('doMonkeyPatch')
 
-        if (ytwp.patchKey) {
-            ytwp.log('doMonkeyPatch called with ytwp.patchKey already set', ytwp.patchKey)
-            return
-        }
+        // if (ytwp.patchKey) {
+        //     ytwp.log('doMonkeyPatch called with ytwp.patchKey already set', ytwp.patchKey)
+        //     return
+        // }
 
         // Chrome:  function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
         // Firefox: function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
@@ -791,23 +802,24 @@
                     }
                 }
             }
-            ytwp.log('patchKey', patchKey)
+            ytwp.log('patchKey', ytwp.patchKey, '=>', patchKey)
             if (patchKey) {
                 try {
-                    if (!ytwp.patchKey) {
-                        ytwp.patchKey = patchKey
+                    ytwp.patchKey = patchKey
+                    if (!ytwp.patchOrigFn) {
                         ytwp.patchOrigFn = window._yt_player[patchKey]
-                        window._yt_player[patchKey] = function(a,b) {
-                            ytwp.log('_yt_player.'+ytwp.patchKey, arguments);
-                            window._yt_player[ytwp.patchKey] = ytwp.patchOrigFn
-                            try {
-                                ytwp.html5.app = a
-                                ytwp.html5.updatePlayerInstance(a)
-                            } catch(e) {
-                                ytwp.error('error when trying to apply html5fix to app instance in _yt_player.'+ytwp.patchKey, arguments, e);
-                            }
-                            return ytwp.patchOrigFn.apply(this, arguments);
+                        ytwp.log('ytwp.patchOrigFn set', patchKey, ytwp.patchOrigFn)
+                    }
+                    window._yt_player[patchKey] = function(a,b) {
+                        ytwp.log('_yt_player.'+ytwp.patchKey, arguments);
+                        window._yt_player[ytwp.patchKey] = ytwp.patchOrigFn
+                        try {
+                            ytwp.html5.app = a
+                            ytwp.html5.updatePlayerInstance(a)
+                        } catch(e) {
+                            ytwp.error('error when trying to apply html5fix to app instance in _yt_player.'+ytwp.patchKey, arguments, e);
                         }
+                        return ytwp.patchOrigFn.apply(this, arguments);
                     }
                 } catch(e) {
                     ytwp.error('Could not monkey patch _yt_player.'+patchKey, e);
