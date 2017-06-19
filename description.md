@@ -17,14 +17,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 101 - May 11, 2017
-
-* Finish the last regex for applying the control bar fix on page load, control bar should now work in firefox.
-
-## 100 - May 11, 2017
-
-* Patch the player with a newer method to retrieve the app instance. Works for Chrome, but firefox needs one more regex update. Will push a final fix for firefox later today.
-
 ## 102 - June 18, 2017
 
 * Fix regex checks in FF v54.
