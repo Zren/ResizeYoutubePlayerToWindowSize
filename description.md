@@ -17,9 +17,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 102 - June 18, 2017
+## 103 - June 27, 2017
 
-* Fix regex checks in FF v54.
-* Attempt to fix resizing the progressbar after a few vidoes have played.
-* Fix detection for video -> video page changes.
-* Keep track of the player size instead of querying the element every time it's looked up (which is a lot).
+* Reattempt fix 10 more times on page load (shit solution but it works).

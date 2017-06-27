@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 103 - June 27, 2017
+
+* Reattempt fix 10 more times on page load (shit solution but it works).
+
 ## 102 - June 18, 2017
 
 * Fix regex checks in FF v54.

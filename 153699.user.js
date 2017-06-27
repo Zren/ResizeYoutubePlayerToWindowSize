@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         102
+// @version         103
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -759,7 +759,7 @@
         }
         ytwp.onScroll();
         ytwp.fixMasthead();
-        ytwp.updatePlayer();
+        ytwp.attemptToUpdatePlayer();
     };
 
     //--- Listeners
@@ -783,6 +783,22 @@
     };
 
     ytwp.main();
+    
+    ytwp.updatePlayerAttempts = 0;
+    ytwp.updatePlayerMaxAttempts = 10;
+    ytwp.attemptToUpdatePlayer = function() {
+        console.log('ytwp.attemptToUpdatePlayer')
+        ytwp.updatePlayerAttempts = 0;
+        ytwp.attemptToUpdatePlayerTick();
+    }
+    ytwp.attemptToUpdatePlayerTick = function() {
+        console.log('ytwp.attemptToUpdatePlayerTick', ytwp.updatePlayerAttempts)
+        if (ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
+            ytwp.updatePlayerAttempts += 1;
+            ytwp.updatePlayer();
+            setTimeout(ytwp.attemptToUpdatePlayerTick, 200);
+        }
+    }
 
     ytwp.updatePlayer = function() {
         ytwp.updatePlayerSize();
