@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 104 - June 27, 2017
+
+* Don't start another fix loop when one is in progress.
+
 ## 103 - June 27, 2017
 
 * Reattempt fix 10 more times on page load (shit solution but it works).
