@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 105 - June 28, 2017
+
+* Fix update loop not starting.
+
 ## 104 - June 27, 2017
 
 * Don't start another fix loop when one is in progress.

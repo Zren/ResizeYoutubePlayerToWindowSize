@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         104
+// @version         105
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -784,11 +784,11 @@
 
     ytwp.main();
     
-    ytwp.updatePlayerAttempts = 0;
+    ytwp.updatePlayerAttempts = -1;
     ytwp.updatePlayerMaxAttempts = 10;
     ytwp.attemptToUpdatePlayer = function() {
         console.log('ytwp.attemptToUpdatePlayer')
-        if (ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
+        if (0 <= ytwp.updatePlayerAttempts && ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
             ytwp.updatePlayerAttempts = 0;
         } else {
             ytwp.updatePlayerAttempts = 0;
