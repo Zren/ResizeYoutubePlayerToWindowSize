@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 106 - July 4, 2017
+
+* Enable script on `/c/ChannelName/live` and `/channel/ChannelId/live` pages.
+
 ## 105 - June 28, 2017
 
 * Fix update loop not starting.

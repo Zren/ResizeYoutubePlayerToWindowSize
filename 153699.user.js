@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         105
+// @version         106
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -200,15 +200,14 @@
 
         initialized: false,
         pageReady: false,
-        watchPage: false,
+        isWatchPage: false,
     };
 
-    ytwp.util = {
-        isWatchUrl: function (url) {
-            if (!url)
-                url = uw.location.href;
-            return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
-        }
+    ytwp.isWatchUrl = function (url) {
+        if (!url)
+            url = uw.location.href;
+        return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/)
+            || url.match(/https?:\/\/(www\.)?youtube.com\/(c|channel)\/[^\/]+\/live/);
     };
 
     ytwp.playerWidth = window.innerWidth;
@@ -400,7 +399,7 @@
     ytwp.init = function() {
         ytwp.log('init');
         if (!ytwp.initialized) {
-            ytwp.isWatchPage = ytwp.util.isWatchUrl();
+            ytwp.isWatchPage = ytwp.isWatchUrl();
             if (ytwp.isWatchPage) {
                 if (!document.getElementById(scriptStyleId)) {
                     ytwp.event.initStyle();
@@ -746,7 +745,7 @@
         ytwp.log('materialPageTransition')
         ytwp.init();
 
-        if (ytwp.util.isWatchUrl()) {
+        if (ytwp.isWatchUrl()) {
             ytwp.event.addBodyClass();
             // if (!ytwp.html5.app) {
             if (!ytwp.initialized) {
@@ -820,7 +819,7 @@
         //     return
         // }
 
-        if (!ytwp.util.isWatchUrl()) {
+        if (!ytwp.isWatchUrl()) {
             ytwp.log('not watch page')
             return;
         }
