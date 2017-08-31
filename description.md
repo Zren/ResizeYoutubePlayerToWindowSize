@@ -18,6 +18,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 
-## 106 - July 4, 2017
+## 107 - August 30, 2017
 
-* Enable script on `/c/ChannelName/live` and `/channel/ChannelId/live` pages.
+* Fix videos on channel pages when first visiting a video page.

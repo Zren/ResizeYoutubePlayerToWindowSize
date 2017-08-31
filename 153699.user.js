@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         106
+// @version         107
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -214,7 +214,7 @@
     ytwp.playerHeight = window.innerHeight;
     ytwp.moviePlayer = null;
     ytwp.updatePlayerSize = function() {
-        ytwp.moviePlayer = document.getElementById('movie_player');
+        ytwp.moviePlayer = document.querySelector('.html5-video-player') // document.getElementById('movie_player')
         if (ytwp.moviePlayer) {
             ytwp.playerWidth = ytwp.moviePlayer.clientWidth;
             ytwp.playerHeight = ytwp.moviePlayer.clientHeight;

@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 107 - August 30, 2017
+
+* Fix videos on channel pages when first visiting a video page.
+
 ## 106 - July 4, 2017
 
 * Enable script on `/c/ChannelName/live` and `/channel/ChannelId/live` pages.
