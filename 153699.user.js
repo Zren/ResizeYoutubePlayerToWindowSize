@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         107
+// @version         108
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -210,11 +210,13 @@
             || url.match(/https?:\/\/(www\.)?youtube.com\/(c|channel)\/[^\/]+\/live/);
     };
 
+    /*
     ytwp.playerWidth = window.innerWidth;
     ytwp.playerHeight = window.innerHeight;
     ytwp.moviePlayer = null;
     ytwp.updatePlayerSize = function() {
-        ytwp.moviePlayer = document.querySelector('.html5-video-player') // document.getElementById('movie_player')
+        //ytwp.moviePlayer = document.getElementById('movie_player');
+        ytwp.moviePlayer = document.querySelector('.html5-video-player')
         if (ytwp.moviePlayer) {
             ytwp.playerWidth = ytwp.moviePlayer.clientWidth;
             ytwp.playerHeight = ytwp.moviePlayer.clientHeight;
@@ -222,7 +224,7 @@
         console.log('updatePlayerSize', ytwp.playerWidth, ytwp.playerHeight)
     }
     ytwp.updatePlayerSize();
-    window.addEventListener('resize', ytwp.updatePlayerSize, true);
+    window.addEventListener('resize', ytwp.updatePlayer, true);
 
     ytwp.html5 = {
         app: null,
@@ -257,7 +259,8 @@
     ytwp.html5.update = function() {
         if (!ytwp.html5.app)
             return;
-        ytwp.html5.updatePlayerInstance(ytwp.html5.app);
+        //ytwp.html5.updatePlayerInstance(ytwp.html5.app);
+        ytwp.enterTheaterMode();
     };
     ytwp.html5.replaceClientRect = function(app, moviePlayerKey, clientRectFnKey) {
         var moviePlayer = app[moviePlayerKey];
@@ -272,6 +275,8 @@
         moviePlayer.constructor.prototype[clientRectFnKey] = ytwp.html5.getPlayerRect;
     };
     ytwp.html5.updatePlayerInstance = function(app) {
+        return;
+        
         if (!app) {
             return;
         }
@@ -394,8 +399,21 @@
             console.table(table);
         }
     };
+    */
 
 
+    ytwp.enterTheaterMode = function() {
+        ytwp.log('enterTheaterMode')
+        var watchElement = document.querySelector('ytd-watch:not([hidden])')
+        if (watchElement) {
+            if (!watchElement.hasAttribute('theater')) {
+                var sizeButton = watchElement.querySelector('button.ytp-size-button')
+                sizeButton.click()
+            }
+        }
+    }
+    ytwp.enterTheaterMode();
+    
     ytwp.init = function() {
         ytwp.log('init');
         if (!ytwp.initialized) {
@@ -668,11 +686,13 @@
             ytwp.initialized = false;
             ytwp.pageReady = false;
             ytwp.isWatchPage = false;
+            /*
             ytwp.html5.app = null;
             // ytwp.html5.YTRect = null;
             ytwp.html5.YTApplication = null;
             ytwp.html5.playerInstances = null;
             //ytwp.html5.moviePlayerElement = null;
+            */
         },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.
@@ -804,11 +824,14 @@
     }
 
     ytwp.updatePlayer = function() {
+        ytwp.enterTheaterMode();
+        /*
         ytwp.updatePlayerSize();
         if (ytwp.html5.app) {
             ytwp.html5.updatePlayerInstance(ytwp.html5.app);
         }
         ytwp.doMonkeyPatch();
+        */
     }
 
     ytwp.doMonkeyPatch = function() {
@@ -873,6 +896,7 @@
         }
     }
     
-    ytwp.doMonkeyPatch()
+    //ytwp.doMonkeyPatch()
+    ytwp.materialPageTransition()
 
 })(typeof unsafeWindow !== 'undefined' ? unsafeWindow : window);

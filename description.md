@@ -18,6 +18,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 
-## 107 - August 30, 2017
+## 108 - September 12, 2017
 
-* Fix videos on channel pages when first visiting a video page.
+* Toggle theater mode to fix the progressbar since it works consistently.

@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 108 - September 12, 2017
+
+* Toggle theater mode to fix the progressbar since it works consistently.
+
 ## 107 - August 30, 2017
 
 * Fix videos on channel pages when first visiting a video page.
