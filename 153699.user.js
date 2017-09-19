@@ -410,9 +410,11 @@
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
                 sizeButton.click()
             }
+            watchElement.canFitTheater_ = true // When it's too small, it disables the theater mode.
         }
     }
     ytwp.enterTheaterMode();
+    uw.addEventListener('resize', ytwp.enterTheaterMode);
     
     ytwp.init = function() {
         ytwp.log('init');
