@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 109 - September 19, 2017
+
+* Fix seekbar resizing when the window is less than ___px wide.
+* Fix scrolling jitter on load caused by the search box getting focus.
+
 ## 108 - September 12, 2017
 
 * Toggle theater mode to fix the progressbar since it works consistently.
