@@ -419,6 +419,7 @@
         if (!ytwp.initialized) {
             ytwp.isWatchPage = ytwp.isWatchUrl();
             if (ytwp.isWatchPage) {
+                ytwp.removeSearchAutofocus();
                 if (!document.getElementById(scriptStyleId)) {
                     ytwp.event.initStyle();
                 }
@@ -738,6 +739,15 @@
             }, 0);
         }
     }
+    
+    JSStyleSheet.injectIntoHeader(scriptStyleId + '-focusfix', 'input#search[autofocus] { display: none; }');
+    ytwp.removeSearchAutofocus = function() {
+        var e = document.querySelector('input#search');
+        ytwp.log('removeSearchAutofocus', e)
+        if (e) {
+            e.removeAttribute('autofocus')
+        }
+    }
 
     ytwp.registerMastheadFix = function() {
         ytwp.log('registerMastheadFix');
@@ -766,12 +776,17 @@
         ytwp.init();
 
         if (ytwp.isWatchUrl()) {
+            ytwp.removeSearchAutofocus();
             ytwp.event.addBodyClass();
             // if (!ytwp.html5.app) {
             if (!ytwp.initialized) {
                 ytwp.log('materialPageTransition !ytwp.html5.app', ytwp.html5.app)
                 setTimeout(ytwp.materialPageTransition, 100);
             }
+            // var playerApi = document.querySelector('#player-api')
+            // if (playerApi) {
+            //     playerApi.click()
+            // }
         } else {
             ytwp.event.onDispose();
             document.body.classList.remove(scriptBodyClassId);
@@ -824,6 +839,7 @@
     }
 
     ytwp.updatePlayer = function() {
+        ytwp.removeSearchAutofocus();
         ytwp.enterTheaterMode();
         /*
         ytwp.updatePlayerSize();
