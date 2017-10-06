@@ -18,7 +18,7 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 
-## 109 - September 19, 2017
+## 110 - October 6, 2017
 
-* Fix seekbar resizing when the window is less than ___px wide.
-* Fix scrolling jitter on load caused by the search box getting focus.
+* Focus on video on page load.
+* Support Youtube+'s successor script (Iridium)'s "Video always visible" feature.

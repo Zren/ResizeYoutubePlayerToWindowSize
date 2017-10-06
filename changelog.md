@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 110 - October 6, 2017
+
+* Focus on video on page load.
+* Support Youtube+'s successor script (Iridium)'s "Video always visible" feature.
+
 ## 109 - September 19, 2017
 
 * Fix seekbar resizing when the window is less than ___px wide.
