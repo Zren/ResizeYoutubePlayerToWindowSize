@@ -785,10 +785,10 @@
                 ytwp.log('materialPageTransition !ytwp.html5.app', ytwp.html5.app)
                 setTimeout(ytwp.materialPageTransition, 100);
             }
-            // var playerApi = document.querySelector('#player-api')
-            // if (playerApi) {
-            //     playerApi.click()
-            // }
+             var playerApi = document.querySelector('#player-api')
+             if (playerApi) {
+                 playerApi.click()
+             }
         } else {
             ytwp.event.onDispose();
             document.body.classList.remove(scriptBodyClassId);
