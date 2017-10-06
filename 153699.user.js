@@ -528,14 +528,15 @@
             // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
             // Also, Youtube Center resizes #player at element level.
             // Don't resize if Youtube+'s html.floater is detected.
+            // Dont' resize if Youtube+ (Iridium/Material)'s html.iri-always-visible is detected.
             ytwp.style.appendRule(
                 [
                     scriptBodyClassSelector + ' #player',
                     scriptBodyClassSelector + ' #player-api',
-                    'html:not(.floater) ' + scriptBodyClassSelector + ' #movie_player',
+                    'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' #movie_player',
                     scriptBodyClassSelector + ' #player-mole-container',
-                    'html:not(.floater) ' + scriptBodyClassSelector + ' .html5-video-container',
-                    'html:not(.floater) ' + scriptBodyClassSelector + ' .html5-main-video',
+                    'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' .html5-video-container',
+                    'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' .html5-main-video',
                 ],
                 {
                     'width': '100% !important',
