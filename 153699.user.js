@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         110
+// @version         111
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -23,7 +23,7 @@
 
     //--- Settings
     var playerHeight = '100vh';
-    
+
     //--- Imported Globals
     // yt
     // ytcenter
@@ -34,7 +34,7 @@
     //--- Already Loaded?
     // GreaseMonkey loads this script twice for some reason.
     if (uw.ytwp) return;
-    
+
     //--- Is iframe?
     function inIframe () {
         try {
@@ -276,7 +276,7 @@
     };
     ytwp.html5.updatePlayerInstance = function(app) {
         return;
-        
+
         if (!app) {
             return;
         }
@@ -369,7 +369,7 @@
             }
             return;
         }
-        
+
         ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
         ytwp.log('ytwp.html5.setRectFn', moviePlayerKey, clientRectFnKey, app);
 
@@ -411,11 +411,16 @@
                 sizeButton.click()
             }
             watchElement.canFitTheater_ = true // When it's too small, it disables the theater mode.
+        } else if (watchElement = document.querySelector('#page.watch')) {
+            if (!watchElement.classList.contains('watch-stage-mode')) {
+                var sizeButton = watchElement.querySelector('button.ytp-size-button')
+                sizeButton.click()
+            }
         }
     }
     ytwp.enterTheaterMode();
     uw.addEventListener('resize', ytwp.enterTheaterMode);
-    
+
     ytwp.init = function() {
         ytwp.log('init');
         if (!ytwp.initialized) {
@@ -520,7 +525,7 @@
                 'left': 'initial',
                 'margin-left': 'initial',
             });
-            
+
             // Hide the cinema/wide mode button since it's useless.
             //ytwp.style.appendRule(scriptBodyClassSelector + ' #movie_player .ytp-size-button', 'display', 'none');
 
@@ -570,7 +575,7 @@
                 scriptBodyClassSelector + ' .html5-video-player .ad-container-single-media-element-annotations', // Ad
                 scriptBodyClassSelector + ' .html5-video-player .ytp-upnext', // Autoplay Next Video
             ], 'top', '0');
-            
+
 
             //--- Move Video Player
             ytwp.style.appendRule(scriptBodyClassSelector + ' #player', {
@@ -658,7 +663,7 @@
                 'max-height': '470px !important',
                 'height': 'initial !important',
             });
-            
+
             //---
             // Material UI
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-scrolltop #extra-buttons', 'display', 'none !important');
@@ -742,7 +747,7 @@
             }, 0);
         }
     }
-    
+
     JSStyleSheet.injectIntoHeader(scriptStyleId + '-focusfix', 'input#search[autofocus] { display: none; }');
     ytwp.removeSearchAutofocus = function() {
         var e = document.querySelector('input#search');
@@ -820,7 +825,7 @@
     };
 
     ytwp.main();
-    
+
     ytwp.updatePlayerAttempts = -1;
     ytwp.updatePlayerMaxAttempts = 10;
     ytwp.attemptToUpdatePlayer = function() {
@@ -914,8 +919,9 @@
             setTimeout(ytwp.doMonkeyPatch, 100)
         }
     }
-    
+
     //ytwp.doMonkeyPatch()
     ytwp.materialPageTransition()
+    setInterval(ytwp.updatePlayer, 1000);
 
 })(typeof unsafeWindow !== 'undefined' ? unsafeWindow : window);

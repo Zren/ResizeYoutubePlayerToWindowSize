@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 111 - November 10, 2017
+
+* Constantly attempt to enter Theater mode every second if we don't enter it right away.
+* Support entering theater mode in the old layout.
+
 ## 110 - October 6, 2017
 
 * Focus on video on page load.

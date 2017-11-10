@@ -18,7 +18,7 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 
-## 110 - October 6, 2017
+## 111 - November 10, 2017
 
-* Focus on video on page load.
-* Support Youtube+'s successor script (Iridium)'s "Video always visible" feature.
+* Constantly attempt to enter Theater mode every second if we don't enter it right away.
+* Support entering theater mode in the old layout.
