@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         111
+// @version         112
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -403,7 +403,7 @@
 
 
     ytwp.enterTheaterMode = function() {
-        ytwp.log('enterTheaterMode')
+        // ytwp.log('enterTheaterMode')
         var watchElement = document.querySelector('ytd-watch:not([hidden])')
         if (watchElement) {
             if (!watchElement.hasAttribute('theater')) {
@@ -611,6 +611,14 @@
             ytwp.style.appendRule('html.floater ' + scriptBodyClassSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
                 'z-index': '5',
             });
+            // Autocomplete popup
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .sbdd_a', {
+                'top': '56px',
+            });
+            ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' .sbdd_a', {
+                'top': 'calc(100vh + 56px)',
+                'position': 'absolute',
+            });
 
             // Guide
             // When watching the video, we need to line it up with the masthead.
@@ -751,7 +759,7 @@
     JSStyleSheet.injectIntoHeader(scriptStyleId + '-focusfix', 'input#search[autofocus] { display: none; }');
     ytwp.removeSearchAutofocus = function() {
         var e = document.querySelector('input#search');
-        ytwp.log('removeSearchAutofocus', e)
+        // ytwp.log('removeSearchAutofocus', e)
         if (e) {
             e.removeAttribute('autofocus')
         }
@@ -826,8 +834,9 @@
 
     ytwp.main();
 
+    // ytwp.updatePlayerTimerId = 0;
     ytwp.updatePlayerAttempts = -1;
-    ytwp.updatePlayerMaxAttempts = 10;
+    ytwp.updatePlayerMaxAttempts = 150; // 60fps = 2.5sec
     ytwp.attemptToUpdatePlayer = function() {
         console.log('ytwp.attemptToUpdatePlayer')
         if (0 <= ytwp.updatePlayerAttempts && ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
@@ -836,13 +845,15 @@
             ytwp.updatePlayerAttempts = 0;
             ytwp.attemptToUpdatePlayerTick();
         }
+        // setTimeout(ytwp.updatePlayer, 10000); /// Just in case it's not caught
     }
     ytwp.attemptToUpdatePlayerTick = function() {
         console.log('ytwp.attemptToUpdatePlayerTick', ytwp.updatePlayerAttempts)
         if (ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
             ytwp.updatePlayerAttempts += 1;
             ytwp.updatePlayer();
-            setTimeout(ytwp.attemptToUpdatePlayerTick, 200);
+            // ytwp.updatePlayerTimerId = setTimeout(ytwp.attemptToUpdatePlayerTick, 200);
+            requestAnimationFrame(ytwp.attemptToUpdatePlayerTick);
         }
     }
 
@@ -922,6 +933,6 @@
 
     //ytwp.doMonkeyPatch()
     ytwp.materialPageTransition()
-    setInterval(ytwp.updatePlayer, 1000);
+    setInterval(ytwp.updatePlayer, 2500);
 
 })(typeof unsafeWindow !== 'undefined' ? unsafeWindow : window);

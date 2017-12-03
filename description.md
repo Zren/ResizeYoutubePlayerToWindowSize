@@ -18,7 +18,7 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 
-## 111 - November 10, 2017
+## 112 - December 2, 2017
 
-* Constantly attempt to enter Theater mode every second if we don't enter it right away.
-* Support entering theater mode in the old layout.
+* Fix the positioning of the search box's autocomplete popup (it was previously hidden).
+* Attempt to cleanup the player every 2.5sec instead of every 1sec, as well as the first 150 frames on page load.

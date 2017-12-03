@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 112 - December 2, 2017
+
+* Fix the positioning of the search box's autocomplete popup (it was previously hidden).
+* Attempt to cleanup the player every 2.5sec instead of every 1sec, as well as the first 150 frames on page load.
+
 ## 111 - November 10, 2017
 
 * Constantly attempt to enter Theater mode every second if we don't enter it right away.
