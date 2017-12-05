@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         112
+// @version         113
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -209,198 +209,6 @@
         return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/)
             || url.match(/https?:\/\/(www\.)?youtube.com\/(c|channel)\/[^\/]+\/live/);
     };
-
-    /*
-    ytwp.playerWidth = window.innerWidth;
-    ytwp.playerHeight = window.innerHeight;
-    ytwp.moviePlayer = null;
-    ytwp.updatePlayerSize = function() {
-        //ytwp.moviePlayer = document.getElementById('movie_player');
-        ytwp.moviePlayer = document.querySelector('.html5-video-player')
-        if (ytwp.moviePlayer) {
-            ytwp.playerWidth = ytwp.moviePlayer.clientWidth;
-            ytwp.playerHeight = ytwp.moviePlayer.clientHeight;
-        }
-        console.log('updatePlayerSize', ytwp.playerWidth, ytwp.playerHeight)
-    }
-    ytwp.updatePlayerSize();
-    window.addEventListener('resize', ytwp.updatePlayer, true);
-
-    ytwp.html5 = {
-        app: null,
-        YTRect: null,
-        YTApplication: null,
-        playerInstances: null,
-        moviePlayerElement: null,
-    };
-    ytwp.html5.getPlayerRect = function() {
-        return new ytwp.html5.YTRect(ytwp.playerWidth, ytwp.playerHeight);
-    };
-    ytwp.html5.getPlayerInstance = function() {
-        if (!ytwp.html5.app) {
-            // This will dispose and recreate the player
-            // This is the only way to get the app instance since the list of players is no longer publicly exported in any way.
-            // We could attempt to rewrite the <script>var ytplayer = ytplayer || {}; ... </script> before it executes, but that'd
-            // be exceedingly difficult.
-            var appInstance = yt.player.Application.create("player-api", ytplayer.config)
-            ytwp.log('appInstance', appInstance)
-            ytwp.html5.app = appInstance;
-        }
-        return ytwp.html5.app;
-    };
-    ytwp.html5.autohideControls = function() {
-        var moviePlayerElement = document.getElementById('movie_player');
-        if (!moviePlayerElement) return;
-        // ytwp.log(moviePlayerElement.classList);
-        removeClass(moviePlayerElement, 'autohide-controlbar autominimize-controls-aspect autohide-controls-fullscreenonly autohide-controls hide-controls-when-cued autominimize-progress-bar autominimize-progress-bar-fullscreenonly autohide-controlbar-fullscreenonly autohide-controls-aspect autohide-controls-fullscreen autominimize-progress-bar-non-aspect');
-        addClass(moviePlayerElement, 'autominimize-progress-bar autohide-controls hide-controls-when-cued');
-        // ytwp.log(moviePlayerElement.classList);
-    };
-    ytwp.html5.update = function() {
-        if (!ytwp.html5.app)
-            return;
-        //ytwp.html5.updatePlayerInstance(ytwp.html5.app);
-        ytwp.enterTheaterMode();
-    };
-    ytwp.html5.replaceClientRect = function(app, moviePlayerKey, clientRectFnKey) {
-        var moviePlayer = app[moviePlayerKey];
-        ytwp.html5.moviePlayerElement = moviePlayer.element;
-        ytwp.html5.YTRect = moviePlayer[clientRectFnKey].call(moviePlayer).constructor;
-        moviePlayer[clientRectFnKey] = ytwp.html5.getPlayerRect;
-    };
-    ytwp.html5.setRectFn = function(app, moviePlayerKey, clientRectFnKey) {
-        ytwp.html5.moviePlayerElement = document.getElementById('movie_player');
-        var moviePlayer = app[moviePlayerKey];
-        ytwp.html5.YTRect = moviePlayer[clientRectFnKey].call(moviePlayer).constructor;
-        moviePlayer.constructor.prototype[clientRectFnKey] = ytwp.html5.getPlayerRect;
-    };
-    ytwp.html5.updatePlayerInstance = function(app) {
-        return;
-
-        if (!app) {
-            return;
-        }
-
-        var moviePlayerElement = document.getElementById('movie_player');
-        var moviePlayer = null;
-        var moviePlayerKey = null;
-
-        // function (){if(this.o){var a=this.Xa();if(!a.isEmpty()){var b=!g.Wd(a,g.Rg(this.B)),c=cZ(this);b&&(this.B.width=a.width,this.B.height=a.height);a=this.app.Z;(c||b||a.ka)&&this.app.g.Y("resize",this.Xa())}}}
-        //     Tail: this.app.g.Y("resize",this.Xa())}}}
-        var applyFnRegex2 = /^function(\s*)\(\)\{.+this\.app\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\("resize",this\.([a-zA-Z_$][\w_$]*)\(\)\)\}\}\}$/;
-        var applyKey2 = null;
-
-        // function (a){var b=this.j.X(),c=n$.L.xb.call(this);a||"detailpage"!=b.ma||b.ib||b.experiments.T||(c.height+=30);return c}
-        // function (a){var b=this.app.X(),c=n$.M.xb.call(this);a||!JK(b)||b.ab||b.experiments.U||(c.height+=30);return c}
-        var clientRectFnRegex1 = /^(function(\s*)\(a\)\{var b=this\.([a-zA-Z_$][\w_$]*)\.([a-zA-Z_$][\w_$]*)\(\)).*(\|\|\(c\.height\+=30\);return c})$/;
-        // function (){var a=this.A.U();if(window.matchMedia){if((a.wb||a.Fb)&&window.matchMedia("(width: "+window.innerWidth+"px) and (height: "+window.innerHeight+"px)").matches)return new H(window.innerWidth,window.innerHeight);if("detailpage"==a.ja&&"blazer"!=a.j&&!a.Fb){a=a.experiments.A;if(window.matchMedia(S6.C).matches)return new H(426,a?280:240);var b=this.A.ha;if(window.matchMedia(b?S6.o:S6.j).matches)return new H(1280,a?760:720);if(b||window.matchMedia(S6.A).matches)return new H(854,a?520:480);if(window.matchMedia(S6.B).matches)return new H(640,a?400:360)}}return new H(this.element.clientWidth,this.element.clientHeight)}
-        //     Tail: return new H(this.element.clientWidth,this.element.clientHeight)}
-        // function (){var a=this.app.T,b=Yh()==this.element;if(b&&Lp())return new g.ef(window.outerWidth,window.outerHeight);if(b||a.Xe){var c;window.matchMedia&&(a="(width: "+window.innerWidth+"px) and (height: "+window.innerHeight+"px)",this.F&&this.F.media==a||(this.F=window.matchMedia(a)),c=this.F&&this.F.matches);if(c)return new g.ef(window.innerWidth,window.innerHeight)}else if(this.N){if(a.experiments.ba("flex_theater_mode")&&this.app.fa||a.experiments.ba("player_scaling_360p_to_720p")&&this.da.matches)return new g.ef(this.element.clientWidth,this.element.clientHeight);if(this.N.matches)return new g.ef(426,240);a=this.app.fa;if((a?this.aa:this.$).matches)return new g.ef(1280,720);if(a||this.ca.matches)return new g.ef(854,480);if(this.fa.matches)return new g.ef(640,360)}return new g.ef(this.element.clientWidth,this.element.clientHeight)}
-        //     Tail: return new g.ef(this.element.clientWidth,this.element.clientHeight)}
-        var clientRectFnRegex2 = /^(function(\s*)\()(.|\n)*(return new ([a-zA-Z_$][\w_$]*\.)?([a-zA-Z_$][\w_$]*)\(this\.element\.clientWidth,this\.element\.clientHeight\)})$/;
-        var clientRectFn = null;
-        var clientRectFnKey = null;
-
-        var fnAlreadyReplacedCount = 0;
-
-        for (var key1 in app) {
-            var val1 = app[key1];//console.log(key1, val1);
-            if (typeof val1 === 'object' && val1 !== null && val1.element === moviePlayerElement) {
-                moviePlayer = val1;
-                moviePlayerKey = key1;
-
-                for (var key2 in moviePlayer) {
-                    var val2 = moviePlayer[key2];//console.log(key1, key2, val2);
-                    if (typeof val2 === 'function') {
-                        var fnString = val2.toString();
-                        // console.log(fnString);
-                        if (clientRectFn === null && (clientRectFnRegex1.test(fnString) || clientRectFnRegex2.test(fnString))) {
-                            clientRectFn = val2;
-                            clientRectFnKey = key2;
-                        } else if (val2 === ytwp.html5.getPlayerRect) {
-                            fnAlreadyReplacedCount += 1;
-                            clientRectFn = val2;
-                            clientRectFnKey = key2;
-                        } else if (applyFnRegex2.test(fnString)) {
-                            console.log('applyFnRegex2', key1, key2,  moviePlayerKey, applyKey2)
-                            applyKey2 = key2;
-                        } else {
-                            // console.log(key1, key2, val2, '[Not Used]');
-                        }
-                    }
-                }
-            }
-        }
-
-        if (fnAlreadyReplacedCount > 0) {
-            // return;
-        }
-
-        if (moviePlayer === null || clientRectFn === null) {
-            console.log('[ytwp] ', '[Error]', 'HTML5 Player has changed or there\'s multiple playerInstances and this one has been destroyed.');
-            console.log('moviePlayer', moviePlayerKey, moviePlayer);
-            console.log('clientRectFn', clientRectFnKey, clientRectFn);
-            console.log('fnAlreadyReplacedCount', fnAlreadyReplacedCount);
-            if (moviePlayer === null) {
-                console.log('Debugging: moviePlayer');
-                var table = [];
-                Object.keys(app).forEach(function(key1) {
-                    var val1 = app[key1];
-                    table.push({
-                        key: key1,
-                        element: typeof val1 === 'object' && val1 !== null && val1.element === moviePlayerElement,
-                        val: val1,
-                    });
-                });
-                console.table(table);
-            }
-            if (moviePlayer != null) {
-                console.log('Debugging: clientRectFn');
-                var table = [];
-                for (var key2 in moviePlayer) {
-                    var val2 = moviePlayer[key2];
-                    table.push({
-                        key: key2,
-                        returns: moviePlayer[key2] && moviePlayer[key2].toString().indexOf('return'),
-                        src: moviePlayer[key2] && moviePlayer[key2].toString(),
-                    });
-                }
-                console.table(table);
-            }
-            return;
-        }
-
-        ytwp.html5.setRectFn(app, moviePlayerKey, clientRectFnKey);
-        ytwp.log('ytwp.html5.setRectFn', moviePlayerKey, clientRectFnKey, app);
-
-        ytwp.log('applyKey check', !!(moviePlayer && applyKey2), moviePlayerKey, moviePlayer, applyKey2, moviePlayer[applyKey2]);
-        if (moviePlayer && applyKey2) {
-            ytwp.log('applyKey2', moviePlayerKey, applyKey2, moviePlayer[applyKey2]);
-            // moviePlayer[applyKey2]('resize', ytwp.html5.getPlayerRect());
-            try {
-                moviePlayer[applyKey2]();
-            } catch (e) {
-                ytwp.error('error calling applyKey2')
-            }
-        } else {
-            ytwp.log('applyFn not found');
-            ytwp.moviePlayerKey = moviePlayerKey
-            ytwp.moviePlayer = moviePlayer
-            console.log('Debugging: applyFn');
-            var table = [];
-            for (var key2 in moviePlayer) {
-                var val2 = moviePlayer[key2];
-                table.push({
-                    key: key2,
-                    returns: moviePlayer[key2] && moviePlayer[key2].toString().indexOf('return'),
-                    src: moviePlayer[key2] && moviePlayer[key2].toString(),
-                });
-            }
-            console.table(table);
-        }
-    };
-    */
-
 
     ytwp.enterTheaterMode = function() {
         // ytwp.log('enterTheaterMode')
@@ -616,8 +424,8 @@
                 'top': '56px',
             });
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' .sbdd_a', {
-                'top': 'calc(100vh + 56px)',
-                'position': 'absolute',
+                'top': 'calc(100vh + 56px) !important',
+                'position': 'absolute !important',
             });
 
             // Guide
@@ -703,13 +511,6 @@
             ytwp.initialized = false;
             ytwp.pageReady = false;
             ytwp.isWatchPage = false;
-            /*
-            ytwp.html5.app = null;
-            // ytwp.html5.YTRect = null;
-            ytwp.html5.YTApplication = null;
-            ytwp.html5.playerInstances = null;
-            //ytwp.html5.moviePlayerElement = null;
-            */
         },
         addBodyClass: function() {
             // Insert CSS Into the body so people can style around the effects of this script.
@@ -860,78 +661,8 @@
     ytwp.updatePlayer = function() {
         ytwp.removeSearchAutofocus();
         ytwp.enterTheaterMode();
-        /*
-        ytwp.updatePlayerSize();
-        if (ytwp.html5.app) {
-            ytwp.html5.updatePlayerInstance(ytwp.html5.app);
-        }
-        ytwp.doMonkeyPatch();
-        */
     }
 
-    ytwp.doMonkeyPatch = function() {
-        ytwp.log('doMonkeyPatch')
-
-        // if (ytwp.patchKey) {
-        //     ytwp.log('doMonkeyPatch called with ytwp.patchKey already set', ytwp.patchKey)
-        //     return
-        // }
-
-        if (!ytwp.isWatchUrl()) {
-            ytwp.log('not watch page')
-            return;
-        }
-
-        // Chrome:  function (a,b){return b?1==b?a.o:a.Ra[b]||null:a.C}
-        // Firefox: function(a,b){return b?1==b?a.A:a.Sa[b]||null:a.D}
-        var patchRegex =  /^function(\s*)\(a,b\)\{return b\?1==b\?a\.([a-zA-Z_$][\w_$]*):a\.([a-zA-Z_$][\w_$]*)\[b\]\|\|null:a.([a-zA-Z_$][\w_$]*)\}$/;
-        var patchKey = null;
-
-        if (window._yt_player) {
-            ytwp.log('_yt_player exists')
-            for (var key in window._yt_player) {
-                var val = window._yt_player[key];
-                if (typeof val === 'function') {
-                    var fnString = val.toString();
-                    // ytwp.log('', key, fnString)
-                    if (patchRegex.test(fnString)) {
-                        patchKey = key;
-                        break;
-                    }
-                }
-            }
-            ytwp.log('patchKey', ytwp.patchKey, '=>', patchKey)
-            if (patchKey) {
-                try {
-                    ytwp.patchKey = patchKey
-                    if (!ytwp.patchOrigFn) {
-                        ytwp.patchOrigFn = window._yt_player[patchKey]
-                        ytwp.log('ytwp.patchOrigFn set', patchKey, ytwp.patchOrigFn)
-                    }
-                    window._yt_player[patchKey] = function(a,b) {
-                        ytwp.log('_yt_player.'+ytwp.patchKey, arguments);
-                        window._yt_player[ytwp.patchKey] = ytwp.patchOrigFn
-                        try {
-                            ytwp.html5.app = a
-                            ytwp.html5.updatePlayerInstance(a)
-                        } catch(e) {
-                            ytwp.error('error when trying to apply html5fix to app instance in _yt_player.'+ytwp.patchKey, arguments, e);
-                        }
-                        return ytwp.patchOrigFn.apply(this, arguments);
-                    }
-                } catch(e) {
-                    ytwp.error('Could not monkey patch _yt_player.'+patchKey, e);
-                    ytwp.log('_yt_player', window._yt_player)
-                    ytwp.log('_yt_player.'+patchKey, window._yt_player ? window._yt_player[patchKey] : '')
-                }
-            }
-        } else {
-            ytwp.log('_yt_player not yet ready')
-            setTimeout(ytwp.doMonkeyPatch, 100)
-        }
-    }
-
-    //ytwp.doMonkeyPatch()
     ytwp.materialPageTransition()
     setInterval(ytwp.updatePlayer, 2500);
 

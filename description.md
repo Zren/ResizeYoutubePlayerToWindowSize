@@ -17,8 +17,6 @@ Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by d
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 113 - December 5, 2017
 
-## 112 - December 2, 2017
-
-* Fix the positioning of the search box's autocomplete popup (it was previously hidden).
-* Attempt to cleanup the player every 2.5sec instead of every 1sec, as well as the first 150 frames on page load.
+* Fix the autocomplete popup when the video is still visible.

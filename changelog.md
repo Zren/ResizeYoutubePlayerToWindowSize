@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 113 - December 5, 2017
+
+* Fix the autocomplete popup when the video is still visible.
+
 ## 112 - December 2, 2017
 
 * Fix the positioning of the search box's autocomplete popup (it was previously hidden).
