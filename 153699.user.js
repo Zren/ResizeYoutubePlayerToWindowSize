@@ -424,7 +424,7 @@
                 'top': '56px',
             });
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + viewingVideoClassId + ' .sbdd_a', {
-                'top': 'calc(100vh + 56px) !important',
+                'top': 'calc(' + playerHeight + ' + 56px) !important',
                 'position': 'absolute !important',
             });
 
