@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         114
+// @version         115
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -216,13 +216,17 @@
         if (watchElement) {
             if (!watchElement.hasAttribute('theater')) {
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
-                sizeButton.click()
+                if (sizeButton) {
+                    sizeButton.click()
+                }
             }
             watchElement.canFitTheater_ = true // When it's too small, it disables the theater mode.
         } else if (watchElement = document.querySelector('#page.watch')) {
             if (!watchElement.classList.contains('watch-stage-mode')) {
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
-                sizeButton.click()
+                if (sizeButton) {
+                    sizeButton.click()
+                }
             }
         }
     }

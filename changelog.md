@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 115 - December 8, 2017
+
+* Fix script not loading error when the page has only loaded halfway.
+
 ## 114 - December 8, 2017
 
 * Use !important to fix compatibility with Youtube+ on the old Youtube layout.
