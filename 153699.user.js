@@ -5,7 +5,7 @@
 // @icon            https://youtube.com/favicon.ico
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         113
+// @version         114
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -330,8 +330,8 @@
 
             // Theatre mode
             ytwp.style.appendRule(scriptBodyClassSelector + ' .watch-stage-mode #player .player-api', {
-                'left': 'initial',
-                'margin-left': 'initial',
+                'left': 'initial !important',
+                'margin-left': 'initial !important',
             });
 
             // Hide the cinema/wide mode button since it's useless.

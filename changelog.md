@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 114 - December 8, 2017
+
+* Use !important to fix compatibility with Youtube+ on the old Youtube layout.
+
 ## 113 - December 5, 2017
 
 * Fix the autocomplete popup when the video is still visible.
