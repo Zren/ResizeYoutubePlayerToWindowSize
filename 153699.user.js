@@ -436,14 +436,9 @@
 
             //---
             // MiniPlayer-Bar
-            ytwp.style.appendRule(
-                [
-                    scriptBodyClassSelector + '.' + topOfPageClassId + ' ytd-miniplayer-bar-renderer.ytd-watch',
-                    scriptBodyClassSelector + ' #miniplayer-bar #player',
-                ], {
-                    'position': 'static',
-                }
-            );
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #miniplayer-bar #player', {
+                'position': 'static',
+            });
             ytwp.style.appendRule(
                 [
                     scriptBodyClassSelector + ' #miniplayer-bar #player',
