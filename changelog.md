@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 116 - April 19, 2017
+
+* Use a 32px icon so that it looks better in various browser extensions.
+* Support YouTube's experimental MiniPlayer Bar.
+
 ## 115 - December 8, 2017
 
 * Fix script not loading error when the page has only loaded halfway.
