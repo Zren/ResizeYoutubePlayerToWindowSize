@@ -683,4 +683,4 @@
     ytwp.materialPageTransition()
     setInterval(ytwp.updatePlayer, 2500);
 
-})(typeof unsafeWindow !== 'undefined' ? unsafeWindow : window);
+})(window);

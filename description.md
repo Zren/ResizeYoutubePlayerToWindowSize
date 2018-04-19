@@ -21,3 +21,4 @@ https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
 * Use a 32px icon so that it looks better in various browser extensions.
 * Support YouTube's experimental MiniPlayer Bar.
+* Fix onScroll event not triggering in firefox.
