@@ -435,6 +435,35 @@
 
 
             //---
+            // MiniPlayer-Bar
+            ytwp.style.appendRule(
+                [
+                    scriptBodyClassSelector + '.' + topOfPageClassId + ' ytd-miniplayer-bar-renderer.ytd-watch',
+                    scriptBodyClassSelector + ' #miniplayer-bar #player',
+                ], {
+                    'position': 'static',
+                }
+            );
+            ytwp.style.appendRule(
+                [
+                    scriptBodyClassSelector + ' #miniplayer-bar #player',
+                    scriptBodyClassSelector + ' #miniplayer-bar #player-api',
+                    'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' #miniplayer-bar #movie_player',
+                    scriptBodyClassSelector + ' #player-mole-container',
+                    'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' #miniplayer-bar .html5-video-container',
+                    'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' #miniplayer-bar .html5-main-video',
+                ],
+                {
+                    'width': '252px !important',
+                    'min-width': '252px !important',
+                    'max-width': '252px !important',
+                    'height': '142px !important',
+                    'min-height': '142px !important',
+                    'max-height': '142px !important',
+                }
+            );
+
+            //---
             // Hide Scrollbars
             ytwp.style.appendRule(scriptBodyClassSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
 
@@ -485,6 +514,7 @@
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-app #masthead-container.ytd-app', {
                 'position': 'absolute',
                 'top': playerHeight,
+                'z-index': 0,
             });
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-watch #masthead-positioner', {
                 'top': playerHeight + ' !important',
