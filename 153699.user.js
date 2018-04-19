@@ -56,18 +56,6 @@
             d[propertyNames[i]] = value;
         return d;
     }
-    function addClass(el, value) {
-        var classes = value.split(' ');
-        for (var i = 0; i < classes.length; i++) {
-            el.classList.add(classes[i]);
-        }
-    }
-    function removeClass(el, value) {
-        var classes = value.split(' ');
-        for (var i = 0; i < classes.length; i++) {
-            el.classList.remove(classes[i]);
-        }
-    }
     function observe(selector, config, callback) {
         var observer = new MutationObserver(function(mutations) {
             mutations.forEach(function(mutation){
