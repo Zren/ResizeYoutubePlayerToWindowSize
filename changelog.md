@@ -1,6 +1,6 @@
 <h3>Changelog</h3>
 
-## 116 - April 19, 2017
+## 116 - April 19, 2018
 
 * Use a 32px icon so that it looks better in various browser extensions.
 * Support YouTube's experimental MiniPlayer Bar.
