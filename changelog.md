@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 117 - April 21, 2018
+
+* Slightly fix the playlist area positioning in the old youtube layout.
+
 ## 116 - April 19, 2018
 
 * Use a 32px icon so that it looks better in various browser extensions.

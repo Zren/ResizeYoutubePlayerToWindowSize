@@ -5,7 +5,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         116
+// @version         117
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -495,6 +495,21 @@
                 'max-height': '470px !important',
                 'height': 'initial !important',
             });
+
+            // Old layout `&disable_polymer=true`
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist', {
+                'left': 'calc((100vw - 1066px)/2 + 640px + 10px)',
+                'width': '416px',
+            });
+            ytwp.style.stylesheet += '@media screen and (min-height: 630px) and (min-width: 1294px) {\n';
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist', {
+                'left': 'calc((100vw - 1280px)/2 + 854px + 10px)',
+            });
+            ytwp.style.stylesheet += '}\n @media screen and (min-width: 1720px) and (min-height:980px) {\n';
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #player .player-height#watch-appbar-playlist', {
+                'left': 'calc((100vw - 1706px)/2 + 1280px + 10px)',
+            });
+            ytwp.style.stylesheet += '}\n';
 
             //---
             // Material UI
