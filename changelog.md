@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 118 - May 19, 2018
+
+* Support (one of) the new "flexy" youtube interface.
+
 ## 117 - April 21, 2018
 
 * Slightly fix the playlist area positioning in the old youtube layout.

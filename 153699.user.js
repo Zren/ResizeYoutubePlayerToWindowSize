@@ -5,7 +5,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         117
+// @version         118
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -200,7 +200,7 @@
 
     ytwp.enterTheaterMode = function() {
         // ytwp.log('enterTheaterMode')
-        var watchElement = document.querySelector('ytd-watch:not([hidden])')
+        var watchElement = document.querySelector('ytd-watch:not([hidden])') || document.querySelector('ytd-watch-flexy:not([hidden])')
         if (watchElement) {
             if (!watchElement.hasAttribute('theater')) {
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
@@ -529,6 +529,14 @@
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-watch #masthead-positioner', {
                 'top': playerHeight + ' !important',
             });
+
+            //---
+            // Flexy UI
+            ytwp.style.appendRule(scriptBodyClassSelector + ' ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy', {
+            	'position': 'absolute',
+                'top': '0',
+            });
+            ytwp.style.appendRule(scriptBodyClassSelector + ' ytd-watch-flexy', 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
         },
         onWatchInit: function() {
             ytwp.log('onWatchInit');
