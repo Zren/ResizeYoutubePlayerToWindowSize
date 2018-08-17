@@ -1,5 +1,3 @@
-Chrome users: **Uninstall Sylish!** This script will now hide the scrollbar by default (and only on video pages) now that Stylish went to the dark side and is used to spy on the websites you visit by "tracking you anonymously" by default.
-
 # Suggestions
 * Use [Resize Video To Window Size](https://greasyfork.org/en/scripts/10815-resize-video-to-window-size) for Crunchyroll, Vimeo, and a few others.
 
