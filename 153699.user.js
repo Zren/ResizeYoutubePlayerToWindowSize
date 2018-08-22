@@ -342,6 +342,7 @@
                     scriptBodyClassSelector + ' #player-mole-container',
                     'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' .html5-video-container',
                     'html:not(.floater):not(.iri-always-visible) ' + scriptBodyClassSelector + ' .html5-main-video',
+                    scriptBodyClassSelector + ' ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy',
                 ],
                 {
                     'width': '100% !important',
@@ -533,7 +534,7 @@
             //---
             // Flexy UI
             ytwp.style.appendRule(scriptBodyClassSelector + ' ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy', {
-            	'position': 'absolute',
+                'position': 'absolute',
                 'top': '0',
             });
             ytwp.style.appendRule(scriptBodyClassSelector + ' ytd-watch-flexy', 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
