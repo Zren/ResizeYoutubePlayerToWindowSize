@@ -15,6 +15,7 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 118 - May 19, 2018
+## 119 - August 22, 2018
 
-* Support (one of) the new "flexy" youtube interface.
+* Fix the current video thumbnail not showing up when autoplay is disabled.
+* Fix the black bg showing a white section when the miniplayer is active.
