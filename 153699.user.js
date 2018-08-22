@@ -530,6 +530,7 @@
             ytwp.style.appendRule(scriptBodyClassSelector + '.ytwp-viewing-video ytd-watch #masthead-positioner', {
                 'top': playerHeight + ' !important',
             });
+            ytwp.style.appendRule(scriptBodyClassSelector + ' .ytp-cued-thumbnail-overlay', 'z-index', '10');
 
             //---
             // Flexy UI
