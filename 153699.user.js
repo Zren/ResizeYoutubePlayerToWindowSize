@@ -540,6 +540,7 @@
                 'top': '0',
             });
             ytwp.style.appendRule(scriptBodyClassSelector + ' ytd-watch-flexy', 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
+            ytwp.style.appendRule(scriptBodyClassSelector + ' #error-screen', 'z-index', '11');
         },
         onWatchInit: function() {
             ytwp.log('onWatchInit');
