@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 120 - November 13, 2018
+
+* Add experimental support for hiding scrollbar in Firefox v63. Go to `about:config` and set `layout.css.scrollbar-width.enabled` to `true`, then restart Firefox.
+
 ## 119 - August 22, 2018
 
 * Fix the current video thumbnail not showing up when autoplay is disabled.

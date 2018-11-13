@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         119
+// @version         120
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -290,9 +290,16 @@
         buildStylesheet: function() {
             ytwp.log('buildStylesheet');
             //--- Browser Scrollbar
+            // Chrome/Webkit
             ytwp.style.appendRule(scriptBodyClassSelector + '::-webkit-scrollbar', {
                 'width': '0',
                 'height': '0',
+            });
+            // Firefox/Gecko
+            // Requires about:config flag to be toggled as of FireFox v63
+            // https://github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/42
+            ytwp.style.appendRule('html', {
+                'scrollbar-width': 'none',
             });
 
             //--- Video Player

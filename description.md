@@ -15,7 +15,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 119 - August 22, 2018
+## 120 - November 13, 2018
 
-* Fix the current video thumbnail not showing up when autoplay is disabled.
-* Fix the black bg showing a white section when the miniplayer is active.
+* Add experimental support for hiding scrollbar in Firefox v63. Go to `about:config` and set `layout.css.scrollbar-width.enabled` to `true`, then restart Firefox.
