@@ -1,5 +1,6 @@
 # Suggestions
 * Use [Resize Video To Window Size](https://greasyfork.org/en/scripts/10815-resize-video-to-window-size) for Crunchyroll, Vimeo, and a few others.
+* Experimental support for hiding scrollbar in Firefox v63. Go to `about:config` and set `layout.css.scrollbar-width.enabled` to `true`, then restart Firefox.
 
 # Screenshots
 
@@ -15,6 +16,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 120 - November 13, 2018
+## 121 - November 18, 2018
 
-* Add experimental support for hiding scrollbar in Firefox v63. Go to `about:config` and set `layout.css.scrollbar-width.enabled` to `true`, then restart Firefox.
+* Fix miniplayer video getting positioned offscreen.

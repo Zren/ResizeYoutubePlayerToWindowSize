@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 121 - November 18, 2018
+
+* Fix miniplayer video getting positioned offscreen.
+
 ## 120 - November 13, 2018
 
 * Add experimental support for hiding scrollbar in Firefox v63. Go to `about:config` and set `layout.css.scrollbar-width.enabled` to `true`, then restart Firefox.

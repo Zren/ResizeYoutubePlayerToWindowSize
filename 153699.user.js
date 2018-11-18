@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         120
+// @version         121
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -466,6 +466,11 @@
                     'max-height': '142px !important',
                 }
             );
+            // Override inline style (caused by a JS animation) that breaks the miniplayer video
+            // https://github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/41#issuecomment-439710130
+            ytwp.style.appendRule('.video-stream.html5-main-video', {
+                'top': '0 !important',
+            });
 
             //---
             // Hide Scrollbars
