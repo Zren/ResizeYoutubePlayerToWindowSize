@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 122 - January 30, 2019
+
+* Fix hidden video bug when fullscreen (Issue #43)
+
 ## 121 - November 18, 2018
 
 * Fix miniplayer video getting positioned offscreen.

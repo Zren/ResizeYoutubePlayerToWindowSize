@@ -16,6 +16,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 121 - November 18, 2018
+## 122 - January 30, 2019
 
-* Fix miniplayer video getting positioned offscreen.
+* Fix hidden video bug when fullscreen (Issue #43)
