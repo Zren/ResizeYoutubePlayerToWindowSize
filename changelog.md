@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 123 - June 24, 2019
+
+* Support `/user/channelName/live` url paths like https://www.youtube.com/user/pokemon/live (Issue #29)
+
 ## 122 - January 30, 2019
 
 * Fix hidden video bug when fullscreen (Issue #43)
