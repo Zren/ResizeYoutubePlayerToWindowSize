@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         123
+// @version         124
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -198,8 +198,14 @@
     ytwp.isWatchUrl = function (url) {
         if (!url)
             url = uw.location.href;
-        return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/)
-            || url.match(/https?:\/\/(www\.)?youtube.com\/(c|channel|user)\/[^\/]+\/live/);
+        if (url.match(/https?:\/\/(www\.)?youtube.com\/(c|channel|user)\/[^\/]+\/live/)) {
+            if (document.querySelector('ytd-browse')) {
+                return false
+            } else {
+                return true
+            }
+        }
+        return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
     };
 
     ytwp.enterTheaterMode = function() {
