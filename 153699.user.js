@@ -174,7 +174,7 @@
     var topOfPageClassId = scriptShortName + '-scrolltop'; // .ytwp-scrolltop
 
     var scriptHtmlSelector = 'html:not([fullscreen="true"])';
-    var scriptBodySelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
+    var scriptBodySelector = 'body.' + scriptBodyClassId + ':not(.enhancer-for-youtube-pinned-player)'; // body.ytwp-window-player
     var scriptSelector = scriptHtmlSelector + ' ' + scriptBodySelector;
 
     var videoContainerId = 'player';
