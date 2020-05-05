@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         124
+// @version         125
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -209,11 +209,13 @@
         return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
     };
 
-    ytwp.enterTheaterMode = function() {
-        // ytwp.log('enterTheaterMode')
+    ytwp.setTheaterMode = function(enable) {
+        // ytwp.log('setTheaterMode', enable)
+
         var watchElement = document.querySelector('ytd-watch:not([hidden])') || document.querySelector('ytd-watch-flexy:not([hidden])')
         if (watchElement) {
-            if (!watchElement.hasAttribute('theater')) {
+            var isTheater = watchElement.hasAttribute('theater')
+            if (enable != isTheater) {
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
                 if (sizeButton) {
                     sizeButton.click()
@@ -221,13 +223,22 @@
             }
             watchElement.canFitTheater_ = true // When it's too small, it disables the theater mode.
         } else if (watchElement = document.querySelector('#page.watch')) {
-            if (!watchElement.classList.contains('watch-stage-mode')) {
+            var isTheater = watchElement.classList.contains('watch-stage-mode')
+            if (enable != isTheater) {
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
                 if (sizeButton) {
                     sizeButton.click()
                 }
             }
         }
+    }
+    ytwp.enterTheaterMode = function() {
+        // ytwp.log('enterTheaterMode')
+        if (!document.body.classList.contains(scriptBodyClassId)) {
+            return
+        }
+
+        ytwp.setTheaterMode(true)
     }
     ytwp.enterTheaterMode();
     uw.addEventListener('resize', ytwp.enterTheaterMode);
@@ -730,7 +741,57 @@
         ytwp.enterTheaterMode();
     }
 
+    ytwp.toggleExtension = function() {
+        document.body.classList.toggle('ytwp-window-player')
+        ytwp.setTheaterMode(document.body.classList.contains('ytwp-window-player'))
+    }
+
+
+    //--- Main
     ytwp.materialPageTransition()
     setInterval(ytwp.updatePlayer, 2500);
+
+
+    //--- Keyboard Shortcut
+    function childOf(child, ancestor) {
+        var parent = child.parentNode
+        while (parent) {
+            if (parent == ancestor) {
+                return true
+            }
+            parent = parent.parentNode
+        }
+        return false
+    }
+    window.addEventListener('keypress', function(e){
+        var isKey = e.key === 'w'
+        var validTarget = (
+            e.target === document.body
+            || e.target.id === 'player-api'
+            || e.target.id === 'movie_player'
+            || childOf(e.target, document.querySelector('#movie_player'))
+        )
+
+        if (validTarget && isKey) {
+            e.preventDefault()
+            ytwp.toggleExtension()
+        }
+    })
+
+
+    //--- Browser Extension
+    if (typeof browser !== "undefined") {
+        browser.runtime.onMessage.addListener(request => {
+            if (request.id == "toggle") {
+                ytwp.toggleExtension()
+
+                return Promise.resolve({
+                    enabled: document.body.classList.contains('ytwp-window-player'),
+                })
+            } else {
+                return Promise.reject(new Error('Unreconized message.id'))
+            }
+        });
+    }
 
 })(window);
