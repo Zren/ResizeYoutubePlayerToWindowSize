@@ -3,7 +3,7 @@
 // @description     Resize the video player for various sites to the window size.
 // @author          Chris H (Zren / Shade)
 // @namespace       http://xshade.ca
-// @version         54
+// @version         55
 // @include         https://www.crunchyroll.com/*
 // @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html
 // @include         https://docs.google.com/file/*
@@ -24,6 +24,7 @@
 // @include         http://*.ctvnews.ca/*
 // @include         https://watch.cbc.ca/live/channel/*
 // @include         https://watch.cbc.ca/live/*
+// @include         https://www.ctv.ca/shows/*
 // @include         https://www.ctv.ca/video/*
 // @include         https://www.ctv.ca/*/Video*
 // @include         https://www.ctv.ca/Movie/*
@@ -321,19 +322,13 @@
         GM_addStyle(css);
     } else if (document.location.host.endsWith('www.ctv.ca')) {
         var css = ''
-        css += '#leaderboard_container { margin-top: 0px !important; }'
-        css += 'body.tablet #leaderboard_container.attach_to_nav ~ .site-wrapper .navigation-wrapper,'
-        css += 'body.web #leaderboard_container.attach_to_nav ~ .site-wrapper .navigation-wrapper,'
-        css += 'body.web_xl #leaderboard_container.attach_to_nav ~ .site-wrapper .navigation-wrapper,'
-        css += 'html .page-top.container-fluid { position: static !important; }'
-        css += 'html .jwplayer { max-height: 100vh !important; }'
-        css += 'html .jwplayer.jw-flag-aspect-mode { height: 100vh !important; }'
-        css += '.video-socialshare { display: none !important; }'
-        css += '@media screen and (max-width: 992px) and (min-width: 320px) { .mobile-flyout { display: none !important; } }'
+        css += 'header.navigation { opacity: 0; position: fixed; }'
+        css += 'header.navigation:hover { opacity: 1; }'
+        css += '.main { padding-top: 0 !important; }'
+        css += '#vidi-player-standalone { margin: 0vw 0vw 0; }'
+        css += '.jwplayer.jw-flag-aspect-mode { min-height: 100vh !important; height: 100vh !important; max-height: 100vh !important; }'
         GM_addStyle(css);
         waitFor('.jwplayer', function(jwPlayerElement) {
-            movedTopPlayer(jwPlayerElement);
-
             waitFor('.jwplayer video', function(videoElement) {
                 setTimeout(function() {
                     videoElement.muted = false;
@@ -341,6 +336,16 @@
             });
         });
         bindJWPlayerSpacebar();
+        var reverseEpisodeOrder = [
+            '/shows/the-daily-show-with-trevor-noah',
+        ]
+        waitFor('ul.episodes__list', function(ul) {
+            if (reverseEpisodeOrder.indexOf(document.location.pathname) >= 0) {
+                for (var i = 0; i < ul.children.length; i++) {
+                    ul.insertBefore(ul.children[i], ul.firstChild)
+                }
+            }
+        });
     } else if (document.location.host.endsWith('funimation.com')) {
         var videoBoxElement = document.querySelector('.video-player-section .video-player-container');
         if (!videoBoxElement) return;
