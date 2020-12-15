@@ -11,13 +11,22 @@
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
 // @include         http*://youtu.be/*
-// @grant           none
+// @grant           GM_addStyle
 // ==/UserScript==
 
 // Github:          https://github.com/Zren/ResizeYoutubePlayerToWindowSize
 // GreasyFork:      https://greasyfork.org/scripts/811-resize-yt-to-window-size
 // OpenUserJS.org:  https://openuserjs.org/scripts/zren/Resize_YT_To_Window_Size
 // Userscripts.org: http://userscripts-mirror.org/scripts/show/153699
+
+setInterval(function(){
+	if (window.location.href.match(/m.youtube.com\/watch?/gi)){
+
+		GM_addStyle("html { scrollbar-width: none; } #player-container-id { position: static !important; } #player-container-id .player-size { padding-bottom: 100vh; } ytm-app.sticky-player { padding-top: 0px !important; } ytm-app ytm-watch .player-size { padding-bottom: 0 !important; } ytm-mobile-topbar-renderer.sticky-player.in:not(:hover) { opacity: 0; } ytm-watch { margin-right: 0px !important; }");
+		GM_addStyle(".scwnr-content > lazy-list { display: flex; flex-wrap: wrap; } .ytm-autonav-bar { width: 100%; } @media (orientation:landscape) { ytm-single-column-watch-next-results-renderer [section-identifier='related-items'] { position: static !important; width: 100% !important; } ytm-single-column-watch-next-results-renderer [section-identifier='related-items'] .item { width: 20vw; } } ");
+
+	};
+}, 1000);
 
 (function (window) {
     "use strict";
