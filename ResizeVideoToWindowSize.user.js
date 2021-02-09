@@ -3,9 +3,9 @@
 // @description     Resize the video player for various sites to the window size.
 // @author          Chris H (Zren / Shade)
 // @namespace       http://xshade.ca
-// @version         55
+// @version         61
 // @include         https://www.crunchyroll.com/*
-// @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html
+// @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html*
 // @include         https://docs.google.com/file/*
 // @include         https://drive.google.com/drive/*
 // @include         https://drive.google.com/file/*
@@ -29,6 +29,7 @@
 // @include         https://www.ctv.ca/*/Video*
 // @include         https://www.ctv.ca/Movie/*
 // @include         https://www.funimation.com/shows/*
+// @include         https://www.funimation.com/player/*
 // @include         https://www.crave.ca/*
 // @include         https://tubitv.com/*
 // @grant           GM_addStyle
@@ -111,7 +112,10 @@
     };
 
     if (document.location.host.endsWith('crunchyroll.com')) {
-        if (window.location.href == 'https://static.crunchyroll.com/vilos-v2/web/vilos/player.html') {
+        // if (window.location.href == 'https://static.crunchyroll.com/vilos-v2/web/vilos/player.html') {
+        console.log('doc loc', document.location)
+        console.log('win loc', window.location)
+        if (document.location.hostname == 'static.crunchyroll.com' && document.location.pathname == '/vilos-v2/web/vilos/player.html') {
             GM_addStyle('#vilosRoot { height: 100vh !important; }');
         } else if (window.location.href.match(/^https:\/\/www\.crunchyroll\.(com|ca)\/.+\/.+-\d+\/?/)) {
             var videoBoxElement = document.getElementById('showmedia_video_box') || document.getElementById('showmedia_video_box_wide');
@@ -240,7 +244,7 @@
         css += '#player.container #filler { padding-bottom: 100vh !important; }';
         css += '.player { background: #000; }';
         css += '#player.container .player { display: flex; }';
-        css += '.player, #player.container video { max-height: 100vh; }';
+        css += '.player, #player.container video { max-height: 100vh; object-fit: contain; }';
         css += '#player > div[style="height:15px;"] { display: none; }';
         css += '#player.container .topbanner { display: none; }';
         GM_addStyle(css);
@@ -326,7 +330,10 @@
         css += 'header.navigation:hover { opacity: 1; }'
         css += '.main { padding-top: 0 !important; }'
         css += '#vidi-player-standalone { margin: 0vw 0vw 0; }'
+        css += 'div[class*="VidiPlayerstyles__VidiPlayerStandAloneContainer"] { margin: 0vw 0vw 0; }'
         css += '.jwplayer.jw-flag-aspect-mode { min-height: 100vh !important; height: 100vh !important; max-height: 100vh !important; }'
+        css += 'div[class*="BrowserNotificationstyles"] { display: none; }'
+        css += 'div[class^="ArrowBackstyles__ButtonContainer"] { display: none; }'
         GM_addStyle(css);
         waitFor('.jwplayer', function(jwPlayerElement) {
             waitFor('.jwplayer video', function(videoElement) {
@@ -339,22 +346,46 @@
         var reverseEpisodeOrder = [
             '/shows/the-daily-show-with-trevor-noah',
         ]
-        waitFor('ul.episodes__list', function(ul) {
+        waitFor('ul[class*="Episodesstyles__EpisodeList"]', function(ul) {
             if (reverseEpisodeOrder.indexOf(document.location.pathname) >= 0) {
                 for (var i = 0; i < ul.children.length; i++) {
                     ul.insertBefore(ul.children[i], ul.firstChild)
                 }
             }
         });
+        setInterval(function(){
+            var e = document.querySelector('#__next div:not(.App)')
+            if (e) {
+                var h2 = e.querySelector('h2')
+                if (h2 && h2.textContent == 'An unexpected error has occurred.') {
+                    // CTV doesn't like uBlockOrigin, so reload the page to workaround the AJAX React links breaking.
+                    window.location.reload()
+                }
+            }
+        }, 100);
     } else if (document.location.host.endsWith('funimation.com')) {
+        console.log('funimation.com')
         var videoBoxElement = document.querySelector('.video-player-section .video-player-container');
-        if (!videoBoxElement) return;
-        movedTopPlayer(videoBoxElement);
-        videoBoxElement.classList.remove('col-md-10');
-        var css = 'html, body { width: 100%; height: 100%; }';
-        css += '.video-player-container { width: 100vw !important; height: 100vh !important; }';
-        css += '#funimation-main-site-header { position: absolute; top: 100vh; }';
-        GM_addStyle(css);
+        console.log('videoBoxElement', videoBoxElement)
+        if (videoBoxElement) {
+            movedTopPlayer(videoBoxElement);
+            videoBoxElement.classList.remove('col-md-10');
+
+            var css = 'html, body { width: 100%; height: 100%; }';
+            css += '.video-player-container { width: 100vw !important; height: 100vh !important; }';
+            css += '#funimation-main-site-header { position: absolute; top: 100vh; }';
+            GM_addStyle(css);
+        } else {
+            console.log('location', document.location)
+            waitFor('#brightcove-player', function(player){
+                console.log('player', player)
+                player.removeAttribute('muted')
+                waitFor('.vjs-mute-control.vjs-vol-0', function(muteButton){
+                    console.log('muteButton', muteButton)
+                    muteButton.click()
+                })
+            })
+        }
     } else if (document.location.host.endsWith('crave.ca')) {
         if (document.location.pathname.startsWith('/live')) return;
         var videoBoxElement = document.querySelector('video-player');
