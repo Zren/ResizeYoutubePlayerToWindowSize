@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         125
+// @version         126
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -314,8 +314,8 @@
             //--- Browser Scrollbar
             // Chrome/Webkit
             ytwp.style.appendRule(scriptBodySelector + '::-webkit-scrollbar', {
-                'width': '0',
-                'height': '0',
+                'width': '0 !important',
+                'height': '0 !important',
             });
             // Firefox/Gecko
             // Requires about:config flag to be toggled as of FireFox v63

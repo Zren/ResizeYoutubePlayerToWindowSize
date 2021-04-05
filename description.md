@@ -1,6 +1,7 @@
 # Suggestions
-* Use [Resize Video To Window Size](https://greasyfork.org/en/scripts/10815-resize-video-to-window-size) for Crunchyroll, Vimeo, and a few others.
-* Experimental support for hiding scrollbar in Firefox v63. Go to `about:config` and set `layout.css.scrollbar-width.enabled` to `true`, then restart Firefox.
+
+* The `w` key will toggle the script in the current tab.
+* Use [Resize Video To Window Size](https://greasyfork.org/en/scripts/10815-resize-video-to-window-size) for Crunchyroll, Vimeo, and a few other sites.
 
 # Screenshots
 
@@ -16,7 +17,6 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
-## 125 - May 5, 2020
+## 126 - April 5, 2021
 
-* Bind `w` key to toggle off script on current page.
-* Prep toggle code for firefox extension.
+* Fix scrollbar not being hidden in Chrome.

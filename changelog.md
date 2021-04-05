@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 126 - April 5, 2021
+
+* Fix scrollbar not being hidden in Chrome.
+
 ## 125 - May 5, 2020
 
 * Bind `w` key to toggle off script on current page.
