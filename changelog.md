@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## 127 - April 5, 2021
+
+* Resize the video faster by styling the `#player-wrap` element.
+
 ## 126 - April 5, 2021
 
 * Fix scrollbar not being hidden in Chrome.

@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         126
+// @version         127
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -367,6 +367,7 @@
             ytwp.style.appendRule(
                 [
                     scriptSelector + ' #player',
+                    scriptSelector + ' #player-wrap',
                     scriptSelector + ' #player-api',
                     scriptHtmlSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' #movie_player',
                     scriptSelector + ' #player-mole-container',
