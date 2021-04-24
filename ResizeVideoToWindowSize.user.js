@@ -3,7 +3,7 @@
 // @description     Resize the video player for various sites to the window size.
 // @author          Chris H (Zren / Shade)
 // @namespace       http://xshade.ca
-// @version         61
+// @version         63
 // @include         https://www.crunchyroll.com/*
 // @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html*
 // @include         https://docs.google.com/file/*
@@ -139,6 +139,7 @@
             var css = 'html, body { width: 100%; height: 100%; }';
             css += '#showmedia_video_box, #showmedia_video_box_wide, #showmedia_video_player { width: 100%; height: calc(100vh) !important; }';
             css += '.html5-video-player { width: 100% !important; height: calc(100vh) !important; }'; // https://github.com/YePpHa/crunchyroll-html5
+            css += '.site-header { position: static !important; }';
             GM_addStyle(css);
         }
     } else if (document.location.href.startsWith('https://docs.google.com/file/')) {
@@ -334,6 +335,9 @@
         css += '.jwplayer.jw-flag-aspect-mode { min-height: 100vh !important; height: 100vh !important; max-height: 100vh !important; }'
         css += 'div[class*="BrowserNotificationstyles"] { display: none; }'
         css += 'div[class^="ArrowBackstyles__ButtonContainer"] { display: none; }'
+
+        css += 'div[class^="globalStyles__MainContainer"] { padding-top: 0 !important; }'
+        css += 'div[class^="VidiPlayerstyles__VidiPlayerPageContainer"] { margin: 0 !important; }'
         GM_addStyle(css);
         waitFor('.jwplayer', function(jwPlayerElement) {
             waitFor('.jwplayer video', function(videoElement) {
