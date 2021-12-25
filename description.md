@@ -17,6 +17,11 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 128 - December 25, 2021
+
+* Disable script when an unavailable video is detected
+* Remove some logging
+
 ## 127 - April 5, 2021
 
 * Resize the video faster by styling the `#player-wrap` element.

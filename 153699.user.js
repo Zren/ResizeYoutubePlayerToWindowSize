@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         127
+// @version         128
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -242,6 +242,13 @@
     }
     ytwp.enterTheaterMode();
     uw.addEventListener('resize', ytwp.enterTheaterMode);
+
+    ytwp.detectPlayerUnavailable = function() {
+        if (document.querySelector('[player-unavailable]')) {
+            ytwp.event.removeBodyClass()
+        }
+    }
+
 
     ytwp.init = function() {
         ytwp.log('init');
@@ -596,6 +603,10 @@
             document.body.classList.add(scriptBodyClassId);
             ytwp.log('Applied ' + scriptBodySelector);
         },
+        removeBodyClass: function() {
+            document.body.classList.remove(scriptBodyClassId);
+            ytwp.log('Removed ' + scriptBodySelector);
+        },
     };
 
     ytwp.html5PlayerFix = function() {
@@ -718,7 +729,7 @@
     ytwp.updatePlayerAttempts = -1;
     ytwp.updatePlayerMaxAttempts = 150; // 60fps = 2.5sec
     ytwp.attemptToUpdatePlayer = function() {
-        console.log('ytwp.attemptToUpdatePlayer')
+        // console.log('ytwp.attemptToUpdatePlayer')
         if (0 <= ytwp.updatePlayerAttempts && ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
             ytwp.updatePlayerAttempts = 0;
         } else {
@@ -728,7 +739,7 @@
         // setTimeout(ytwp.updatePlayer, 10000); /// Just in case it's not caught
     }
     ytwp.attemptToUpdatePlayerTick = function() {
-        console.log('ytwp.attemptToUpdatePlayerTick', ytwp.updatePlayerAttempts)
+        // console.log('ytwp.attemptToUpdatePlayerTick', ytwp.updatePlayerAttempts)
         if (ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
             ytwp.updatePlayerAttempts += 1;
             ytwp.updatePlayer();
@@ -740,6 +751,7 @@
     ytwp.updatePlayer = function() {
         ytwp.removeSearchAutofocus();
         ytwp.enterTheaterMode();
+        ytwp.detectPlayerUnavailable();
     }
 
     ytwp.toggleExtension = function() {
