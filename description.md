@@ -17,6 +17,10 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## 129 - March 9, 2022
+
+* Fix toggling theater mode as YouTube moved the button into the settings cog menu (Issue #66)
+
 ## 128 - December 25, 2021
 
 * Disable script when an unavailable video is detected

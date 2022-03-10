@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         128
+// @version         129
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -217,6 +217,10 @@
             var isTheater = watchElement.hasAttribute('theater')
             if (enable != isTheater) {
                 var sizeButton = watchElement.querySelector('button.ytp-size-button')
+                if (!sizeButton) {
+                    var screenModeButtons = watchElement.querySelectorAll('button.ytp-screen-mode-settings-button')
+                    sizeButton = screenModeButtons[1] // 2nd button is "Theater mode (t)"
+                }
                 if (sizeButton) {
                     sizeButton.click()
                 }
@@ -381,6 +385,9 @@
                     scriptHtmlSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' .html5-video-container',
                     scriptHtmlSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' .html5-main-video',
                     scriptSelector + ' ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy',
+                    scriptSelector + ' ytd-watch-flexy[flexy] #player-container-outer.ytd-watch-flexy',
+                    scriptSelector + ' ytd-watch-flexy[flexy] #player-container-inner.ytd-watch-flexy',
+                    scriptSelector + ' ytd-watch-flexy[flexy] #player-container.ytd-watch-flexy',
                 ],
                 {
                     'width': '100% !important',
