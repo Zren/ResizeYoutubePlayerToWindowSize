@@ -423,6 +423,14 @@
                 scriptSelector + ' .html5-video-player .ytp-upnext', // Autoplay Next Video
             ], 'top', '0');
 
+            // Fix video cropping (object-fit: cover) (Issue #70)
+            ytwp.style.appendRule(scriptSelector + ' .ytp-fit-cover-video .html5-main-video', 'object-fit', 'contain !important');
+            // Thumbnail cropping
+            ytwp.style.appendRule(scriptSelector + ' .ytp-cued-thumbnail-overlay-image', {
+                'background-size': 'contain !important',
+                '-moz-background-size': 'contain !important',
+                '-webkit-background-size': 'contain !important',
+            });
 
             //--- Move Video Player
             ytwp.style.appendRule(scriptSelector + ' #player', {
