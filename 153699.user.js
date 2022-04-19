@@ -24,6 +24,7 @@
 
     //--- Settings
     var playerHeight = '100vh';
+    var enableOnLoad = true;
 
     //--- Imported Globals
     // yt
@@ -596,7 +597,9 @@
             if (!ytwp.initialized) return;
             if (ytwp.pageReady) return;
 
-            ytwp.event.addBodyClass();
+            if (enableOnLoad) {
+                ytwp.event.addBodyClass();
+            }
             ytwp.pageReady = true;
         },
         onDispose: function() {
@@ -691,7 +694,9 @@
 
         if (ytwp.isWatchUrl()) {
             ytwp.removeSearchAutofocus();
-            ytwp.event.addBodyClass();
+            if (enableOnLoad) {
+                ytwp.event.addBodyClass();
+            }
             // if (!ytwp.html5.app) {
             if (!ytwp.initialized) {
                 ytwp.log('materialPageTransition !ytwp.html5.app', ytwp.html5.app)
