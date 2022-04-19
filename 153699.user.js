@@ -25,6 +25,7 @@
     //--- Settings
     var playerHeight = '100vh';
     var enableOnLoad = true;
+    var scriptToggleKey = 'w';
 
     //--- Imported Globals
     // yt
@@ -797,7 +798,7 @@
         return false
     }
     window.addEventListener('keypress', function(e){
-        var isKey = e.key === 'w'
+        var isKey = e.key === scriptToggleKey
         var validTarget = (
             e.target === document.body
             || e.target.id === 'player-api'
