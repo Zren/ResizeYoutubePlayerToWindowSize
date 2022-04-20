@@ -11,7 +11,7 @@
 
 **It appears above the rest of the site, so you can scroll down for the description, related links, etc.**
 
-[![](https://i.imgur.com/RiodhIb.jpg)](https://i.imgur.com/RiodhIb.jpg)
+[![](https://i.imgur.com/uVDKPUp.jpg)](https://i.imgur.com/uVDKPUp.jpg)
 
 # Changelog
 
