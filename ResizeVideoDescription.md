@@ -7,7 +7,7 @@ Resizes the following sites
 * http://www.onepieceofficial.com/
 * https://www.youpak.com/
 * http://olympics.cbc.ca/
-* http://www.dailymotion.com/ (Will also hide control bar faster)
+* ~~http://www.dailymotion.com/ (Will also hide control bar faster)~~
 * https://streamable.com/
 * https://www.globaltv.com/shows/the-late-show-with-stephen-colbert/
 * https://www.much.com/shows/south-park/episode/

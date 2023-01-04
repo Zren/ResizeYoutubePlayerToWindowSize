@@ -3,8 +3,9 @@
 // @description     Resize the video player for various sites to the window size.
 // @author          Chris H (Zren / Shade)
 // @namespace       http://xshade.ca
-// @version         63
+// @version         64
 // @include         https://www.crunchyroll.com/*
+// @include         https://beta.crunchyroll.com/*
 // @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html*
 // @include         https://docs.google.com/file/*
 // @include         https://drive.google.com/drive/*
@@ -112,35 +113,34 @@
     };
 
     if (document.location.host.endsWith('crunchyroll.com')) {
-        // if (window.location.href == 'https://static.crunchyroll.com/vilos-v2/web/vilos/player.html') {
-        console.log('doc loc', document.location)
-        console.log('win loc', window.location)
-        if (document.location.hostname == 'static.crunchyroll.com' && document.location.pathname == '/vilos-v2/web/vilos/player.html') {
-            GM_addStyle('#vilosRoot { height: 100vh !important; }');
-        } else if (window.location.href.match(/^https:\/\/www\.crunchyroll\.(com|ca)\/.+\/.+-\d+\/?/)) {
-            var videoBoxElement = document.getElementById('showmedia_video_box') || document.getElementById('showmedia_video_box_wide');
-            if (!videoBoxElement) return;
-            movedTopPlayer(videoBoxElement);
-            videoBoxElement.addEventListener('keydown', function(e) {
-                if (e.key == 'PageDown') {
-                    window.scrollBy(0, window.innerHeight * 0.9);
-                } else if (e.key == 'PageUp') {
-                    window.scrollBy(0, -window.innerHeight * 0.9);
-                } else if (e.key == 'ArrowDown') {
-                    window.scrollBy(0, 40);
-                } else if (e.key == 'ArrowUp') {
-                    window.scrollBy(0, -40);
+        // console.log('doc loc', document.location)
+        // console.log('win loc', window.location)
+        if (document.location.hostname == 'www.crunchyroll.com' || document.location.hostname == 'beta.crunchyroll.com') {
+            var rvtwsHeaderClass = 'rvtws-header-hidden'
+            var css = ''
+            css += '.erc-header.'+rvtwsHeaderClass+' { position: absolute; }'
+            css += '.erc-header.'+rvtwsHeaderClass+' .header-content { opacity: 0; transition: opacity: 0.1s; }'
+            css += '.erc-header.'+rvtwsHeaderClass+' .header-content:hover { opacity: 1; }'
+            css += '.erc-watch-episode-layout .video-player-wrapper { max-height: 100vh; height: 100vh; display: flex; }'
+            // css += '.erc-watch-episode-layout .video-player { height: 56.25vw; align-self: center; }'
+            GM_addStyle(css)
+            function updateHeader() {
+                var ercHeader = document.querySelector('.erc-header')
+                var ercWatchEpisode = document.querySelector('.erc-watch-episode')
+                if (ercHeader) {
+                    if (ercWatchEpisode) {
+                        ercHeader.classList.add(rvtwsHeaderClass)
+                    } else {
+                        ercHeader.classList.remove(rvtwsHeaderClass)
+                    }
                 }
-            }, true);
-            var videoObject = videoBoxElement.querySelector('object');
-            if (videoObject) {
-                videoObject.focus();
             }
-            var css = 'html, body { width: 100%; height: 100%; }';
-            css += '#showmedia_video_box, #showmedia_video_box_wide, #showmedia_video_player { width: 100%; height: calc(100vh) !important; }';
-            css += '.html5-video-player { width: 100% !important; height: calc(100vh) !important; }'; // https://github.com/YePpHa/crunchyroll-html5
-            css += '.site-header { position: static !important; }';
-            GM_addStyle(css);
+            window.addEventListener('popstate', updateHeader)
+            setInterval(updateHeader, 1000)
+            updateHeader()
+        } else if (document.location.hostname == 'static.crunchyroll.com' && document.location.pathname == '/vilos-v2/web/vilos/player.html') {
+            GM_addStyle('#vilosRoot { height: 100vh !important; }');
+            GM_addStyle('#vilosControlsContainer > div:first-child { margin-top: 3.75rem; }'); // Make room for header
         }
     } else if (document.location.href.startsWith('https://docs.google.com/file/')) {
         fixedOverlayPlayer('#drive-viewer-video-player-object-0');
@@ -211,7 +211,7 @@
         } else {
             return; // Keep scrollbars
         }
-    } else if (document.location.host.endsWith('www.dailymotion.com')) {
+    } else if (false && document.location.host.endsWith('www.dailymotion.com')) {
         var css = '#player:not(:hover) .dmp_will-transition.dmp_is-transitioned--fadeinslide { opacity: 0; }';
         if (document.location.pathname.startsWith('/playlist')) {
             css += '#player_container { height: 100vh!important; width: 100vw!important; }';
