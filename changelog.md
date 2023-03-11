@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## 131 - March 11, 2023
+
+* Fix theater mode toggle. `ytd-watch-flexy` DOM is weird. (Issue #75)
+* Listen for `yt-navigate-start` and `yt-navigate-finish` events.
+
 ## 130 - April 19, 2022
 
 * Add quick boolean toggle for enableOnLoad (Issue #67 and #69)

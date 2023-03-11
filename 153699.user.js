@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         130
+// @version         131
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -218,9 +218,11 @@
         if (watchElement) {
             var isTheater = watchElement.hasAttribute('theater')
             if (enable != isTheater) {
-                var sizeButton = watchElement.querySelector('button.ytp-size-button')
+                // Note: (Issue #75) ytd-watch-flexy watchElement.querySelector() will find
+                // Nothing for some reason. We need to query from the document scope.
+                var sizeButton = document.querySelector(watchElement.tagName + ':not([hidden]) button.ytp-size-button')
                 if (!sizeButton) {
-                    var screenModeButtons = watchElement.querySelectorAll('button.ytp-screen-mode-settings-button')
+                    var screenModeButtons = document.querySelectorAll(watchElement.tagName + ':not([hidden]) button.ytp-screen-mode-settings-button')
                     sizeButton = screenModeButtons[1] // 2nd button is "Theater mode (t)"
                 }
                 if (sizeButton) {
@@ -363,7 +365,7 @@
 
             ytwp.style.appendRule(scriptBodySelector + ' #player-api', d);
 
-            // Theatre mode
+            // Theater mode
             ytwp.style.appendRule(scriptBodySelector + ' .watch-stage-mode #player .player-api', {
                 'left': 'initial !important',
                 'margin-left': 'initial !important',
@@ -732,10 +734,19 @@
 
     ytwp.registerMaterialListeners = function() {
         // For Material UI
-        HistoryEvent.listeners.push(ytwp.materialPageTransition);
-        HistoryEvent.startTimer();
+        // HistoryEvent.listeners.push(ytwp.materialPageTransition);
+        // HistoryEvent.startTimer();
         // HistoryEvent.inject();
         // HistoryEvent.listeners.push(console.log.bind(console));
+        window.addEventListener('yt-navigate-start', function(e) {
+            console.log('yt-navigate-start', e)
+            console.log('window.location.href', window.location.href)
+            ytwp.materialPageTransition()
+        })
+        window.addEventListener('yt-navigate-finish', function(e) {
+            console.log('yt-navigate-finish', e)
+            console.log('window.location.href', window.location.href)
+        })
     };
 
     ytwp.main = function() {
