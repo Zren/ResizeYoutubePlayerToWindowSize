@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         131
+// @version         132
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -435,6 +435,9 @@
                 '-webkit-background-size': 'contain !important',
             });
 
+            //--- Video Container Background
+            ytwp.style.appendRule(scriptSelector + ' #movie_player', 'background-color', '#000000');
+
             //--- Move Video Player
             ytwp.style.appendRule(scriptSelector + ' #player', {
                 'position': 'absolute',
@@ -459,6 +462,7 @@
 
             //--- Absolutely position the fixed header.
             // Masthead
+            ytwp.style.appendRule('#skip-navigation.ytd-masthead', 'top', '-150vh'); // Normally -1000px can be shorter than screen (Issue #77)
             d = buildVenderPropertyDict(transitionProperties, 'top 0s linear !important');
             ytwp.style.appendRule(scriptSelector + '.hide-header-transition #masthead-positioner', d);
             ytwp.style.appendRule(scriptSelector + '.' + viewingVideoClassId + ' #masthead-positioner', {
@@ -489,6 +493,11 @@
                 'display': 'initial',
                 'margin': '0',
                 'position': 'initial'
+            });
+            // When the guide is open, it adds body{top:-1200px} which messes with the top position.
+            ytwp.style.appendRule(scriptSelector + '.lock-scrollbar', {
+                'top': '0 !important',
+                'position': 'static !important',
             });
 
 
@@ -584,6 +593,16 @@
             ytwp.style.appendRule('ytd-watch #top', 'margin-top', '71px !important'); // 56px (topnav height) + 15px (margin)
             ytwp.style.appendRule('ytd-watch #container', 'margin-top', '0 !important');
             ytwp.style.appendRule('ytd-watch #content-separator', 'margin-top', '0 !important');
+            // Note: Container is now relative since 2023 June (Issue #77)
+            ytwp.style.appendRule([
+                scriptSelector + ' ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy',
+                scriptSelector + ' ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy',
+            ], {
+                'position': 'static',
+                'height': 0,
+                'min-height': 0,
+            });
+
             ytwp.style.appendRule(scriptSelector + '.ytwp-viewing-video ytd-app #masthead-container.ytd-app', {
                 'position': 'absolute',
                 'top': playerHeight,

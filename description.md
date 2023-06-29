@@ -17,13 +17,13 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## v132 - June 29, 2023
+
+* Fix video container getting shifted after YT update (Issue #77)
+* Fix nav moving around when guide is open.
+* Added `background-color: black` to `#movie_player` so it looks better in light mode.
+
 ## 131 - March 11, 2023
 
 * Fix theater mode toggle. `ytd-watch-flexy` DOM is weird. (Issue #75)
 * Listen for `yt-navigate-start` and `yt-navigate-finish` events.
-
-## 130 - April 19, 2022
-
-* Add quick boolean toggle for enableOnLoad (Issue #67 and #69)
-* Fix video cropping caused by object-fit:cover (Issue #70)
-* Make it easy to change script toggle keybinding as it'll need to change (Issue #71)

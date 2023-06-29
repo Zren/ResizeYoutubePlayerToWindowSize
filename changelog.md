@@ -1,5 +1,11 @@
 <h3>Changelog</h3>
 
+## v132 - June 29, 2023
+
+* Fix video container getting shifted after YT update (Issue #77)
+* Fix nav moving around when guide is open.
+* Added `background-color: black` to `#movie_player` so it looks better in light mode.
+
 ## 131 - March 11, 2023
 
 * Fix theater mode toggle. `ytd-watch-flexy` DOM is weird. (Issue #75)
