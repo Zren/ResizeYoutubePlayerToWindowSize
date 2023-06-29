@@ -494,7 +494,7 @@
                 'margin': '0',
                 'position': 'initial'
             });
-            // When the guide is open, it adds body{top:-1200px} which messes with the top position.
+            // When the guide is open, it adds body{top:-1000px} which messes with the top position (Issue #77)
             ytwp.style.appendRule(scriptSelector + '.lock-scrollbar', {
                 'top': '0 !important',
                 'position': 'static !important',
