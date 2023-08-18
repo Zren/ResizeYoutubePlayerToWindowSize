@@ -17,6 +17,10 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## v133 - August 18, 2023
+
+* Fix video container getting shifted after YT update caused by new `full-bleed-player` layout. Thanks @Vamael for the fix. (Issue #79) 
+
 ## v132 - June 29, 2023
 
 * Fix video container getting shifted after YT update (Issue #77)
