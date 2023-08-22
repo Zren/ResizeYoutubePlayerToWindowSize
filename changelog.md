@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## v134 - August 22, 2023
+
+* Fix video container getting shifted again after YT update caused by new `full-bleed-player` layout. Thanks again @Vamael for the fix. (Issue #79)
+
 ## v133 - August 18, 2023
 
 * Fix video container getting shifted after YT update caused by new `full-bleed-player` layout. Thanks @Vamael for the fix. (Issue #79)
