@@ -1,8 +1,12 @@
 <h3>Changelog</h3>
 
+## v136 - August 30, 2023
+
+* Attempt to fix `ytd-watch-grid` papercuts (Issue #81)
+
 ## v135 - August 30, 2023
 
-* Attempt to fix `ytd-watch-grid`  (Issue #81)
+* Attempt to fix `ytd-watch-grid` (Issue #81)
 
 ## v134 - August 22, 2023
 

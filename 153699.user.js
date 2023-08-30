@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         135
+// @version         136
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -280,7 +280,7 @@
     ytwp.setTheaterMode = function(enable) {
         // ytwp.log('setTheaterMode', enable)
 
-        var watchElement = document.querySelector('ytd-watch:not([hidden])') || document.querySelector('ytd-watch-flexy:not([hidden])')
+        var watchElement = document.querySelector('ytd-watch:not([hidden])') || document.querySelector('ytd-watch-flexy:not([hidden])') || document.querySelector('ytd-watch-grid:not([hidden])')
         if (watchElement) {
             var isTheater = watchElement.hasAttribute('theater')
             if (enable != isTheater) {
@@ -458,6 +458,10 @@
                     scriptSelector + ' ytd-watch-flexy[flexy] #player-container-outer.ytd-watch-flexy',
                     scriptSelector + ' ytd-watch-flexy[flexy] #player-container-inner.ytd-watch-flexy',
                     scriptSelector + ' ytd-watch-flexy[flexy] #player-container.ytd-watch-flexy',
+                    scriptSelector + ' ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid',
+                    scriptSelector + ' ytd-watch-grid[flexy] #player-container-outer.ytd-watch-grid',
+                    scriptSelector + ' ytd-watch-grid[flexy] #player-container-inner.ytd-watch-grid',
+                    scriptSelector + ' ytd-watch-grid[flexy] #player-container.ytd-watch-grid',
                 ],
                 {
                     'width': '100% !important',
@@ -666,6 +670,8 @@
                 scriptSelector + ' ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy',
                 scriptSelector + ' ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy', // Issue #79 (2023-08-17)
                 scriptSelector + ' ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy', // Issue #79 (2023-08-22)
+                scriptSelector + ' ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid',
+                scriptSelector + ' ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid',
                 scriptSelector + ' ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid', // Issue #81 (2023-08-30)
                 scriptSelector + ' ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid', // Issue #81 (2023-08-30)
             ], {
@@ -686,11 +692,17 @@
 
             //---
             // Flexy UI
-            ytwp.style.appendRule(scriptSelector + ' ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy', {
+            ytwp.style.appendRule([
+                scriptSelector + ' ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy',
+                scriptSelector + ' ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid',
+            ], {
                 'position': 'absolute',
                 'top': '0',
             });
-            ytwp.style.appendRule(scriptSelector + ' ytd-watch-flexy', 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
+            ytwp.style.appendRule([
+                scriptSelector + ' ytd-watch-flexy',
+                scriptSelector + ' ytd-watch-grid',
+            ], 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
             ytwp.style.appendRule(scriptSelector + ' #error-screen', 'z-index', '11');
         },
         onWatchInit: function() {
