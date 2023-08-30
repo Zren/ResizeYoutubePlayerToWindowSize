@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         134
+// @version         135
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -666,6 +666,8 @@
                 scriptSelector + ' ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy',
                 scriptSelector + ' ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy', // Issue #79 (2023-08-17)
                 scriptSelector + ' ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy', // Issue #79 (2023-08-22)
+                scriptSelector + ' ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid', // Issue #81 (2023-08-30)
+                scriptSelector + ' ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid', // Issue #81 (2023-08-30)
             ], {
                 'position': 'static',
                 'height': 0,

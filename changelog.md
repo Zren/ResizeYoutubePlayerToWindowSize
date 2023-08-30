@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## v135 - August 30, 2023
+
+* Attempt to fix `ytd-watch-grid`  (Issue #81)
+
 ## v134 - August 22, 2023
 
 * Fix video container getting shifted again after YT update caused by new `full-bleed-player` layout. Thanks again @Vamael for the fix. (Issue #79)
