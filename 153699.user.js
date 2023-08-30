@@ -228,7 +228,41 @@
         outStr = outStr.split('\n').reverse().join('\n')
         ytwp.log('debugPage', outStr)
     }
-    ytwp.debugPage()
+
+    ytwp.hasYoutubeChanged = function() {
+        var tree = [
+            'html',
+            'body',
+            'ytd-app',
+            '#content.ytd-app',
+            'ytd-page-manager#page-manager.ytd-app',
+            'ytd-watch-flexy.ytd-page-manager',
+            '#full-bleed-container.ytd-watch-flexy',
+            '#player-full-bleed-container.ytd-watch-flexy',
+            '#player-container.ytd-watch-flexy',
+            'ytd-player#ytd-player.ytd-watch-flexy',
+            '#container.ytd-player',
+            '.html5-video-player',
+            '.html5-video-container',
+            'video.html5-main-video',
+        ]
+        tree = tree.reverse()
+        var node = document.querySelector(tree[0])
+        if (!node) {
+            ytwp.error('YT has changed!', tree[0], 'no longer exists!')
+            return true
+        }
+        for (var i = 1; i < tree.length; i++) {
+            var parent = node.parentNode
+            var selector = tree[i]
+            if (parent.matches(selector)) {
+                node = parent
+            } else {
+                ytwp.error('YT has changed!', selector, 'no longer exists!')
+            }
+        }
+        return false
+    }
 
     ytwp.isWatchUrl = function (url) {
         if (!url)
@@ -664,6 +698,9 @@
 
             if (enableOnLoad) {
                 ytwp.event.addBodyClass();
+            }
+            if (ytwp.hasYoutubeChanged()) {
+                ytwp.debugPage()
             }
             ytwp.pageReady = true;
         },
