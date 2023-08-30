@@ -198,6 +198,38 @@
         isWatchPage: false,
     };
 
+    ytwp.debugPage = function() {
+        function prettyHtml(el) {
+            var s = el.outerHTML
+            return s.substr(0, s.indexOf('>')+1)
+        }
+        var defStyle = {
+            'display':'block', 'position': 'static',
+            'left': 'auto', 'right': 'auto', 'top': 'auto', 'bottom': 'auto',
+            'padding-left':'0px', 'padding-right':'0px', 'padding-top':'0px', 'padding-bottom':'0px',
+            'margin-left':'0px', 'margin-right':'0px', 'margin-top':'0px', 'margin-bottom':'0px',
+            'width': 'auto', 'min-width': 'auto', 'max-width': 'auto',
+            'height': 'auto', 'min-height': 'auto', 'max-height': 'auto',
+        }
+        var keyFilter = Object.keys(defStyle)
+        var node = document.querySelector('#movie_player video')
+        var outStr = ''
+        while (node && node.parentNode) {
+            var style = getComputedStyle(node)
+            var styleDiff = {}
+            for (var key of style) {
+                if (keyFilter.includes(key) && style[key] != defStyle[key]) {
+                    styleDiff[key] = style[key]
+                }
+            }
+            outStr += prettyHtml(node) + ' ' + JSON.stringify(styleDiff) + '\n'
+            node = node.parentNode
+        }
+        outStr = outStr.split('\n').reverse().join('\n')
+        ytwp.log('debugPage', outStr)
+    }
+    ytwp.debugPage()
+
     ytwp.isWatchUrl = function (url) {
         if (!url)
             url = uw.location.href;
