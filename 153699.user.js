@@ -843,15 +843,18 @@
         // HistoryEvent.startTimer();
         // HistoryEvent.inject();
         // HistoryEvent.listeners.push(console.log.bind(console));
-        window.addEventListener('yt-navigate-start', function(e) {
-            console.log('yt-navigate-start', e)
-            console.log('window.location.href', window.location.href)
-            ytwp.materialPageTransition()
-        })
-        window.addEventListener('yt-navigate-finish', function(e) {
-            console.log('yt-navigate-finish', e)
-            console.log('window.location.href', window.location.href)
-        })
+        document.addEventListener('yt-page-data-fetched', ytwp.materialPageTransition)
+        document.addEventListener('yt-navigate-finish', ytwp.materialPageTransition)
+
+        // Debugging
+        // document.addEventListener('yt-navigate-start', function(e){ ytwp.log('document.yt-navigate-start', e)})
+        document.addEventListener('yt-page-data-fetched', function(e){ ytwp.log('document.yt-page-data-fetched', e)})
+        document.addEventListener('yt-navigate-finish', function(e){ ytwp.log('document.yt-navigate-finish', e)})
+        // document.addEventListener('yt-navigate-error', function(e){ ytwp.log('document.yt-navigate-error', e)})
+        // document.addEventListener('yt-navigate-cache', function(e){ ytwp.log('document.yt-navigate-cache', e)})
+        // document.addEventListener('yt-navigate-redirect', function(e){ ytwp.log('document.yt-navigate-redirect', e)})
+        // document.addEventListener('yt-navigate-action', function(e){ ytwp.log('document.yt-navigate-action', e)})
+        // document.addEventListener('yt-navigate-home-action', function(e){ ytwp.log('document.yt-navigate-home-action', e)})
     };
 
     ytwp.main = function() {

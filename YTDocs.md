@@ -4,14 +4,46 @@
 
 https://www.youtube.com/s/desktop/9e7f5697/jsbin/desktop_polymer_enable_wil_icons.vflset/desktop_polymer_enable_wil_icons.js
 
-https://www.youtube.com/s/desktop/9e7f5697/jsbin/desktop_polymer_enable_wil_icons.vflset/desktop_polymer_enable_wil_icons.js
+Note, `yt-navigate-start` does not fire on web browser Back button ([Issue #76](https://github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/76)). `document` events fire before `window` events.
 
 ```js
-a.listen(b, 'yt-navigate-start', 'onYtNavigateStart');
-a.listen(b, 'yt-navigate-finish', 'onYtNavigateFinish');
-a.listen(b, 'yt-navigate-error', 'onYtNavigateError');
-a.listen(b, 'yt-page-data-fetched', 'onYtPageDataFetched');
-a.listen(b, 'yt-navigate-redirect', 'onYtNavigateRedirect')
+document.addEventListener('yt-navigate-start', function(){ console.log('document.yt-navigate-start', arguments)})
+document.addEventListener('yt-navigate-finish', function(){ console.log('document.yt-navigate-finish', arguments)})
+document.addEventListener('yt-navigate-error', function(){ console.log('document.yt-navigate-error', arguments)})
+document.addEventListener('yt-navigate-redirect', function(){ console.log('document.yt-navigate-redirect', arguments)})
+document.addEventListener('yt-navigate-cache', function(){ console.log('document.yt-navigate-cache', arguments)})
+document.addEventListener('yt-navigate-action', function(){ console.log('document.yt-navigate-action', arguments)})
+document.addEventListener('yt-navigate-home-action', function(){ console.log('document.yt-navigate-home-action', arguments)})
+document.addEventListener('yt-page-data-fetched', function(){ console.log('document.yt-page-data-fetched', arguments)})
+window.addEventListener('yt-navigate-start', function(){ console.log('window.yt-navigate-start', arguments)})
+window.addEventListener('yt-navigate-finish', function(){ console.log('window.yt-navigate-finish', arguments)})
+window.addEventListener('yt-navigate-error', function(){ console.log('window.yt-navigate-error', arguments)})
+window.addEventListener('yt-navigate-redirect', function(){ console.log('window.yt-navigate-redirect', arguments)})
+window.addEventListener('yt-navigate-cache', function(){ console.log('window.yt-navigate-cache', arguments)})
+window.addEventListener('yt-navigate-action', function(){ console.log('window.yt-navigate-action', arguments)})
+window.addEventListener('yt-navigate-home-action', function(){ console.log('window.yt-navigate-home-action', arguments)})
+window.addEventListener('yt-page-data-fetched', function(){ console.log('window.yt-page-data-fetched', arguments)})
+```
+
+```js
+    T8c = function (a, b) {
+      a.listen(b, 'yt-navigate-start', 'onYtNavigateStart');
+      a.listen(b, 'yt-navigate-finish', 'onYtNavigateFinish');
+      a.listen(b, 'yt-navigate-error', 'onYtNavigateError');
+      a.listen(b, 'yt-page-data-fetched', 'onYtPageDataFetched');
+      a.listen(b, 'yt-navigate-redirect', 'onYtNavigateRedirect')
+    };
+    f = C6.prototype;
+    f.detached = function () {
+      var a = rp().resolve(BE);
+      this.unlisten(a, 'yt-navigate-start', 'onYtNavigateStart');
+      this.unlisten(a, 'yt-navigate-finish', 'onYtNavigateFinish');
+      this.unlisten(a, 'yt-navigate-error', 'onYtNavigateError');
+      this.unlisten(a, 'yt-page-data-fetched', 'onYtPageDataFetched');
+      this.unlisten(document, 'yt-navigate-cache', 'onYtNavigateCache');
+      this.unlisten(a, 'yt-navigate-redirect', 'onYtNavigateRedirect');
+      this.ytActionHandlerBehavior.unregisterActionMap(this.appBehaviorActionMap)
+    };
 ```
 
 ```js
