@@ -913,7 +913,7 @@
         }
         return false
     }
-    window.addEventListener('keypress', function(e){
+    function cancelIfToggleKey(validKeyCallback, e) {
         var isKey = e.key === scriptToggleKey
         var validTarget = (
             e.target === document.body
@@ -921,12 +921,20 @@
             || e.target.id === 'movie_player'
             || childOf(e.target, document.querySelector('#movie_player'))
         )
-
         if (validTarget && isKey) {
             e.preventDefault()
-            ytwp.toggleExtension()
+            e.stopPropagation()
+            console.log('cancelIfToggleKey.validKeyCallback', validKeyCallback, 'e', e)
+            if (validKeyCallback) {
+                validKeyCallback()
+            }
         }
-    })
+    }
+    window.addEventListener('keydown', cancelIfToggleKey.bind(null, null), true)
+    window.addEventListener('keyup', cancelIfToggleKey.bind(null, ytwp.toggleExtension), true)
+    // Note: keypress is deprecated
+    // https://developer.mozilla.org/en-US/docs/Web/API/Element/keypress_event
+    window.addEventListener('keypress', cancelIfToggleKey.bind(null, null), true)
 
 
     //--- Browser Extension
