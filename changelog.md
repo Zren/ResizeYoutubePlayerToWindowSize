@@ -1,5 +1,10 @@
 <h3>Changelog</h3>
 
+## v137 - November 1, 2023
+
+* Bind to `yt-page-data-fetched` and `yt-navigate-finish` to fix the back button not cleaning up the window view since `yt-navigate-start` does not always fire (Issue #72 and #76)
+* Bind `keyup` not `keypress` (which is deprecated). Also cancel event during `keydown`. This fixes the `w` key also changing the caption box style. It should also fix changing the toggle key to `Escape` (Issue #71)
+
 ## v136 - August 30, 2023
 
 * Attempt to fix `ytd-watch-grid` papercuts (Issue #81)

@@ -17,6 +17,11 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## v137 - November 1, 2023
+
+* Bind to `yt-page-data-fetched` and `yt-navigate-finish` to fix the back button not cleaning up the window view since `yt-navigate-start` does not always fire (Issue #72 and #76)
+* Bind `keyup` not `keypress` (which is deprecated). Also cancel event during `keydown`. This fixes the `w` key also changing the caption box style. It should also fix changing the toggle key to `Escape` (Issue #71)
+
 ## v136 - August 30, 2023
 
 * Attempt to fix `ytd-watch-grid` papercuts (Issue #81)
@@ -32,14 +37,3 @@ https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 ## v133 - August 18, 2023
 
 * Fix video container getting shifted after YT update caused by new `full-bleed-player` layout. Thanks @Vamael for the fix. (Issue #79)
-
-## v132 - June 29, 2023
-
-* Fix video container getting shifted after YT update (Issue #77)
-* Fix nav moving around when guide is open.
-* Added `background-color: black` to `#movie_player` so it looks better in light mode.
-
-## 131 - March 11, 2023
-
-* Fix theater mode toggle. `ytd-watch-flexy` DOM is weird. (Issue #75)
-* Listen for `yt-navigate-start` and `yt-navigate-finish` events.
