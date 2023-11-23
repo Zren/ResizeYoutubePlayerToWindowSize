@@ -11,7 +11,6 @@
 // @match           http://www.youtube.com/watch?*
 // @match           https://m.youtube.com/watch?*
 // @match           http://m.youtube.com/watch?*
-// @exclude         /^https?://www\.youtube(?:-nocookie)?\.com/embed/.*$/
 // @grant           none
 // ==/UserScript==
 
