@@ -7,10 +7,11 @@
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
 // @version         137
-// @include         http*://*.youtube.com/*
-// @include         http*://youtube.com/*
-// @include         http*://*.youtu.be/*
-// @include         http*://youtu.be/*
+// @match           https://www.youtube.com/*
+// @match           http://www.youtube.com/*
+// @match           https://m.youtube.com/*
+// @match           http://m.youtube.com/*
+// @exclude         /^https?://www\.youtube\.com/embed//
 // @grant           none
 // ==/UserScript==
 
