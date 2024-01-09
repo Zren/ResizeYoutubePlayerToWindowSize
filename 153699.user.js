@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         137
+// @version         138
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -933,8 +933,8 @@
             }
         }
     }
-    window.addEventListener('keydown', cancelIfToggleKey.bind(null, null), true)
-    window.addEventListener('keyup', cancelIfToggleKey.bind(null, ytwp.toggleExtension), true)
+    window.addEventListener('keydown', cancelIfToggleKey.bind(null, ytwp.toggleExtension), true)
+    window.addEventListener('keyup', cancelIfToggleKey.bind(null, null), true)
     // Note: keypress is deprecated
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/keypress_event
     window.addEventListener('keypress', cancelIfToggleKey.bind(null, null), true)

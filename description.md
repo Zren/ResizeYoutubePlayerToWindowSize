@@ -17,6 +17,10 @@
 
 https://github.com/Zren/ResizeYoutubePlayerToWindowSize/blob/master/changelog.md
 
+## v138 - January 9, 2024
+
+* Bind toggle to `keydown` instead of `keyup` so that pressing `Ctrl+W` to close a tab does not trigger the YTWP toggle when you focus on a Youtube tab.
+
 ## v137 - November 1, 2023
 
 * Bind to `yt-page-data-fetched` and `yt-navigate-finish` to fix the back button not cleaning up the window view since `yt-navigate-start` does not always fire (Issue #72 and #76)
