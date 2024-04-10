@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## v139 - April 10, 2024
+
+* Fix page top margin as certain elements seem to ignore the CSS properties completely (Issue #88)
+
 ## v138 - January 9, 2024
 
 * Bind toggle to `keydown` instead of `keyup` so that pressing `Ctrl+W` to close a tab does not trigger the YTWP toggle when you then focus on a Youtube tab.

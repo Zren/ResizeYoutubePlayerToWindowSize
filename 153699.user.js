@@ -6,7 +6,7 @@
 // @icon            https://s.ytimg.com/yts/img/favicon_32-vflOogEID.png
 // @homepageURL     https://github.com/Zren/ResizeYoutubePlayerToWindowSize/
 // @namespace       http://xshade.ca
-// @version         138
+// @version         139
 // @include         http*://*.youtube.com/*
 // @include         http*://youtube.com/*
 // @include         http*://*.youtu.be/*
@@ -699,10 +699,12 @@
                 'position': 'absolute',
                 'top': '0',
             });
-            ytwp.style.appendRule([
-                scriptSelector + ' ytd-watch-flexy',
-                scriptSelector + ' ytd-watch-grid',
-            ], 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
+            // Youtube seems to be ignoring the margin/padding top in certain elements for some reason (Issue #88)
+            // ytwp.style.appendRule([
+            //     scriptSelector + ' ytd-watch-flexy',
+            //     scriptSelector + ' ytd-watch-grid',
+            // ], 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
+            ytwp.style.appendRule('#page-manager.ytd-app', 'padding-top', 'var(--ytd-masthead-height,var(--ytd-toolbar-height))');
             ytwp.style.appendRule(scriptSelector + ' #error-screen', 'z-index', '11');
         },
         onWatchInit: function() {
@@ -818,10 +820,11 @@
                 ytwp.log('materialPageTransition !ytwp.html5.app', ytwp.html5.app)
                 setTimeout(ytwp.materialPageTransition, 100);
             }
-             var playerApi = document.querySelector('#player-api')
-             if (playerApi) {
-                 playerApi.click()
-             }
+            // Focus player
+            // var moviePlayer = document.querySelector('#movie_player')
+            // if (moviePlayer) {
+            //     moviePlayer.click()
+            // }
         } else {
             ytwp.event.onDispose();
             document.body.classList.remove(scriptBodyClassId);
