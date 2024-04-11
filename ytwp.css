@@ -1,0 +1,552 @@
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player)::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
+}
+html {
+	scrollbar-width: none;
+}
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player,
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player,
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy,
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container {
+	transition: left 0s linear, padding-left 0s linear;
+	-ms-transition: left 0s linear, padding-left 0s linear;
+	-moz-transition: left 0s linear, padding-left 0s linear;
+	-webkit-transition: left 0s linear, padding-left 0s linear;
+	-o-transition: left 0s linear, padding-left 0s linear;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-api {
+	transition: width 0s linear, left 0s linear;
+	-ms-transition: width 0s linear, left 0s linear;
+	-moz-transition: width 0s linear, left 0s linear;
+	-webkit-transition: width 0s linear, left 0s linear;
+	-o-transition: width 0s linear, left 0s linear;
+	float: initial;
+	left: 0;
+	margin-left: 0;
+}
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .watch-stage-mode #player .player-api {
+	left: initial !important;
+	margin-left: initial !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-wrap,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-api,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #movie_player,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-mole-container,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-container,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-main-video,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[flexy] #player-container-outer.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[flexy] #player-container-inner.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[flexy] #player-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[flexy] #player-container-outer.ytd-watch-grid,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[flexy] #player-container-inner.ytd-watch-grid,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[flexy] #player-container.ytd-watch-grid {
+	width: 100% !important;
+	min-width: 100% !important;
+	max-width: 100% !important;
+	height: 100vh !important;
+	min-height: 100vh !important;
+	max-height: 100vh !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-main-video {
+	top: 0 !important;
+	right: 0 !important;
+	bottom: 0 !important;
+	left: 0 !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-width {
+	width: 100% !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height {
+	height: 100% !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ad-container-single-media-element-annotations,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ytp-upnext {
+	top: 0;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-fit-cover-video .html5-main-video {
+	object-fit: contain !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-cued-thumbnail-overlay-image {
+	background-size: contain !important;
+	-moz-background-size: contain !important;
+	-webkit-background-size: contain !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #movie_player {
+	background-color: #000000;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player {
+	position: absolute;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	margin-top: 100vh;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) button.ytp-button.ytp-cards-button {
+	top: 0;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch7-sidebar {
+	transition: margin-top 0s linear, padding-top 0s linear;
+	-ms-transition: margin-top 0s linear, padding-top 0s linear;
+	-moz-transition: margin-top 0s linear, padding-top 0s linear;
+	-webkit-transition: margin-top 0s linear, padding-top 0s linear;
+	-o-transition: margin-top 0s linear, padding-top 0s linear;
+	margin-top: 0 !important;
+	top: 0 !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).cardified-page #watch7-sidebar-contents {
+	padding-top: 0;
+}
+#skip-navigation.ytd-masthead {
+	top: -150vh;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).hide-header-transition #masthead-positioner {
+	transition: top 0s linear !important;
+	-ms-transition: top 0s linear !important;
+	-moz-transition: top 0s linear !important;
+	-webkit-transition: top 0s linear !important;
+	-o-transition: top 0s linear !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #masthead-positioner {
+	position: absolute;
+	top: 100vh !important;
+}
+html.floater body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #masthead-positioner {
+	z-index: 5;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .sbdd_a {
+	top: 56px;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video .sbdd_a {
+	top: calc(100vh + 56px) !important;
+	position: absolute !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #appbar-guide-menu {
+	display: initial;
+	position: absolute;
+	top: 100% !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #page.watch #guide {
+	display: initial;
+	margin: 0;
+	position: initial;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).lock-scrollbar {
+	top: 0 !important;
+	position: static !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player {
+	position: static;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player-api,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #movie_player,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-mole-container,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar .html5-video-container,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar .html5-main-video {
+	width: 252px !important;
+	min-width: 252px !important;
+	max-width: 252px !important;
+	height: 142px !important;
+	min-height: 142px !important;
+	max-height: 142px !important;
+}
+.video-stream.html5-main-video {
+	top: 0 !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-scrolltop {
+	overflow-x: hidden;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #placeholder-player {
+	display: none;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch-sidebar-spacer {
+	display: none;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .skip-nav {
+	display: none;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #page.watch {
+	padding-top: 0;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .player-branded-banner {
+	height: 0;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #body-container {
+	position: static;
+}
+html:not([fullscreen="true"]).part_static_size:not(.content-snap-width-skinny-mode) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .watch-non-stage-mode #player-playlist {
+	width: 1066px;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #placeholder-playlist,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
+	height: 540px !important;
+	max-height: 540px !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch-appbar-playlist {
+	transition: transform 0s linear;
+	-ms-transition: transform 0s linear;
+	-moz-transition: transform 0s linear;
+	-webkit-transition: transform 0s linear;
+	-o-transition: transform 0s linear;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
+	transform: translateY(0px);
+	-ms-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	-webkit-transform: translateY(0px);
+	-o-transform: translateY(0px);
+	margin-left: 0;
+	top: calc(100vh + 60px);
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .playlist-videos-list {
+	max-height: 470px !important;
+	height: initial !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
+	left: calc((100vw - 1066px)/2 + 640px + 10px);
+	width: 416px;
+}
+@media screen and (min-height: 630px) and (min-width: 1294px) {
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
+	left: calc((100vw - 1280px)/2 + 854px + 10px);
+}
+}
+ @media screen and (min-width: 1720px) and (min-height:980px) {
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
+	left: calc((100vw - 1706px)/2 + 1280px + 10px);
+}
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-scrolltop #extra-buttons {
+	display: none !important;
+}
+ytd-app {
+	position: static !important;
+}
+ytd-watch #top {
+	margin-top: 71px !important;
+}
+ytd-watch #container {
+	margin-top: 0 !important;
+}
+ytd-watch #content-separator {
+	margin-top: 0 !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid {
+	position: static;
+	height: 0;
+	min-height: 0;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video ytd-app #masthead-container.ytd-app {
+	position: absolute;
+	top: 100vh;
+	z-index: 0;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video ytd-watch #masthead-positioner {
+	top: 100vh !important;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-cued-thumbnail-overlay {
+	z-index: 10;
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid {
+	position: absolute;
+	top: 0;
+}
+#page-manager.ytd-app {
+	padding-top: var(--ytd-masthead-height,var(--ytd-toolbar-height));
+}
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #error-screen {
+	z-index: 11;
+}
+body[data-spf-name="watch"]::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0 !important;
+}
+html {
+	scrollbar-width: none;
+}
+body[data-spf-name="watch"] #player,
+body[data-spf-name="watch"].ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player,
+body[data-spf-name="watch"].ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player,
+body[data-spf-name="watch"].ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy,
+body[data-spf-name="watch"].ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container {
+	transition: left 0s linear, padding-left 0s linear;
+	-ms-transition: left 0s linear, padding-left 0s linear;
+	-moz-transition: left 0s linear, padding-left 0s linear;
+	-webkit-transition: left 0s linear, padding-left 0s linear;
+	-o-transition: left 0s linear, padding-left 0s linear;
+	padding: 0 !important;
+	margin: 0 !important;
+}
+body[data-spf-name="watch"] #player-api {
+	transition: width 0s linear, left 0s linear;
+	-ms-transition: width 0s linear, left 0s linear;
+	-moz-transition: width 0s linear, left 0s linear;
+	-webkit-transition: width 0s linear, left 0s linear;
+	-o-transition: width 0s linear, left 0s linear;
+	float: initial;
+	left: 0;
+	margin-left: 0;
+}
+body[data-spf-name="watch"] .watch-stage-mode #player .player-api {
+	left: initial !important;
+	margin-left: initial !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-wrap,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-api,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #movie_player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] .html5-video-container,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] .html5-main-video,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container-outer.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container-inner.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container-outer.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container-inner.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container.ytd-watch-grid {
+	width: 100% !important;
+	min-width: 100% !important;
+	max-width: 100% !important;
+	height: 100vh !important;
+	min-height: 100vh !important;
+	max-height: 100vh !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .html5-main-video {
+	top: 0 !important;
+	right: 0 !important;
+	bottom: 0 !important;
+	left: 0 !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-width {
+	width: 100% !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height {
+	height: 100% !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .html5-video-player .ad-container-single-media-element-annotations,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .html5-video-player .ytp-upnext {
+	top: 0;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .ytp-fit-cover-video .html5-main-video {
+	object-fit: contain !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .ytp-cued-thumbnail-overlay-image {
+	background-size: contain !important;
+	-moz-background-size: contain !important;
+	-webkit-background-size: contain !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #movie_player {
+	background-color: #000000;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player {
+	position: absolute;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] {
+	margin-top: 100vh;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] button.ytp-button.ytp-cards-button {
+	top: 0;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #watch7-sidebar {
+	transition: margin-top 0s linear, padding-top 0s linear;
+	-ms-transition: margin-top 0s linear, padding-top 0s linear;
+	-moz-transition: margin-top 0s linear, padding-top 0s linear;
+	-webkit-transition: margin-top 0s linear, padding-top 0s linear;
+	-o-transition: margin-top 0s linear, padding-top 0s linear;
+	margin-top: 0 !important;
+	top: 0 !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].cardified-page #watch7-sidebar-contents {
+	padding-top: 0;
+}
+#skip-navigation.ytd-masthead {
+	top: -150vh;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].hide-header-transition #masthead-positioner {
+	transition: top 0s linear !important;
+	-ms-transition: top 0s linear !important;
+	-moz-transition: top 0s linear !important;
+	-webkit-transition: top 0s linear !important;
+	-o-transition: top 0s linear !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video #masthead-positioner {
+	position: absolute;
+	top: 100vh !important;
+}
+html.floater body[data-spf-name="watch"].ytwp-viewing-video #masthead-positioner {
+	z-index: 5;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .sbdd_a {
+	top: 56px;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video .sbdd_a {
+	top: calc(100vh + 56px) !important;
+	position: absolute !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video #appbar-guide-menu {
+	display: initial;
+	position: absolute;
+	top: 100% !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video #page.watch #guide {
+	display: initial;
+	margin: 0;
+	position: initial;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].lock-scrollbar {
+	top: 0 !important;
+	position: static !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player {
+	position: static;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player-api,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar #movie_player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
+html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-video-container,
+html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-main-video {
+	width: 252px !important;
+	min-width: 252px !important;
+	max-width: 252px !important;
+	height: 142px !important;
+	min-height: 142px !important;
+	max-height: 142px !important;
+}
+.video-stream.html5-main-video {
+	top: 0 !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-scrolltop {
+	overflow-x: hidden;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #placeholder-player {
+	display: none;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #watch-sidebar-spacer {
+	display: none;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .skip-nav {
+	display: none;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #page.watch {
+	padding-top: 0;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .player-branded-banner {
+	height: 0;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #body-container {
+	position: static;
+}
+html:not([fullscreen="true"]).part_static_size:not(.content-snap-width-skinny-mode) body[data-spf-name="watch"] .watch-non-stage-mode #player-playlist {
+	width: 1066px;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #placeholder-playlist,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
+	height: 540px !important;
+	max-height: 540px !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #watch-appbar-playlist {
+	transition: transform 0s linear;
+	-ms-transition: transform 0s linear;
+	-moz-transition: transform 0s linear;
+	-webkit-transition: transform 0s linear;
+	-o-transition: transform 0s linear;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
+	transform: translateY(0px);
+	-ms-transform: translateY(0px);
+	-moz-transform: translateY(0px);
+	-webkit-transform: translateY(0px);
+	-o-transform: translateY(0px);
+	margin-left: 0;
+	top: calc(100vh + 60px);
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .playlist-videos-list {
+	max-height: 470px !important;
+	height: initial !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
+	left: calc((100vw - 1066px)/2 + 640px + 10px);
+	width: 416px;
+}
+@media screen and (min-height: 630px) and (min-width: 1294px) {
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
+	left: calc((100vw - 1280px)/2 + 854px + 10px);
+}
+}
+ @media screen and (min-width: 1720px) and (min-height:980px) {
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
+	left: calc((100vw - 1706px)/2 + 1280px + 10px);
+}
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-scrolltop #extra-buttons {
+	display: none !important;
+}
+ytd-app {
+	position: static !important;
+}
+ytd-watch #top {
+	margin-top: 71px !important;
+}
+ytd-watch #container {
+	margin-top: 0 !important;
+}
+ytd-watch #content-separator {
+	margin-top: 0 !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid {
+	position: static;
+	height: 0;
+	min-height: 0;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video ytd-app #masthead-container.ytd-app {
+	position: absolute;
+	top: 100vh;
+	z-index: 0;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video ytd-watch #masthead-positioner {
+	top: 100vh !important;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] .ytp-cued-thumbnail-overlay {
+	z-index: 10;
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid {
+	position: absolute;
+	top: 0;
+}
+#page-manager.ytd-app {
+	padding-top: var(--ytd-masthead-height,var(--ytd-toolbar-height));
+}
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #error-screen {
+	z-index: 11;
+}
+body[data-spf-name="watch"]:not(.ytwp-window-player) #masthead-positioner {
+	position: absolute;
+	top: 100vh !important;
+}
