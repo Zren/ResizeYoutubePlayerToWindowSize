@@ -117,7 +117,7 @@
         styleElement.appendChild(document.createTextNode(stylesheet));
     };
 
-    JSStyleSheet.prototype.injectIntoHeader = function(injectedStyleId, stylesheet) {
+    JSStyleSheet.prototype.injectIntoHeader = function() {
         JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
     };
 
