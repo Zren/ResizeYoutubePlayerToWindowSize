@@ -1,10 +1,17 @@
+/*--- Browser Scrollbar */
+/* Chrome/Webkit */
 body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player)::-webkit-scrollbar {
 	width: 0 !important;
 	height: 0 !important;
 }
+/* Firefox/Gecko */
+/* Requires about:config flag to be toggled as of FireFox v63 */
+/* https:/*github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/42 */ */
 html {
 	scrollbar-width: none;
 }
+
+/*--- Video Player */
 body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
 body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player,
 body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player,
@@ -18,20 +25,36 @@ body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-si
 	padding: 0 !important;
 	margin: 0 !important;
 }
+
 body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-api {
 	transition: width 0s linear, left 0s linear;
 	-ms-transition: width 0s linear, left 0s linear;
 	-moz-transition: width 0s linear, left 0s linear;
 	-webkit-transition: width 0s linear, left 0s linear;
 	-o-transition: width 0s linear, left 0s linear;
+	/* Bugfix for Firefox */
+	/* Parts of the header (search box) are hidden under the player. */
+	/* Firefox doesn't seem to be using the fixed header+guide yet. */
 	float: initial;
+	/* Skinny mode */
 	left: 0;
 	margin-left: 0;
 }
+
+/* Theater mode */
 body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .watch-stage-mode #player .player-api {
 	left: initial !important;
 	margin-left: initial !important;
 }
+
+/* Hide the cinema/wide mode button since it's useless. */
+/* body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #movie_player .ytp-size-button { display: none; } */
+
+/* !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to: */
+/* .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; } */
+/* Also, Youtube Center resizes #player at element level. */
+/* Don't resize if Youtube+'s html.floater is detected. */
+/* Dont' resize if Youtube+ (Iridium/Material)'s html.iri-always-visible is detected. */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-wrap,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-api,
@@ -54,6 +77,7 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	min-height: 100vh !important;
 	max-height: 100vh !important;
 }
+
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-main-video {
 	top: 0 !important;
@@ -61,36 +85,54 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	bottom: 0 !important;
 	left: 0 !important;
 }
+/* Resize #player-unavailable, #player-api */
+/* Using min/max width/height will keep */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-width {
 	width: 100% !important;
 }
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height {
 	height: 100% !important;
 }
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ad-container-single-media-element-annotations,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ytp-upnext {
+
+/* Fix video overlays */
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ad-container-single-media-element-annotations, /* Ad */
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ytp-upnext { /* Autoplay Next Video */
 	top: 0;
 }
+
+/* Fix video cropping (object-fit: cover) (Issue #70) */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-fit-cover-video .html5-main-video {
 	object-fit: contain !important;
 }
+/* Thumbnail cropping */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-cued-thumbnail-overlay-image {
 	background-size: contain !important;
 	-moz-background-size: contain !important;
 	-webkit-background-size: contain !important;
 }
+
+/*--- Video Container Background */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #movie_player {
 	background-color: #000000;
 }
+
+/*--- Move Video Player */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player {
 	position: absolute;
+	/* Already top:0; left: 0; */
 }
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
 	margin-top: 100vh;
 }
+
+/* Fix the top right avatar button */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) button.ytp-button.ytp-cards-button {
 	top: 0;
 }
+
+
+/*--- Sidebar */
+/* Remove the transition delay as you can see it moving on page load. */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch7-sidebar {
 	transition: margin-top 0s linear, padding-top 0s linear;
 	-ms-transition: margin-top 0s linear, padding-top 0s linear;
@@ -100,11 +142,15 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	margin-top: 0 !important;
 	top: 0 !important;
 }
+
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).cardified-page #watch7-sidebar-contents {
 	padding-top: 0;
 }
+
+/*--- Absolutely position the fixed header. */
+/* Masthead */
 #skip-navigation.ytd-masthead {
-	top: -150vh;
+	top: -150vh; /* Normally -1000px can be shorter than screen (Issue #77) */
 }
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).hide-header-transition #masthead-positioner {
 	transition: top 0s linear !important;
@@ -117,9 +163,11 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	position: absolute;
 	top: 100vh !important;
 }
+/* Lower masthead below Youtube+'s html.floater */
 html.floater body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #masthead-positioner {
 	z-index: 5;
 }
+/* Autocomplete popup */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .sbdd_a {
 	top: 56px;
 }
@@ -127,20 +175,28 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	top: calc(100vh + 56px) !important;
 	position: absolute !important;
 }
+
+/* Guide */
+/* When watching the video, we need to line it up with the masthead. */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #appbar-guide-menu {
 	display: initial;
 	position: absolute;
-	top: 100% !important;
+	top: 100% !important; /* Masthead height */
 }
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #page.watch #guide {
 	display: initial;
 	margin: 0;
 	position: initial;
 }
+/* When the guide is open, it adds body{top:-1000px} which messes with the top position (Issue #77) */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).lock-scrollbar {
 	top: 0 !important;
 	position: static !important;
 }
+
+
+/*--- */
+/* MiniPlayer-Bar */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player {
 	position: static;
 }
@@ -157,12 +213,20 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	min-height: 142px !important;
 	max-height: 142px !important;
 }
+/* Override inline style (caused by a JS animation) that breaks the miniplayer video */
+/* https://github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/41#issuecomment-439710130 */
 .video-stream.html5-main-video {
 	top: 0 !important;
 }
+
+/*--- */
+/* Hide Scrollbars */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-scrolltop {
 	overflow-x: hidden;
 }
+
+
+/*--- Fix Other Possible Style Issues */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #placeholder-player {
 	display: none;
 }
@@ -172,18 +236,25 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .skip-nav {
 	display: none;
 }
+
+/*--- Whitespace Leftover From Moving The Video */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #page.watch {
 	padding-top: 0;
 }
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .player-branded-banner {
 	height: 0;
 }
+
+/*--- Youtube+ Compatiblity */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #body-container {
 	position: static;
 }
 html:not([fullscreen="true"]).part_static_size:not(.content-snap-width-skinny-mode) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .watch-non-stage-mode #player-playlist {
 	width: 1066px;
 }
+
+
+/*--- Playlist Bar */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #placeholder-playlist,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
 	height: 540px !important;
@@ -209,6 +280,7 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	max-height: 470px !important;
 	height: initial !important;
 }
+/* Old layout `&disable_polymer=true` */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
 	left: calc((100vw - 1066px)/2 + 640px + 10px);
 	width: 416px;
@@ -223,9 +295,16 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	left: calc((100vw - 1706px)/2 + 1280px + 10px);
 }
 }
+
+
+/*--- */
+/* Material UI */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-scrolltop #extra-buttons {
 	display: none !important;
 }
+/* body > #player:not(.ytd-watch) { display: none; } */
+/* body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager { margin-top: 0 !important; } */
+/* .ytd-watch-0 #content-separator.ytd-watch { margin-top: 0; } */
 ytd-app {
 	position: static !important;
 }
@@ -238,18 +317,21 @@ ytd-watch #container {
 ytd-watch #content-separator {
 	margin-top: 0 !important;
 }
+/* Note: Container is now relative since 2023 June (Issue #77) */
+/* Note: Container is now a full-bleed-player (Issue #79) */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy, /* Issue #79 (2023-08-17) */
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy, /* Issue #79 (2023-08-22) */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid {
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid, /* Issue #81 (2023-08-30) */
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid { /* Issue #81 (2023-08-30) */
 	position: static;
 	height: 0;
 	min-height: 0;
 }
+
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video ytd-app #masthead-container.ytd-app {
 	position: absolute;
 	top: 100vh;
@@ -261,17 +343,31 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-cued-thumbnail-overlay {
 	z-index: 10;
 }
+
+/*--- */
+/* Flexy UI */
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid {
 	position: absolute;
 	top: 0;
 }
+/* Youtube seems to be ignoring the margin/padding top in certain elements for some reason (Issue #88) */
+/* NOT working: ytd-watch-flexy, ytd-watch-grid { padding-top: 71px; } 56px (topnav height) + 15px (margin) */
 #page-manager.ytd-app {
 	padding-top: var(--ytd-masthead-height,var(--ytd-toolbar-height));
 }
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #error-screen {
 	z-index: 11;
 }
+
+
+
+
+
+
+
+
+/* Duplicate stylesheet targeting data-spf-name if enabled. */
 body[data-spf-name="watch"]::-webkit-scrollbar {
 	width: 0 !important;
 	height: 0 !important;
@@ -546,6 +642,10 @@ html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater
 html:not([fullscreen="true"]) body[data-spf-name="watch"] #error-screen {
 	z-index: 11;
 }
+
+
+
+/* Additional data-spf-name rule (not duplicate rule) */
 body[data-spf-name="watch"]:not(.ytwp-window-player) #masthead-positioner {
 	position: absolute;
 	top: 100vh !important;
