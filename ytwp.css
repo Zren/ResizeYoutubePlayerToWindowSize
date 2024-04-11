@@ -243,14 +243,14 @@ html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #playe
 html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player-api,
 html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar #movie_player,
 html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
-html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-video-container,
-html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-main-video,
+html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) #miniplayer-bar .html5-video-container,
+html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) #miniplayer-bar .html5-main-video,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player-api,
 html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #movie_player,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-mole-container,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar .html5-video-container,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar .html5-main-video {
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player):not(.floater):not(.iri-always-visible) #miniplayer-bar .html5-video-container,
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player):not(.floater):not(.iri-always-visible) #miniplayer-bar .html5-main-video {
 	width: 252px !important;
 	min-width: 252px !important;
 	max-width: 252px !important;

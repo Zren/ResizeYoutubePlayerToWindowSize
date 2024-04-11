@@ -582,8 +582,8 @@
                     scriptSelector + ' #miniplayer-bar #player-api',
                     scriptHtmlSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' #miniplayer-bar #movie_player',
                     scriptSelector + ' #player-mole-container',
-                    scriptSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' #miniplayer-bar .html5-video-container',
-                    scriptSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' #miniplayer-bar .html5-main-video',
+                    scriptHtmlSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' #miniplayer-bar .html5-video-container',
+                    scriptHtmlSelector + ':not(.floater):not(.iri-always-visible) ' + scriptBodySelector + ' #miniplayer-bar .html5-main-video',
                 ],
                 {
                     'width': '252px !important',
