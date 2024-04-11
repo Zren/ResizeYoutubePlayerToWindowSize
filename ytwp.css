@@ -1,8 +1,11 @@
 /*--- Browser Scrollbar */
 /* Chrome/Webkit */
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player)::-webkit-scrollbar {
-	width: 0 !important;
-	height: 0 !important;
+body[data-spf-name="watch"],
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	&::-webkit-scrollbar {
+		width: 0 !important;
+		height: 0 !important;
+	}
 }
 /* Firefox/Gecko */
 /* Requires about:config flag to be toggled as of FireFox v63 */
@@ -12,49 +15,67 @@ html {
 }
 
 /*--- Video Player */
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player,
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player,
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy,
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container {
-	transition: left 0s linear, padding-left 0s linear;
-	-ms-transition: left 0s linear, padding-left 0s linear;
-	-moz-transition: left 0s linear, padding-left 0s linear;
-	-webkit-transition: left 0s linear, padding-left 0s linear;
-	-o-transition: left 0s linear, padding-left 0s linear;
-	padding: 0 !important;
-	margin: 0 !important;
-}
+body[data-spf-name="watch"],
+body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	#player,
+	&.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player,
+	&.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player,
+	&.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy,
+	&.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container {
+		transition: left 0s linear, padding-left 0s linear;
+		-ms-transition: left 0s linear, padding-left 0s linear;
+		-moz-transition: left 0s linear, padding-left 0s linear;
+		-webkit-transition: left 0s linear, padding-left 0s linear;
+		-o-transition: left 0s linear, padding-left 0s linear;
+		padding: 0 !important;
+		margin: 0 !important;
+	}
 
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-api {
-	transition: width 0s linear, left 0s linear;
-	-ms-transition: width 0s linear, left 0s linear;
-	-moz-transition: width 0s linear, left 0s linear;
-	-webkit-transition: width 0s linear, left 0s linear;
-	-o-transition: width 0s linear, left 0s linear;
-	/* Bugfix for Firefox */
-	/* Parts of the header (search box) are hidden under the player. */
-	/* Firefox doesn't seem to be using the fixed header+guide yet. */
-	float: initial;
-	/* Skinny mode */
-	left: 0;
-	margin-left: 0;
-}
+	#player-api {
+		transition: width 0s linear, left 0s linear;
+		-ms-transition: width 0s linear, left 0s linear;
+		-moz-transition: width 0s linear, left 0s linear;
+		-webkit-transition: width 0s linear, left 0s linear;
+		-o-transition: width 0s linear, left 0s linear;
+		/* Bugfix for Firefox */
+		/* Parts of the header (search box) are hidden under the player. */
+		/* Firefox doesn't seem to be using the fixed header+guide yet. */
+		float: initial;
+		/* Skinny mode */
+		left: 0;
+		margin-left: 0;
+	}
 
-/* Theater mode */
-body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .watch-stage-mode #player .player-api {
-	left: initial !important;
-	margin-left: initial !important;
-}
+	/* Theater mode */
+	.watch-stage-mode #player .player-api {
+		left: initial !important;
+		margin-left: initial !important;
+	}
 
-/* Hide the cinema/wide mode button since it's useless. */
-/* body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #movie_player .ytp-size-button { display: none; } */
+	/* Hide the cinema/wide mode button since it's useless. */
+	/* #movie_player .ytp-size-button { display: none; } */
+}
 
 /* !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to: */
 /* .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; } */
 /* Also, Youtube Center resizes #player at element level. */
 /* Don't resize if Youtube+'s html.floater is detected. */
 /* Dont' resize if Youtube+ (Iridium/Material)'s html.iri-always-visible is detected. */
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-wrap,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-api,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #movie_player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] .html5-video-container,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] .html5-main-video,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container-outer.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container-inner.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container.ytd-watch-flexy,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container-outer.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container-inner.ytd-watch-grid,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container.ytd-watch-grid,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-wrap,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player-api,
@@ -78,73 +99,75 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	max-height: 100vh !important;
 }
 
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-main-video {
-	top: 0 !important;
-	right: 0 !important;
-	bottom: 0 !important;
-	left: 0 !important;
-}
-/* Resize #player-unavailable, #player-api */
-/* Using min/max width/height will keep */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-width {
-	width: 100% !important;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height {
-	height: 100% !important;
-}
-
-/* Fix video overlays */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ad-container-single-media-element-annotations, /* Ad */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .html5-video-player .ytp-upnext { /* Autoplay Next Video */
-	top: 0;
-}
-
-/* Fix video cropping (object-fit: cover) (Issue #70) */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-fit-cover-video .html5-main-video {
-	object-fit: contain !important;
-}
-/* Thumbnail cropping */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-cued-thumbnail-overlay-image {
-	background-size: contain !important;
-	-moz-background-size: contain !important;
-	-webkit-background-size: contain !important;
-}
-
-/*--- Video Container Background */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #movie_player {
-	background-color: #000000;
-}
-
-/*--- Move Video Player */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player {
-	position: absolute;
-	/* Already top:0; left: 0; */
-}
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	#player,
+	.html5-main-video {
+		top: 0 !important;
+		right: 0 !important;
+		bottom: 0 !important;
+		left: 0 !important;
+	}
+	/* Resize #player-unavailable, #player-api */
+	/* Using min/max width/height will keep */
+	#player .player-width {
+		width: 100% !important;
+	}
+	#player .player-height {
+		height: 100% !important;
+	}
+
+	/* Fix video overlays */
+	.html5-video-player .ad-container-single-media-element-annotations, /* Ad */
+	.html5-video-player .ytp-upnext { /* Autoplay Next Video */
+		top: 0;
+	}
+
+	/* Fix video cropping (object-fit: cover) (Issue #70) */
+	.ytp-fit-cover-video .html5-main-video {
+		object-fit: contain !important;
+	}
+	/* Thumbnail cropping */
+	.ytp-cued-thumbnail-overlay-image {
+		background-size: contain !important;
+		-moz-background-size: contain !important;
+		-webkit-background-size: contain !important;
+	}
+
+	/*--- Video Container Background */
+	#movie_player {
+		background-color: #000000;
+	}
+
+	/*--- Move Video Player */
+	#player {
+		position: absolute;
+		/* Already top:0; left: 0; */
+	}
+	/* body { margin-top } */
 	margin-top: 100vh;
-}
 
-/* Fix the top right avatar button */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) button.ytp-button.ytp-cards-button {
-	top: 0;
-}
+	/* Fix the top right avatar button */
+	button.ytp-button.ytp-cards-button {
+		top: 0;
+	}
 
 
-/*--- Sidebar */
-/* Remove the transition delay as you can see it moving on page load. */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch7-sidebar {
-	transition: margin-top 0s linear, padding-top 0s linear;
-	-ms-transition: margin-top 0s linear, padding-top 0s linear;
-	-moz-transition: margin-top 0s linear, padding-top 0s linear;
-	-webkit-transition: margin-top 0s linear, padding-top 0s linear;
-	-o-transition: margin-top 0s linear, padding-top 0s linear;
-	margin-top: 0 !important;
-	top: 0 !important;
-}
+	/*--- Sidebar */
+	/* Remove the transition delay as you can see it moving on page load. */
+	#watch7-sidebar {
+		transition: margin-top 0s linear, padding-top 0s linear;
+		-ms-transition: margin-top 0s linear, padding-top 0s linear;
+		-moz-transition: margin-top 0s linear, padding-top 0s linear;
+		-webkit-transition: margin-top 0s linear, padding-top 0s linear;
+		-o-transition: margin-top 0s linear, padding-top 0s linear;
+		margin-top: 0 !important;
+		top: 0 !important;
+	}
 
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).cardified-page #watch7-sidebar-contents {
-	padding-top: 0;
+	&.cardified-page #watch7-sidebar-contents {
+		padding-top: 0;
+	}
 }
 
 /*--- Absolutely position the fixed header. */
@@ -152,54 +175,76 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 #skip-navigation.ytd-masthead {
 	top: -150vh; /* Normally -1000px can be shorter than screen (Issue #77) */
 }
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).hide-header-transition #masthead-positioner {
-	transition: top 0s linear !important;
-	-ms-transition: top 0s linear !important;
-	-moz-transition: top 0s linear !important;
-	-webkit-transition: top 0s linear !important;
-	-o-transition: top 0s linear !important;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #masthead-positioner {
-	position: absolute;
-	top: 100vh !important;
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	&.hide-header-transition #masthead-positioner {
+		transition: top 0s linear !important;
+		-ms-transition: top 0s linear !important;
+		-moz-transition: top 0s linear !important;
+		-webkit-transition: top 0s linear !important;
+		-o-transition: top 0s linear !important;
+	}
+	&.ytwp-viewing-video #masthead-positioner {
+		position: absolute;
+		top: 100vh !important;
+	}
 }
 /* Lower masthead below Youtube+'s html.floater */
-html.floater body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #masthead-positioner {
-	z-index: 5;
+html.floater body[data-spf-name="watch"],
+html.floater body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	&.ytwp-viewing-video #masthead-positioner {
+		z-index: 5;
+	}
 }
-/* Autocomplete popup */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .sbdd_a {
-	top: 56px;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video .sbdd_a {
-	top: calc(100vh + 56px) !important;
-	position: absolute !important;
-}
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	/* Autocomplete popup */
+	.sbdd_a {
+		top: 56px;
+	}
+	&.ytwp-viewing-video .sbdd_a {
+		top: calc(100vh + 56px) !important;
+		position: absolute !important;
+	}
 
-/* Guide */
-/* When watching the video, we need to line it up with the masthead. */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #appbar-guide-menu {
-	display: initial;
-	position: absolute;
-	top: 100% !important; /* Masthead height */
+	/* Guide */
+	/* When watching the video, we need to line it up with the masthead. */
+	&.ytwp-viewing-video #appbar-guide-menu {
+		display: initial;
+		position: absolute;
+		top: 100% !important; /* Masthead height */
+	}
+	&.ytwp-viewing-video #page.watch #guide {
+		display: initial;
+		margin: 0;
+		position: initial;
+	}
+	/* When the guide is open, it adds body{top:-1000px} which messes with the top position (Issue #77) */
+	&.lock-scrollbar {
+		top: 0 !important;
+		position: static !important;
+	}
 }
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video #page.watch #guide {
-	display: initial;
-	margin: 0;
-	position: initial;
-}
-/* When the guide is open, it adds body{top:-1000px} which messes with the top position (Issue #77) */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).lock-scrollbar {
-	top: 0 !important;
-	position: static !important;
-}
-
 
 /*--- */
 /* MiniPlayer-Bar */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player {
-	position: static;
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	#miniplayer-bar #player {
+		position: static;
+	}
+	/* Override inline style (caused by a JS animation) that breaks the miniplayer video */
+	/* https://github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/41#issuecomment-439710130 */
+	.video-stream.html5-main-video {
+		top: 0 !important;
+	}
 }
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player-api,
+html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar #movie_player,
+html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
+html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-video-container,
+html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-main-video,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player,
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #player-api,
 html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #miniplayer-bar #movie_player,
@@ -213,94 +258,106 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	min-height: 142px !important;
 	max-height: 142px !important;
 }
-/* Override inline style (caused by a JS animation) that breaks the miniplayer video */
-/* https://github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/41#issuecomment-439710130 */
-.video-stream.html5-main-video {
-	top: 0 !important;
-}
 
 /*--- */
-/* Hide Scrollbars */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-scrolltop {
-	overflow-x: hidden;
-}
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	/* Hide Scrollbars */
+	&.ytwp-scrolltop {
+		overflow-x: hidden;
+	}
 
 
-/*--- Fix Other Possible Style Issues */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #placeholder-player {
-	display: none;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch-sidebar-spacer {
-	display: none;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .skip-nav {
-	display: none;
-}
+	/*--- Fix Other Possible Style Issues */
+	#placeholder-player {
+		display: none;
+	}
+	#watch-sidebar-spacer {
+		display: none;
+	}
+	.skip-nav {
+		display: none;
+	}
 
-/*--- Whitespace Leftover From Moving The Video */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #page.watch {
-	padding-top: 0;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .player-branded-banner {
-	height: 0;
+	/*--- Whitespace Leftover From Moving The Video */
+	#page.watch {
+		padding-top: 0;
+	}
+	.player-branded-banner {
+		height: 0;
+	}
 }
 
 /*--- Youtube+ Compatiblity */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #body-container {
-	position: static;
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	#body-container {
+		position: static;
+	}
 }
-html:not([fullscreen="true"]).part_static_size:not(.content-snap-width-skinny-mode) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .watch-non-stage-mode #player-playlist {
-	width: 1066px;
+html:not([fullscreen="true"]).part_static_size:not(.content-snap-width-skinny-mode) {
+	body[data-spf-name="watch"],
+	body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+		.watch-non-stage-mode #player-playlist {
+			width: 1066px;
+		}
+	}
 }
 
-
-/*--- Playlist Bar */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #placeholder-playlist,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
-	height: 540px !important;
-	max-height: 540px !important;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #watch-appbar-playlist {
-	transition: transform 0s linear;
-	-ms-transition: transform 0s linear;
-	-moz-transition: transform 0s linear;
-	-webkit-transition: transform 0s linear;
-	-o-transition: transform 0s linear;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
-	transform: translateY(0px);
-	-ms-transform: translateY(0px);
-	-moz-transform: translateY(0px);
-	-webkit-transform: translateY(0px);
-	-o-transform: translateY(0px);
-	margin-left: 0;
-	top: calc(100vh + 60px);
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .playlist-videos-list {
-	max-height: 470px !important;
-	height: initial !important;
-}
-/* Old layout `&disable_polymer=true` */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
-	left: calc((100vw - 1066px)/2 + 640px + 10px);
-	width: 416px;
-}
-@media screen and (min-height: 630px) and (min-width: 1294px) {
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
-	left: calc((100vw - 1280px)/2 + 854px + 10px);
-}
-}
- @media screen and (min-width: 1720px) and (min-height:980px) {
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #player .player-height#watch-appbar-playlist {
-	left: calc((100vw - 1706px)/2 + 1280px + 10px);
-}
+/*--- */
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	/*--- Playlist Bar */
+	#placeholder-playlist,
+	#player .player-height#watch-appbar-playlist {
+		height: 540px !important;
+		max-height: 540px !important;
+	}
+	#watch-appbar-playlist {
+		transition: transform 0s linear;
+		-ms-transition: transform 0s linear;
+		-moz-transition: transform 0s linear;
+		-webkit-transition: transform 0s linear;
+		-o-transition: transform 0s linear;
+	}
+	#player .player-height#watch-appbar-playlist {
+		transform: translateY(0px);
+		-ms-transform: translateY(0px);
+		-moz-transform: translateY(0px);
+		-webkit-transform: translateY(0px);
+		-o-transform: translateY(0px);
+		margin-left: 0;
+		top: calc(100vh + 60px);
+	}
+	.playlist-videos-list {
+		max-height: 470px !important;
+		height: initial !important;
+	}
+	/* Old layout `&disable_polymer=true` */
+	#player .player-height#watch-appbar-playlist {
+		left: calc((100vw - 1066px)/2 + 640px + 10px);
+		width: 416px;
+	}
+	@media screen and (min-height: 630px) and (min-width: 1294px) {
+		#player .player-height#watch-appbar-playlist {
+			left: calc((100vw - 1280px)/2 + 854px + 10px);
+		}
+	}
+	@media screen and (min-width: 1720px) and (min-height:980px) {
+		#player .player-height#watch-appbar-playlist {
+			left: calc((100vw - 1706px)/2 + 1280px + 10px);
+		}
+	}
 }
 
 
 /*--- */
 /* Material UI */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-scrolltop #extra-buttons {
-	display: none !important;
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	&.ytwp-scrolltop #extra-buttons {
+		display: none !important;
+	}
 }
 /* body > #player:not(.ytd-watch) { display: none; } */
 /* body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager { margin-top: 0 !important; } */
@@ -319,333 +376,54 @@ ytd-watch #content-separator {
 }
 /* Note: Container is now relative since 2023 June (Issue #77) */
 /* Note: Container is now a full-bleed-player (Issue #79) */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy, /* Issue #79 (2023-08-17) */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy, /* Issue #79 (2023-08-22) */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid, /* Issue #81 (2023-08-30) */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid { /* Issue #81 (2023-08-30) */
-	position: static;
-	height: 0;
-	min-height: 0;
-}
-
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video ytd-app #masthead-container.ytd-app {
-	position: absolute;
-	top: 100vh;
-	z-index: 0;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player).ytwp-viewing-video ytd-watch #masthead-positioner {
-	top: 100vh !important;
-}
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) .ytp-cued-thumbnail-overlay {
-	z-index: 10;
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy,
+	ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy,
+	ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy, /* Issue #79 (2023-08-17) */
+	ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy, /* Issue #79 (2023-08-22) */
+	ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid,
+	ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid,
+	ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid, /* Issue #81 (2023-08-30) */
+	ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid { /* Issue #81 (2023-08-30) */
+		position: static;
+		height: 0;
+		min-height: 0;
+	}
+	&.ytwp-viewing-video ytd-app #masthead-container.ytd-app {
+		position: absolute;
+		top: 100vh;
+		z-index: 0;
+	}
+	&.ytwp-viewing-video ytd-watch #masthead-positioner {
+		top: 100vh !important;
+	}
+	.ytp-cued-thumbnail-overlay {
+		z-index: 10;
+	}
 }
 
 /*--- */
-/* Flexy UI */
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid {
-	position: absolute;
-	top: 0;
+html:not([fullscreen="true"]) body[data-spf-name="watch"],
+html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
+	/* Flexy UI */
+	ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
+	ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid {
+		position: absolute;
+		top: 0;
+	}
+	#error-screen {
+		z-index: 11;
+	}
 }
 /* Youtube seems to be ignoring the margin/padding top in certain elements for some reason (Issue #88) */
 /* NOT working: ytd-watch-flexy, ytd-watch-grid { padding-top: 71px; } 56px (topnav height) + 15px (margin) */
 #page-manager.ytd-app {
 	padding-top: var(--ytd-masthead-height,var(--ytd-toolbar-height));
 }
-html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) #error-screen {
-	z-index: 11;
-}
 
 
-
-
-
-
-
-
-/* Duplicate stylesheet targeting data-spf-name if enabled. */
-body[data-spf-name="watch"]::-webkit-scrollbar {
-	width: 0 !important;
-	height: 0 !important;
-}
-html {
-	scrollbar-width: none;
-}
-body[data-spf-name="watch"] #player,
-body[data-spf-name="watch"].ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible #player,
-body[data-spf-name="watch"].ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player,
-body[data-spf-name="watch"].ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy,
-body[data-spf-name="watch"].ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container {
-	transition: left 0s linear, padding-left 0s linear;
-	-ms-transition: left 0s linear, padding-left 0s linear;
-	-moz-transition: left 0s linear, padding-left 0s linear;
-	-webkit-transition: left 0s linear, padding-left 0s linear;
-	-o-transition: left 0s linear, padding-left 0s linear;
-	padding: 0 !important;
-	margin: 0 !important;
-}
-body[data-spf-name="watch"] #player-api {
-	transition: width 0s linear, left 0s linear;
-	-ms-transition: width 0s linear, left 0s linear;
-	-moz-transition: width 0s linear, left 0s linear;
-	-webkit-transition: width 0s linear, left 0s linear;
-	-o-transition: width 0s linear, left 0s linear;
-	float: initial;
-	left: 0;
-	margin-left: 0;
-}
-body[data-spf-name="watch"] .watch-stage-mode #player .player-api {
-	left: initial !important;
-	margin-left: initial !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-wrap,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-api,
-html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #movie_player,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
-html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] .html5-video-container,
-html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] .html5-main-video,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container-outer.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container-inner.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[flexy] #player-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container-outer.ytd-watch-grid,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container-inner.ytd-watch-grid,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[flexy] #player-container.ytd-watch-grid {
-	width: 100% !important;
-	min-width: 100% !important;
-	max-width: 100% !important;
-	height: 100vh !important;
-	min-height: 100vh !important;
-	max-height: 100vh !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .html5-main-video {
-	top: 0 !important;
-	right: 0 !important;
-	bottom: 0 !important;
-	left: 0 !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-width {
-	width: 100% !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height {
-	height: 100% !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .html5-video-player .ad-container-single-media-element-annotations,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .html5-video-player .ytp-upnext {
-	top: 0;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .ytp-fit-cover-video .html5-main-video {
-	object-fit: contain !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .ytp-cued-thumbnail-overlay-image {
-	background-size: contain !important;
-	-moz-background-size: contain !important;
-	-webkit-background-size: contain !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #movie_player {
-	background-color: #000000;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player {
-	position: absolute;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] {
-	margin-top: 100vh;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] button.ytp-button.ytp-cards-button {
-	top: 0;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #watch7-sidebar {
-	transition: margin-top 0s linear, padding-top 0s linear;
-	-ms-transition: margin-top 0s linear, padding-top 0s linear;
-	-moz-transition: margin-top 0s linear, padding-top 0s linear;
-	-webkit-transition: margin-top 0s linear, padding-top 0s linear;
-	-o-transition: margin-top 0s linear, padding-top 0s linear;
-	margin-top: 0 !important;
-	top: 0 !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].cardified-page #watch7-sidebar-contents {
-	padding-top: 0;
-}
-#skip-navigation.ytd-masthead {
-	top: -150vh;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].hide-header-transition #masthead-positioner {
-	transition: top 0s linear !important;
-	-ms-transition: top 0s linear !important;
-	-moz-transition: top 0s linear !important;
-	-webkit-transition: top 0s linear !important;
-	-o-transition: top 0s linear !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video #masthead-positioner {
-	position: absolute;
-	top: 100vh !important;
-}
-html.floater body[data-spf-name="watch"].ytwp-viewing-video #masthead-positioner {
-	z-index: 5;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .sbdd_a {
-	top: 56px;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video .sbdd_a {
-	top: calc(100vh + 56px) !important;
-	position: absolute !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video #appbar-guide-menu {
-	display: initial;
-	position: absolute;
-	top: 100% !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video #page.watch #guide {
-	display: initial;
-	margin: 0;
-	position: initial;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].lock-scrollbar {
-	top: 0 !important;
-	position: static !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player {
-	position: static;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #miniplayer-bar #player-api,
-html:not([fullscreen="true"]):not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar #movie_player,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player-mole-container,
-html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-video-container,
-html:not([fullscreen="true"]) body[data-spf-name="watch"]:not(.floater):not(.iri-always-visible) body[data-spf-name="watch"] #miniplayer-bar .html5-main-video {
-	width: 252px !important;
-	min-width: 252px !important;
-	max-width: 252px !important;
-	height: 142px !important;
-	min-height: 142px !important;
-	max-height: 142px !important;
-}
-.video-stream.html5-main-video {
-	top: 0 !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-scrolltop {
-	overflow-x: hidden;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #placeholder-player {
-	display: none;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #watch-sidebar-spacer {
-	display: none;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .skip-nav {
-	display: none;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #page.watch {
-	padding-top: 0;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .player-branded-banner {
-	height: 0;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #body-container {
-	position: static;
-}
-html:not([fullscreen="true"]).part_static_size:not(.content-snap-width-skinny-mode) body[data-spf-name="watch"] .watch-non-stage-mode #player-playlist {
-	width: 1066px;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #placeholder-playlist,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
-	height: 540px !important;
-	max-height: 540px !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #watch-appbar-playlist {
-	transition: transform 0s linear;
-	-ms-transition: transform 0s linear;
-	-moz-transition: transform 0s linear;
-	-webkit-transition: transform 0s linear;
-	-o-transition: transform 0s linear;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
-	transform: translateY(0px);
-	-ms-transform: translateY(0px);
-	-moz-transform: translateY(0px);
-	-webkit-transform: translateY(0px);
-	-o-transform: translateY(0px);
-	margin-left: 0;
-	top: calc(100vh + 60px);
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .playlist-videos-list {
-	max-height: 470px !important;
-	height: initial !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
-	left: calc((100vw - 1066px)/2 + 640px + 10px);
-	width: 416px;
-}
-@media screen and (min-height: 630px) and (min-width: 1294px) {
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
-	left: calc((100vw - 1280px)/2 + 854px + 10px);
-}
-}
- @media screen and (min-width: 1720px) and (min-height:980px) {
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #player .player-height#watch-appbar-playlist {
-	left: calc((100vw - 1706px)/2 + 1280px + 10px);
-}
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-scrolltop #extra-buttons {
-	display: none !important;
-}
-ytd-app {
-	position: static !important;
-}
-ytd-watch #top {
-	margin-top: 71px !important;
-}
-ytd-watch #container {
-	margin-top: 0 !important;
-}
-ytd-watch #content-separator {
-	margin-top: 0 !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-wide-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[fullscreen] #player-wide-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[full-bleed-player] #player-full-bleed-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-wide-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[fullscreen] #player-wide-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[full-bleed-player] #player-full-bleed-container.ytd-watch-grid,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[full-bleed-player] #full-bleed-container.ytd-watch-grid {
-	position: static;
-	height: 0;
-	min-height: 0;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video ytd-app #masthead-container.ytd-app {
-	position: absolute;
-	top: 100vh;
-	z-index: 0;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"].ytwp-viewing-video ytd-watch #masthead-positioner {
-	top: 100vh !important;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] .ytp-cued-thumbnail-overlay {
-	z-index: 10;
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-flexy[theater] #player-theater-container.ytd-watch-flexy,
-html:not([fullscreen="true"]) body[data-spf-name="watch"] ytd-watch-grid[theater] #player-theater-container.ytd-watch-grid {
-	position: absolute;
-	top: 0;
-}
-#page-manager.ytd-app {
-	padding-top: var(--ytd-masthead-height,var(--ytd-toolbar-height));
-}
-html:not([fullscreen="true"]) body[data-spf-name="watch"] #error-screen {
-	z-index: 11;
-}
-
-
-
-/* Additional data-spf-name rule (not duplicate rule) */
+/* Additional data-spf-name only rule (not duplicate rule) */
 body[data-spf-name="watch"]:not(.ytwp-window-player) #masthead-positioner {
 	position: absolute;
 	top: 100vh !important;
