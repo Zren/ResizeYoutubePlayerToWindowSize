@@ -23,20 +23,12 @@ body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
 	&.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #player-legacy,
 	&.ltr.ytcenter-site-center.ytcenter-non-resize.ytcenter-guide-visible.guide-collapsed #watch7-main-container {
 		transition: left 0s linear, padding-left 0s linear;
-		-ms-transition: left 0s linear, padding-left 0s linear;
-		-moz-transition: left 0s linear, padding-left 0s linear;
-		-webkit-transition: left 0s linear, padding-left 0s linear;
-		-o-transition: left 0s linear, padding-left 0s linear;
 		padding: 0 !important;
 		margin: 0 !important;
 	}
 
 	#player-api {
 		transition: width 0s linear, left 0s linear;
-		-ms-transition: width 0s linear, left 0s linear;
-		-moz-transition: width 0s linear, left 0s linear;
-		-webkit-transition: width 0s linear, left 0s linear;
-		-o-transition: width 0s linear, left 0s linear;
 		/* Bugfix for Firefox */
 		/* Parts of the header (search box) are hidden under the player. */
 		/* Firefox doesn't seem to be using the fixed header+guide yet. */
@@ -126,8 +118,6 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	/* Thumbnail cropping */
 	.ytp-cued-thumbnail-overlay-image {
 		background-size: contain !important;
-		-moz-background-size: contain !important;
-		-webkit-background-size: contain !important;
 	}
 
 	/*--- Video Container Background */
@@ -154,10 +144,6 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	/* Remove the transition delay as you can see it moving on page load. */
 	#watch7-sidebar {
 		transition: margin-top 0s linear, padding-top 0s linear;
-		-ms-transition: margin-top 0s linear, padding-top 0s linear;
-		-moz-transition: margin-top 0s linear, padding-top 0s linear;
-		-webkit-transition: margin-top 0s linear, padding-top 0s linear;
-		-o-transition: margin-top 0s linear, padding-top 0s linear;
 		margin-top: 0 !important;
 		top: 0 !important;
 	}
@@ -176,10 +162,6 @@ html:not([fullscreen="true"]) body[data-spf-name="watch"],
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
 	&.hide-header-transition #masthead-positioner {
 		transition: top 0s linear !important;
-		-ms-transition: top 0s linear !important;
-		-moz-transition: top 0s linear !important;
-		-webkit-transition: top 0s linear !important;
-		-o-transition: top 0s linear !important;
 	}
 	&.ytwp-viewing-video #masthead-positioner {
 		position: absolute;
@@ -299,38 +281,15 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	}
 	#watch-appbar-playlist {
 		transition: transform 0s linear;
-		-ms-transition: transform 0s linear;
-		-moz-transition: transform 0s linear;
-		-webkit-transition: transform 0s linear;
-		-o-transition: transform 0s linear;
 	}
 	#player .player-height#watch-appbar-playlist {
 		transform: translateY(0px);
-		-ms-transform: translateY(0px);
-		-moz-transform: translateY(0px);
-		-webkit-transform: translateY(0px);
-		-o-transform: translateY(0px);
 		margin-left: 0;
 		top: calc(100vh + 60px);
 	}
 	.playlist-videos-list {
 		max-height: 470px !important;
 		height: initial !important;
-	}
-	/* Old layout `&disable_polymer=true` */
-	#player .player-height#watch-appbar-playlist {
-		left: calc((100vw - 1066px)/2 + 640px + 10px);
-		width: 416px;
-	}
-	@media screen and (min-height: 630px) and (min-width: 1294px) {
-		#player .player-height#watch-appbar-playlist {
-			left: calc((100vw - 1280px)/2 + 854px + 10px);
-		}
-	}
-	@media screen and (min-width: 1720px) and (min-height:980px) {
-		#player .player-height#watch-appbar-playlist {
-			left: calc((100vw - 1706px)/2 + 1280px + 10px);
-		}
 	}
 }
 
