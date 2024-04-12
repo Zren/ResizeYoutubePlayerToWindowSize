@@ -398,10 +398,3 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 #page-manager.ytd-app {
 	padding-top: var(--ytd-masthead-height,var(--ytd-toolbar-height));
 }
-
-
-/* Additional data-spf-name only rule (not duplicate rule) */
-body[data-spf-name="watch"]:not(.ytwp-window-player) #masthead-positioner {
-	position: absolute;
-	top: 100vh !important;
-}
