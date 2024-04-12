@@ -110,12 +110,8 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 	}
 	/* Resize #player-unavailable, #player-api */
 	/* Using min/max width/height will keep */
-	#player .player-width {
-		width: 100% !important;
-	}
-	#player .player-height {
-		height: 100% !important;
-	}
+	#player .player-width { width: 100% !important; }
+	#player .player-height { height: 100% !important; }
 
 	/* Fix video overlays */
 	.html5-video-player .ad-container-single-media-element-annotations, /* Ad */
@@ -144,8 +140,9 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 		position: absolute;
 		/* Already top:0; left: 0; */
 	}
-	/* body { margin-top } */
-	margin-top: 100vh;
+	& { /* body */
+		margin-top: 100vh;
+	}
 
 	/* Fix the top right avatar button */
 	button.ytp-button.ytp-cards-button {
@@ -263,29 +260,16 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 html:not([fullscreen="true"]) body[data-spf-name="watch"],
 html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
 	/* Hide Scrollbars */
-	&.ytwp-scrolltop {
-		overflow-x: hidden;
-	}
-
+	&.ytwp-scrolltop { overflow-x: hidden; }
 
 	/*--- Fix Other Possible Style Issues */
-	#placeholder-player {
-		display: none;
-	}
-	#watch-sidebar-spacer {
-		display: none;
-	}
-	.skip-nav {
-		display: none;
-	}
+	#placeholder-player { display: none; }
+	#watch-sidebar-spacer { display: none; }
+	.skip-nav { display: none; }
 
 	/*--- Whitespace Leftover From Moving The Video */
-	#page.watch {
-		padding-top: 0;
-	}
-	.player-branded-banner {
-		height: 0;
-	}
+	#page.watch { padding-top: 0; }
+	.player-branded-banner { height: 0; }
 }
 
 /*--- Youtube+ Compatiblity */
@@ -362,18 +346,11 @@ html:not([fullscreen="true"]) body.ytwp-window-player:not(.enhancer-for-youtube-
 /* body > #player:not(.ytd-watch) { display: none; } */
 /* body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager { margin-top: 0 !important; } */
 /* .ytd-watch-0 #content-separator.ytd-watch { margin-top: 0; } */
-ytd-app {
-	position: static !important;
-}
-ytd-watch #top {
-	margin-top: 71px !important;
-}
-ytd-watch #container {
-	margin-top: 0 !important;
-}
-ytd-watch #content-separator {
-	margin-top: 0 !important;
-}
+ytd-app { position: static !important; }
+ytd-watch #top { margin-top: 71px !important; }
+ytd-watch #container { margin-top: 0 !important; }
+ytd-watch #content-separator { margin-top: 0 !important; }
+
 /* Note: Container is now relative since 2023 June (Issue #77) */
 /* Note: Container is now a full-bleed-player (Issue #79) */
 html:not([fullscreen="true"]) body[data-spf-name="watch"],
