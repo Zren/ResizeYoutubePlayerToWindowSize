@@ -9,7 +9,7 @@ body.ytwp-window-player:not(.enhancer-for-youtube-pinned-player) {
 }
 /* Firefox/Gecko */
 /* Requires about:config flag to be toggled as of FireFox v63 */
-/* https:/*github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/42 */ */
+/* https:/*github.com/Zren/ResizeYoutubePlayerToWindowSize/issues/42 */
 html {
 	scrollbar-width: none;
 }
