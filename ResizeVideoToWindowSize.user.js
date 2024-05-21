@@ -3,7 +3,7 @@
 // @description     Resize the video player for various sites to the window size.
 // @author          Chris H (Zren / Shade)
 // @namespace       http://xshade.ca
-// @version         64
+// @version         66
 // @include         https://www.crunchyroll.com/*
 // @include         https://beta.crunchyroll.com/*
 // @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html*
@@ -33,6 +33,7 @@
 // @include         https://www.funimation.com/player/*
 // @include         https://www.crave.ca/*
 // @include         https://tubitv.com/*
+// @include         https://tv.bell.ca/*
 // @grant           GM_addStyle
 // ==/UserScript==
 
@@ -424,6 +425,19 @@
         }
         updateHeader()
         setInterval(updateHeader, 1000)
+    } else if (document.location.host.endsWith('tv.bell.ca')) {
+        if (!document.location.pathname.startsWith('/watch/')) return;
+        //let videoBoxElement = document.querySelector('video[playsinline]');
+        //if (!videoBoxElement) return;
+        waitFor('video[playsinline]', function(videoBoxElement){
+            let css = ''
+            css += '.bg-greyscale-black { position: absolute !important; top: calc((var(--headerHeight) + 100vh) * -1 ) !important; height: 100vh !important; }';
+            css += 'body { padding-top: 100vh !important; }';
+            css += '[class*="&_.bmpui-ui-subtitle-label]:!bg-greyscale-black-70"].h-full.w-full.justify-center { max-width: 100% !important; }'
+            css += 'header[class="bg-greyscale-03 virgin:bg-tertiary-medium flex"][aria-label="Global"] { display: none !important; }'
+            console.log('css', css)
+            GM_addStyle(css);
+        })
     }
 
     GM_addStyle('html::-webkit-scrollbar { width: 0; height: 0; } body::-webkit-scrollbar { width: 0; height: 0; }');
