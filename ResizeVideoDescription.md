@@ -17,6 +17,7 @@ Resizes the following sites
 * https://www.funimation.com/
 * https://www.crave.ca/
 * https://tubitv.com/
+* https://tv.bell.ca/
 
 # Suggestions
 * Use [Resize YT To Window Size](https://greasyfork.org/en/scripts/811-resize-yt-to-window-size) for YouTube. It has it's own script since YouTube's website is much more complicated and has many edge cases.
