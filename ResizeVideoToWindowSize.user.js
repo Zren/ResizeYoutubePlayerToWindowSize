@@ -3,7 +3,7 @@
 // @description     Resize the video player for various sites to the window size.
 // @author          Chris H (Zren / Shade)
 // @namespace       http://xshade.ca
-// @version         66
+// @version         67
 // @include         https://www.crunchyroll.com/*
 // @include         https://beta.crunchyroll.com/*
 // @include         https://static.crunchyroll.com/vilos-v2/web/vilos/player.html*
@@ -431,7 +431,8 @@
         //if (!videoBoxElement) return;
         waitFor('video[playsinline]', function(videoBoxElement){
             let css = ''
-            css += '.bg-greyscale-black { position: absolute !important; top: calc((var(--headerHeight) + 100vh) * -1 ) !important; height: 100vh !important; }';
+            css += '.bg-greyscale-black.w-capped { position: absolute !important; top: calc((var(--headerHeight) + 100vh) * -1 ) !important; height: 100vh !important; }';
+            css += '.bg-greyscale-black.w-full { position: absolute !important; top: -100vh !important; height: 100vh !important; }';
             css += 'body { padding-top: 100vh !important; }';
             css += '[class*="&_.bmpui-ui-subtitle-label]:!bg-greyscale-black-70"].h-full.w-full.justify-center { max-width: 100% !important; }'
             css += 'header[class="bg-greyscale-03 virgin:bg-tertiary-medium flex"][aria-label="Global"] { display: none !important; }'
