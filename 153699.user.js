@@ -267,14 +267,14 @@
     ytwp.isWatchUrl = function (url) {
         if (!url)
             url = uw.location.href;
-        if (url.match(/https?:\/\/(www\.)?youtube.com\/(c|channel|user)\/[^\/]+\/live/)) {
+        if (url.match(/^https?:\/\/(www\.)?youtube.com\/(c|channel|user)\/[^\/]+\/live/)) {
             if (document.querySelector('ytd-browse')) {
                 return false
             } else {
                 return true
             }
         }
-        return url.match(/https?:\/\/(www\.)?youtube.com\/watch\?/);
+        return url.match(/^https?:\/\/(www\.)?youtube.com\/watch\?/);
     };
 
     ytwp.setTheaterMode = function(enable) {
