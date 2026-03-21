@@ -121,53 +121,6 @@
         JSStyleSheet.injectIntoHeader(this.id, this.stylesheet);
     };
 
-    //--- History
-    var HistoryEvent = function() {}
-    HistoryEvent.listeners = []
-
-    HistoryEvent.dispatch = function(state, title, url) {
-      var stack = this.listeners
-      for (var i = 0, l = stack.length; i < l; i++) {
-        stack[i].call(this, state, title, url)
-      }
-    }
-    HistoryEvent.onPushState = function(state, title, url) {
-        HistoryEvent.dispatch(state, title, url)
-        return HistoryEvent.origPushState.apply(window.history, arguments)
-    }
-    HistoryEvent.onReplaceState = function(state, title, url) {
-        HistoryEvent.dispatch(state, title, url)
-        return HistoryEvent.origReplaceState.apply(window.history, arguments)
-    }
-    HistoryEvent.inject = function() {
-        if (!HistoryEvent.injected) {
-            HistoryEvent.origPushState = window.history.pushState
-            HistoryEvent.origReplaceState = window.history.replaceState
-
-            window.history.pushState = HistoryEvent.onPushState
-            window.history.replaceState = HistoryEvent.onReplaceState
-            HistoryEvent.injected = true
-        }
-    }
-
-    HistoryEvent.timerId = 0
-    HistoryEvent.onTick = function() {
-        var currentPage = window.location.pathname + window.location.search
-        if (HistoryEvent.lastPage != currentPage) {
-            HistoryEvent.dispatch({}, document.title, window.location.href)
-            HistoryEvent.lastPage = currentPage
-        }
-    }
-    HistoryEvent.startTimer = function() {
-        HistoryEvent.lastPage = window.location.pathname + window.location.search
-        HistoryEvent.timerId = setInterval(HistoryEvent.onTick, 500)
-    }
-    HistoryEvent.stopTimer = function() {
-        clearInterval(HistoryEvent.timerId)
-    }
-    window.ytwpHistoryEvent = HistoryEvent
-
-
     //--- Constants
     var scriptShortName = 'ytwp'; // YT Window Player
     var scriptStyleId = scriptShortName + '-style'; // ytwp-style
@@ -177,7 +130,8 @@
 
     var scriptHtmlSelector = 'html:not([fullscreen="true"])';
     var scriptBodySelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
-    scriptBodySelector += ':not(.enhancer-for-youtube-pinned-player)'; // Support "Enhancer for Youtube" (Pull Request #51)
+    scriptBodySelector += ':not(.efyt-mini-player)'; // Support "Enhancer for Youtube" (Pull Request #51)
+        
     var scriptSelector = scriptHtmlSelector + ' ' + scriptBodySelector;
 
     var videoContainerId = 'player';
@@ -258,7 +212,8 @@
             if (parent.matches(selector)) {
                 node = parent
             } else {
-                ytwp.error('YT has changed!', selector, 'no longer exists!')
+                ytwp.error('YT has changed!', selector, 'no longer matches! parent is:', parent)
+                return true
             }
         }
         return false
@@ -278,14 +233,10 @@
     };
 
     ytwp.setTheaterMode = function(enable) {
-        // ytwp.log('setTheaterMode', enable)
-
         var watchElement = document.querySelector('ytd-watch:not([hidden])') || document.querySelector('ytd-watch-flexy:not([hidden])') || document.querySelector('ytd-watch-grid:not([hidden])')
         if (watchElement) {
             var isTheater = watchElement.hasAttribute('theater')
             if (enable != isTheater) {
-                // Note: (Issue #75) ytd-watch-flexy watchElement.querySelector() will find
-                // Nothing for some reason. We need to query from the document scope.
                 var sizeButton = document.querySelector(watchElement.tagName + ':not([hidden]) button.ytp-size-button')
                 if (!sizeButton) {
                     var screenModeButtons = document.querySelectorAll(watchElement.tagName + ':not([hidden]) button.ytp-screen-mode-settings-button')
@@ -307,7 +258,6 @@
         }
     }
     ytwp.enterTheaterMode = function() {
-        // ytwp.log('enterTheaterMode')
         if (!document.body.classList.contains(scriptBodyClassId)) {
             return
         }
@@ -322,7 +272,6 @@
             ytwp.event.removeBodyClass()
         }
     }
-
 
     ytwp.init = function() {
         ytwp.log('init');
@@ -339,9 +288,6 @@
             }
         }
         ytwp.event.onWatchInit();
-        if (ytwp.isWatchPage) {
-            ytwp.html5PlayerFix();
-        }
     }
 
     ytwp.initScroller = function() {
@@ -357,9 +303,6 @@
         // topOfPageClassId
         if (ytwp.isWatchPage && uw.scrollY == 0) {
             document.body.classList.add(topOfPageClassId);
-            //var player = document.getElementById('movie_player');
-            //if (player)
-            //    player.focus();
         } else {
             document.body.classList.remove(topOfPageClassId);
         }
@@ -436,9 +379,6 @@
                 'left': 'initial !important',
                 'margin-left': 'initial !important',
             });
-
-            // Hide the cinema/wide mode button since it's useless.
-            //ytwp.style.appendRule(scriptBodySelector + ' #movie_player .ytp-size-button', 'display', 'none');
 
             // !important is mainly for simplicity, but is needed to override the !important styling when the Guide is open due to:
             // .sidebar-collapsed #watch7-video, .sidebar-collapsed #watch7-main, .sidebar-collapsed .watch7-playlist { width: 945px!important; }
@@ -520,7 +460,6 @@
             // Fix the top right avatar button
             ytwp.style.appendRule(scriptSelector + ' button.ytp-button.ytp-cards-button', 'top', '0');
 
-
             //--- Sidebar
             // Remove the transition delay as you can see it moving on page load.
             d = buildVenderPropertyDict(transitionProperties, 'margin-top 0s linear, padding-top 0s linear');
@@ -570,7 +509,6 @@
                 'position': 'static !important',
             });
 
-
             //---
             // MiniPlayer-Bar
             ytwp.style.appendRule(scriptSelector + ' #miniplayer-bar #player', {
@@ -603,7 +541,6 @@
             //---
             // Hide Scrollbars
             ytwp.style.appendRule(scriptSelector + '.' + topOfPageClassId, 'overflow-x', 'hidden');
-
 
             //--- Fix Other Possible Style Issues
             ytwp.style.appendRule(scriptSelector + ' #placeholder-player', 'display', 'none');
@@ -656,9 +593,6 @@
             //---
             // Material UI
             ytwp.style.appendRule(scriptSelector + '.ytwp-scrolltop #extra-buttons', 'display', 'none !important');
-            // ytwp.style.appendRule('body > #player:not(.ytd-watch)', 'display', 'none');
-            // ytwp.style.appendRule('body.ytwp-viewing-video #content:not(app-header-layout) ytd-page-manager', 'margin-top', '0 !important');
-            // ytwp.style.appendRule('.ytd-watch-0 #content-separator.ytd-watch', 'margin-top', '0');
             ytwp.style.appendRule('ytd-app', 'position', 'static !important');
             ytwp.style.appendRule('ytd-watch #top', 'margin-top', '71px !important'); // 56px (topnav height) + 15px (margin)
             ytwp.style.appendRule('ytd-watch #container', 'margin-top', '0 !important');
@@ -699,11 +633,6 @@
                 'position': 'absolute',
                 'top': '0',
             });
-            // Youtube seems to be ignoring the margin/padding top in certain elements for some reason (Issue #88)
-            // ytwp.style.appendRule([
-            //     scriptSelector + ' ytd-watch-flexy',
-            //     scriptSelector + ' ytd-watch-grid',
-            // ], 'padding-top', '71px'); // 56px (topnav height) + 15px (margin)
             ytwp.style.appendRule('#page-manager.ytd-app', 'padding-top', 'var(--ytd-masthead-height,var(--ytd-toolbar-height))');
             ytwp.style.appendRule(scriptSelector + ' #error-screen', 'z-index', '11');
         },
@@ -737,27 +666,6 @@
         },
     };
 
-    ytwp.html5PlayerFix = function() {
-        ytwp.log('html5PlayerFix');
-        return;
-
-        try {
-            if (!uw.ytcenter // Youtube Center
-                && !uw.html5Patched // Youtube+
-                && (!ytwp.html5.app)
-                && (uw.ytplayer && uw.ytplayer.config)
-                && (uw.yt && uw.yt.player && uw.yt.player.Application && uw.yt.player.Application.create)
-            ) {
-                ytwp.html5.app = ytwp.html5.getPlayerInstance();
-            }
-
-            ytwp.html5.update();
-            ytwp.html5.autohideControls();
-        } catch (e) {
-            ytwp.error(e);
-        }
-    }
-
     ytwp.fixMasthead = function() {
         ytwp.log('fixMasthead');
         var el = document.querySelector('#masthead-positioner-height-offset');
@@ -778,7 +686,6 @@
     JSStyleSheet.injectIntoHeader(scriptStyleId + '-focusfix', 'input#search[autofocus] { display: none; }');
     ytwp.removeSearchAutofocus = function() {
         var e = document.querySelector('input#search');
-        // ytwp.log('removeSearchAutofocus', e)
         if (e) {
             e.removeAttribute('autofocus')
         }
@@ -815,16 +722,10 @@
             if (enableOnLoad) {
                 ytwp.event.addBodyClass();
             }
-            // if (!ytwp.html5.app) {
             if (!ytwp.initialized) {
-                ytwp.log('materialPageTransition !ytwp.html5.app', ytwp.html5.app)
+                ytwp.log('materialPageTransition !ytwp.initialized')
                 setTimeout(ytwp.materialPageTransition, 100);
             }
-            // Focus player
-            // var moviePlayer = document.querySelector('#movie_player')
-            // if (moviePlayer) {
-            //     moviePlayer.click()
-            // }
         } else {
             ytwp.event.onDispose();
             document.body.classList.remove(scriptBodyClassId);
@@ -841,23 +742,13 @@
     };
 
     ytwp.registerMaterialListeners = function() {
-        // For Material UI
-        // HistoryEvent.listeners.push(ytwp.materialPageTransition);
-        // HistoryEvent.startTimer();
-        // HistoryEvent.inject();
-        // HistoryEvent.listeners.push(console.log.bind(console));
+        // Using YouTube's own navigation events (more reliable than history patching).
         document.addEventListener('yt-page-data-fetched', ytwp.materialPageTransition)
         document.addEventListener('yt-navigate-finish', ytwp.materialPageTransition)
 
         // Debugging
-        // document.addEventListener('yt-navigate-start', function(e){ ytwp.log('document.yt-navigate-start', e)})
         document.addEventListener('yt-page-data-fetched', function(e){ ytwp.log('document.yt-page-data-fetched', e)})
         document.addEventListener('yt-navigate-finish', function(e){ ytwp.log('document.yt-navigate-finish', e)})
-        // document.addEventListener('yt-navigate-error', function(e){ ytwp.log('document.yt-navigate-error', e)})
-        // document.addEventListener('yt-navigate-cache', function(e){ ytwp.log('document.yt-navigate-cache', e)})
-        // document.addEventListener('yt-navigate-redirect', function(e){ ytwp.log('document.yt-navigate-redirect', e)})
-        // document.addEventListener('yt-navigate-action', function(e){ ytwp.log('document.yt-navigate-action', e)})
-        // document.addEventListener('yt-navigate-home-action', function(e){ ytwp.log('document.yt-navigate-home-action', e)})
     };
 
     ytwp.main = function() {
@@ -868,25 +759,20 @@
 
     ytwp.main();
 
-    // ytwp.updatePlayerTimerId = 0;
     ytwp.updatePlayerAttempts = -1;
     ytwp.updatePlayerMaxAttempts = 150; // 60fps = 2.5sec
     ytwp.attemptToUpdatePlayer = function() {
-        // console.log('ytwp.attemptToUpdatePlayer')
         if (0 <= ytwp.updatePlayerAttempts && ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
             ytwp.updatePlayerAttempts = 0;
         } else {
             ytwp.updatePlayerAttempts = 0;
             ytwp.attemptToUpdatePlayerTick();
         }
-        // setTimeout(ytwp.updatePlayer, 10000); /// Just in case it's not caught
     }
     ytwp.attemptToUpdatePlayerTick = function() {
-        // console.log('ytwp.attemptToUpdatePlayerTick', ytwp.updatePlayerAttempts)
         if (ytwp.updatePlayerAttempts < ytwp.updatePlayerMaxAttempts) {
             ytwp.updatePlayerAttempts += 1;
             ytwp.updatePlayer();
-            // ytwp.updatePlayerTimerId = setTimeout(ytwp.attemptToUpdatePlayerTick, 200);
             requestAnimationFrame(ytwp.attemptToUpdatePlayerTick);
         }
     }
@@ -901,12 +787,10 @@
         document.body.classList.toggle('ytwp-window-player')
         ytwp.setTheaterMode(document.body.classList.contains('ytwp-window-player'))
     }
-
-
+  
     //--- Main
     ytwp.materialPageTransition()
     setInterval(ytwp.updatePlayer, 2500);
-
 
     //--- Keyboard Shortcut
     function childOf(child, ancestor) {
@@ -938,10 +822,6 @@
     }
     window.addEventListener('keydown', cancelIfToggleKey.bind(null, ytwp.toggleExtension), true)
     window.addEventListener('keyup', cancelIfToggleKey.bind(null, null), true)
-    // Note: keypress is deprecated
-    // https://developer.mozilla.org/en-US/docs/Web/API/Element/keypress_event
-    window.addEventListener('keypress', cancelIfToggleKey.bind(null, null), true)
-
 
     //--- Browser Extension
     if (typeof browser !== "undefined") {
@@ -957,5 +837,4 @@
             }
         });
     }
-
 })(window);
