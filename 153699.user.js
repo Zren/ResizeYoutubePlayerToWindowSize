@@ -177,7 +177,7 @@
 
     var scriptHtmlSelector = 'html:not([fullscreen="true"])';
     var scriptBodySelector = 'body.' + scriptBodyClassId; // body.ytwp-window-player
-    scriptBodySelector += ':not(.enhancer-for-youtube-pinned-player)'; // Support "Enhancer for Youtube" (Pull Request #51)
+    scriptBodySelector += ':not(.efyt-mini-player)'; // Support "Enhancer for Youtube" (Pull Request #51)
     var scriptSelector = scriptHtmlSelector + ' ' + scriptBodySelector;
 
     var videoContainerId = 'player';
