@@ -1,5 +1,9 @@
 <h3>Changelog</h3>
 
+## v140 - August 22, 2026
+
+* Handle `youtube.com/live/` URLs in `isWatchUrl` so the resize also applies to direct live stream links (Issue #95)
+
 ## v139 - April 10, 2024
 
 * Fix page top margin as certain elements seem to ignore the CSS properties completely (Issue #88)
